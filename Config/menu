@@ -161,7 +161,7 @@ elif test $x -eq 3; then
 elif test $x -eq 4; then
 	cd /usr/local/bin
 	rm -f menu
-	wget https://raw.githubusercontent.com/nwqionmwklqfnkno/Extra/master/Script/menu
+	wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
 	chmod +x menu
 	cd
 elif test $x -eq 5; then
