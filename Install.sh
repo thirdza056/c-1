@@ -120,21 +120,6 @@ service nginx restart
 # Install Vnstat
 apt-get -y install vnstat
 vnstat -u -i eth0
-sudo chown -R vnstat:vnstat /var/lib/vnstat
-service vnstat restart
-
-# Install Vnstat GUI
-cd /home/vps/public_html/
-wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
-tar xf vnstat_php_frontend-1.5.1.tar.gz
-rm vnstat_php_frontend-1.5.1.tar.gz
-mv vnstat_php_frontend-1.5.1 vnstat
-cd vnstat
-sed -i "s/\$iface_list = array('eth0', 'sixxs');/\$iface_list = array('eth0');/g" config.php
-sed -i "s/\$language = 'nl';/\$language = 'en';/g" config.php
-sed -i 's/Internal/Internet/g' config.php
-sed -i '/SixXS IPv6/d' config.php
-cd
 
 # Install OpenVPN
 wget -O /etc/openvpn/openvpn.tar "https://github.com/nwqionmwklqfnkno/Extra/raw/master/Script/openvpn.tar"
@@ -182,15 +167,6 @@ iptables-restore < /etc/iptables_new.conf
 END
 chmod +x /etc/network/if-up.d/iptables
 service openvpn restart
-
-# Install Badvpn
-wget -O /usr/bin/badvpn-udpgw "https://github.com/nwqionmwklqfnkno/Extra/raw/master/Script/badvpn-udpgw"
-if [ "$OS" == "x86_64" ]; then
-  wget -O /usr/bin/badvpn-udpgw "https://github.com/nwqionmwklqfnkno/Extra/raw/master/Script/badvpn-udpgw64"
-fi
-sed -i '$ i\screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300' /etc/rc.local
-chmod +x /usr/bin/badvpn-udpgw
-screen -AmdS badvpn badvpn-udpgw --listen-addr 127.0.0.1:7300
 
 # Setting Port SSH
 cd
