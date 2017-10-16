@@ -228,7 +228,7 @@ wget https://github.com/rotipisju/MASTER/raw/master/repo/install-premiumscript.s
 #chmod +x menu
 #chmod +x speedtest
 echo ""
-echo "..... Installing 98% ...restartig service."
+echo "..... Installing 98% ...restarting service."
 
 # Finishing
 cd
