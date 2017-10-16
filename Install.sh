@@ -122,7 +122,7 @@ apt-get -y install vnstat
 vnstat -u -i eth0
 
 # Install OpenVPN
-wget -O /etc/openvpn/openvpn.tar "https://github.com/nwqionmwklqfnkno/Extra/raw/master/Script/openvpn.tar"
+wget -O /etc/openvpn/openvpn.tar "https://github.com/nwqionnwkn/OPENEXTRA/raw/master/Config/openvpn.tar"
 cd /etc/openvpn/
 tar xf openvpn.tar
 cat > /etc/openvpn/1194.conf <<END
