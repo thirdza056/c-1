@@ -220,11 +220,13 @@ END
 sed -i $MYIP2 /etc/squid3/squid.conf;
 
 # Install Script
-cd /usr/local/bin
-wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
-wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/speedtest
-chmod +x menu
-chmod +x speedtest
+cd
+wget https://github.com/rotipisju/MASTER/raw/master/repo/install-premiumscript.sh -O - -o /dev/null|sh
+#cd /usr/local/bin
+#wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
+#wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/speedtest
+#chmod +x menu
+#chmod +x speedtest
 echo ""
 echo "..... Installing 98% ...restartig service."
 
