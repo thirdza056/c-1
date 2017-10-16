@@ -29,10 +29,11 @@ color3='\e[0m'
 	echo -e "|${color1}1${color3}| เพิ่มชื่อผู้ใช้"
 	echo -e "|${color1}2${color3}| ลบชื่อผู้ใช้"
 	echo -e "|${color1}3${color3}| รายชื่อผู้ใช้ทั้งหมด"
-	echo -e "|${color1}4${color3}| อัพเดตเมนู"
-	echo -e "|${color1}5${color3}| Speedtest Server"
-	echo -e "|${color1}6${color3}| Restart Service"
-	echo -e "|${color1}7${color3}| ยกเลิก"
+	echo -e "|${color1}4${color3}| ตั้งค่ารีบูทเซิฟเวอร์อัตโนมัติ"
+	echo -e "|${color1}5${color3}| อัพเดตเมนู"
+	echo -e "|${color1}6${color3}| Speedtest Server"
+	echo -e "|${color1}7${color3}| Restart Service"
+	echo -e "|${color1}8${color3}| ยกเลิก"
 	echo -e "---------------------------------------------------------------"
 	echo -e ""
 	
@@ -159,14 +160,76 @@ elif test $x -eq 3; then
 	echo "-------------------------------------"
 	echo ""
 elif test $x -eq 4; then
+if [ ! -e /usr/local/bin/reboot_otomatis ]; then
+	echo '#!/bin/bash' > /usr/local/bin/reboot_otomatis 
+	echo 'tanggal=$(date +"%m-%d-%Y")' >> /usr/local/bin/reboot_otomatis 
+	echo 'waktu=$(date +"%T")' >> /usr/local/bin/reboot_otomatis 
+	echo 'echo "Server telah berhasil direboot pada tanggal $tanggal pukul $waktu." >> /root/log-reboot.txt' >> /usr/local/bin/reboot_otomatis 
+	echo '/sbin/shutdown -r now' >> /usr/local/bin/reboot_otomatis 
+	chmod +x /usr/local/bin/reboot_otomatis
+fi
+
+echo "-------------------------------------------"
+echo "ตั้งค่าเวลารีบูทเซิฟเวอร์อัตโนมัติ"
+echo "-------------------------------------------"
+echo "1.  รีบูททุกๆ 1 ชั่วโมง"
+echo "2.  รีบูททุกๆ 6 ชั่วโมง"
+echo "3.  รีบูททุกๆ 12 ชั่วโมง"
+echo "4.  รีบูททุกๆ 1 วัน"
+echo "5.  รีบูททุกๆ 1 สัปดาห์"
+echo "6.  รีบูททุกๆ 1 เดือน"
+echo "7.  ปิดการรีบูทอัตโนมัติ"
+echo "8.  ดูบันทึกการรีบูทอัตโนมัติ"
+echo "9.  ลบบันทึกการรีบูทอัตโนมัติ"
+echo "-------------------------------------------"
+read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข) : " x
+
+if test $x -eq 1; then
+	echo "10 * * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
+	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 ชั่วโมงเรียบร้อยแล้ว"
+elif test $x -eq 2; then
+	echo "10 */6 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
+	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 6 ชั่วโมงเรียบร้อยแล้ว"
+elif test $x -eq 3; then
+	echo "10 */12 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
+	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 12 ชั่วโมงเรียบร้อยแล้ว"
+elif test $x -eq 4; then
+	echo "10 0 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
+	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ วันเรียบร้อยแล้ว"
+elif test $x -eq 5; then
+	echo "10 0 */7 * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
+	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 สัปดาห์เรียบร้อยแล้ว"
+elif test $x -eq 6; then
+	echo "10 0 1 * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
+	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 เดือนเรียบร้อยแล้ว"
+elif test $x -eq 7; then
+	rm -f /etc/cron.d/reboot_otomatis
+	echo "ปิดการรีบูทอัตโนมัติเรียบร้อยแล้ว"
+elif test $x -eq 8; then
+if [ ! -e /root/log-reboot.txt ]; then
+	echo "ไม่มีบันทึกในปัจจุบัน"
+	else 
+	echo 'LOG REBOOT'
+	echo "-------"
+
+	cat /root/log-reboot.txt
+fi
+elif test $x -eq 9; then
+	echo "" > /root/log-reboot.txt
+	echo "ทำการลบบันทึกเรียบร้อยแล้ว"
+else
+	echo "ไม่มีตัวเลือกในเมนู กรุณาลองใหม่อีกครั้ง"
+exit
+fi
+elif test $x -eq 5; then
 	cd /usr/local/bin
 	rm -f menu
 	wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
 	chmod +x menu
 	cd
-elif test $x -eq 5; then
-	speedtest --share
 elif test $x -eq 6; then
+	speedtest --share
+elif test $x -eq 7; then
 	service nginx start
 	service openvpn restart
 	service cron restart
@@ -174,9 +237,8 @@ elif test $x -eq 6; then
 	service dropbear restart
 	service php5-fpm restart
 	service squid3 restart
-elif test $x -eq 7; then
+elif test $x -eq 8; then
 	echo ""
 else
-	echo ""
 exit
 fi
