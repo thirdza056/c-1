@@ -202,7 +202,7 @@ elif test $x -eq 3; then
 elif test $x -eq 4; then
 	echo "10 0 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
-	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ วันเรียบร้อยแล้ว"
+	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 วันเรียบร้อยแล้ว"
 	echo ""
 elif test $x -eq 5; then
 	echo "10 0 */7 * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
