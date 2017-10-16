@@ -39,9 +39,6 @@ cat jcameron-key.asc | apt-key add -;rm jcameron-key.asc
 # Update
 apt-get update
 
-# Install Webserver
-apt-get -y install nginx php5-fpm php5-cli
-
 # Install Essential Package
 apt-get -y install nano iptables dnsutils openvpn screen whois ngrep unzip unrar
 
@@ -53,7 +50,87 @@ echo "clear" >> .profile
 echo "screenfetch" >> .profile
 
 # Install Webserver
+apt-get -y install nginx php5-fpm php5-cli
+cd
+rm /etc/nginx/sites-enabled/default
+rm /etc/nginx/sites-available/default
+cat > /etc/nginx/nginx.conf <<END
+user www-data;
 
+worker_processes 2;
+pid /var/run/nginx.pid;
+events {
+	multi_accept on;
+        worker_connections 1024;
+}
+http {
+	autoindex on;
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        server_tokens off;
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+        access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+        client_max_body_size 32M;
+	client_header_buffer_size 8m;
+	large_client_header_buffers 8 8m;
+
+	fastcgi_buffer_size 8m;
+	fastcgi_buffers 8 8m;
+
+	fastcgi_read_timeout 600;
+
+        include /etc/nginx/conf.d/*.conf;
+}
+END
+mkdir -p /home/vps/public_html
+echo "<pre>Source by Mnm Ami</pre>" > /home/vps/public_html/index.html
+echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
+cat > /etc/nginx/conf.d/vps.conf <<END
+server {
+    listen       80;
+    server_name  127.0.0.1 localhost;
+    access_log /var/log/nginx/vps-access.log;
+    error_log /var/log/nginx/vps-error.log error;
+    root   /home/vps/public_html;
+    location / {
+        index  index.html index.htm index.php;
+	try_files $uri $uri/ /index.php?$args;
+    }
+    location ~ \.php$ {
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass  127.0.0.1:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}
+END
+sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
+service php5-fpm restart
+service nginx restart
+
+# Install Vnstat
+apt-get -y install vnstat
+vnstat -u -i eth0
+sudo chown -R vnstat:vnstat /var/lib/vnstat
+service vnstat restart
+
+# Install Vnstat GUI
+cd /home/vps/public_html/
+wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
+tar xf vnstat_php_frontend-1.5.1.tar.gz
+rm vnstat_php_frontend-1.5.1.tar.gz
+mv vnstat_php_frontend-1.5.1 vnstat
+cd vnstat
+sed -i "s/\$iface_list = array('eth0', 'sixxs');/\$iface_list = array('eth0');/g" config.php
+sed -i "s/\$language = 'nl';/\$language = 'en';/g" config.php
+sed -i 's/Internal/Internet/g' config.php
+sed -i '/SixXS IPv6/d' config.php
+cd
 
 # Install OpenVPN
 wget -O /etc/openvpn/openvpn.tar "https://github.com/nwqionmwklqfnkno/Extra/raw/master/Script/openvpn.tar"
@@ -101,25 +178,6 @@ iptables-restore < /etc/iptables_new.conf
 END
 chmod +x /etc/network/if-up.d/iptables
 service openvpn restart
-
-# Install Vnstat
-cd
-apt-get -y install vnstat
-vnstat -u -i eth0
-sudo chown -R vnstat:vnstat /var/lib/vnstat
-
-# Install Vnstat GUI
-cd /home/vps/public_html/
-wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
-tar xf vnstat_php_frontend-1.5.1.tar.gz
-rm vnstat_php_frontend-1.5.1.tar.gz
-mv vnstat_php_frontend-1.5.1 vnstat
-cd vnstat
-sed -i "s/\$iface_list = array('eth0', 'sixxs');/\$iface_list = array('eth0');/g" config.php
-sed -i "s/\$language = 'nl';/\$language = 'en';/g" config.php
-sed -i 's/Internal/Internet/g' config.php
-sed -i '/SixXS IPv6/d' config.php
-cd
 
 # Install Badvpn
 wget -O /usr/bin/badvpn-udpgw "https://github.com/nwqionmwklqfnkno/Extra/raw/master/Script/badvpn-udpgw"
