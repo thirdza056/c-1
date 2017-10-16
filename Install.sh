@@ -220,13 +220,11 @@ END
 sed -i $MYIP2 /etc/squid3/squid.conf;
 
 # Install Script
-cd
-wget https://github.com/rotipisju/MASTER/raw/master/repo/install-premiumscript.sh -O - -o /dev/null|sh
-#cd /usr/local/bin
-#wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
-#wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/speedtest
-#chmod +x menu
-#chmod +x speedtest
+cd /usr/local/bin
+wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
+wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/speedtest
+chmod +x menu
+chmod +x speedtest
 echo ""
 echo "..... Installing 98% ...restarting service."
 
@@ -244,7 +242,6 @@ rm -rf ~/.bash_history && history -c
 
 # info
 clear
-sudo -i
 echo "====================================================="
 echo ""
 echo " - OpenVPN  : TCP Port 1194"
