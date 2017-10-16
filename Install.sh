@@ -225,6 +225,8 @@ wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
 wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/speedtest
 chmod +x menu
 chmod +x speedtest
+echo ""
+echo "..... Installing 98% ...restartig service."
 
 # Finishing
 cd
