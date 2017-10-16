@@ -31,8 +31,8 @@ deb http://packages.dotdeb.org wheezy all
 deb http://download.webmin.com/download/repository sarge contrib
 deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib
 END
-wget "https://raw.githubusercontent.com/nwqionmwklqfnkno/Extra/master/Script/dotdeb.gpg"
-wget "https://raw.githubusercontent.com/nwqionmwklqfnkno/Extra/master/Script/jcameron-key.asc"
+wget "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/dotdeb.gpg"
+wget "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/jcameron-key.asc"
 cat dotdeb.gpg | apt-key add -;rm dotdeb.gpg
 cat jcameron-key.asc | apt-key add -;rm jcameron-key.asc
 
@@ -47,7 +47,7 @@ apt-get -y install nano iptables dnsutils openvpn screen whois ngrep unzip unrar
 
 # Install Screenfetch
 cd
-wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/nwqionmwklqfnkno/Extra/master/Script/screenfetch"
+wget -O /usr/bin/screenfetch "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/screenfetch"
 chmod +x /usr/bin/screenfetch
 echo "clear" >> .profile
 echo "screenfetch" >> .profile
@@ -222,7 +222,7 @@ sed -i $MYIP2 /etc/squid3/squid.conf;
 # Install Script
 cd /usr/local/bin
 wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
-wget https://raw.githubusercontent.com/nwqionmwklqfnkno/Extra/master/Script/speedtest
+wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/speedtest
 chmod +x menu
 chmod +x speedtest
 
@@ -240,6 +240,7 @@ rm -rf ~/.bash_history && history -c
 
 # info
 clear
+sudo -i
 echo "====================================================="
 echo ""
 echo " - OpenVPN  : TCP Port 1194"
