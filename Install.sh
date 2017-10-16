@@ -221,7 +221,7 @@ sed -i $MYIP2 /etc/squid3/squid.conf;
 
 # Install Script
 cd /usr/local/bin
-wget https://raw.githubusercontent.com/nwqionmwklqfnkno/Extra/master/Script/menu
+wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
 wget https://raw.githubusercontent.com/nwqionmwklqfnkno/Extra/master/Script/speedtest
 chmod +x menu
 chmod +x speedtest
