@@ -113,7 +113,7 @@ END
 	cd
 	echo -e ""
 	echo -e "======== Account ============"
-	echo -e "Config		: http://$IP:85/$Login.ovpn"
+	echo -e "Config		: http://$IP/$Login.ovpn"
 	echo -e "Username	: $Login "
 	echo -e "Password	: $Passwd"
 	echo -e "Out of Date	: $exp"
