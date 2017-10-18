@@ -188,7 +188,8 @@ elif test $x -eq 4; then
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 ชั่วโมงเรียบร้อยแล้ว"
 	echo ""
-	elif test $x -eq 2; then
+
+elif test $x -eq 2; then
 	echo "10 */6 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 6 ชั่วโมงเรียบร้อยแล้ว"
@@ -257,4 +258,6 @@ elif test $x -eq 7; then
 elif test $x -eq 8; then
 	echo ""
 else
+echo "ไม่พบตัวเลือกในเมนู"
+exit
 fi
