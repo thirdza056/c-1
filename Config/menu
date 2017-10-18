@@ -254,7 +254,6 @@ elif test $x -eq 7; then
 	service cron restart
 	service ssh restart
 	service dropbear restart
-	service php5-fpm restart
 	service squid3 restart
 elif test $x -eq 8; then
 	echo ""
