@@ -1,4 +1,4 @@
-#!/bin/bash
+##!/bin/bash
 
 clear
 if [[ -e /etc/debian_version ]]; then
@@ -13,6 +13,8 @@ else
 	exit
 fi
 	color1='\e[031;1m'
+	color2='\e[34;1m'
+	color3='\e[0m'
 	echo ""
 	cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
 	cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
