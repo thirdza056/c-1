@@ -224,11 +224,10 @@ if [ ! -e /root/log-reboot.txt ]; then
 	echo ""
 	echo "ไม่มีบันทึกในปัจจุบัน"
 	echo ""
-	else 
-	echo 'LOG REBOOT'
-	echo "-------"
-
+	else
+	echo ""
 	cat /root/log-reboot.txt
+	echo ""
 fi
 elif test $x -eq 9; then
 	echo "" > /root/log-reboot.txt
