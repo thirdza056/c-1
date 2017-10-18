@@ -12,9 +12,9 @@ else
 	echo "คำสั่งนี้ยังไม่รองรับระบบปฏิบัติการอื่นนอกจาก Debian, Ubuntu และ CentOS"
 	exit
 fi
-	color1='\e[031;1m'
-	color2='\e[34;1m'
-	color3='\e[0m'
+color1='\e[031;1m'
+color2='\e[34;1m'
+color3='\e[0m'
 	cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
 	cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
 	freq=$( awk -F: ' /cpu MHz/ {freq=$2} END {print freq}' /proc/cpuinfo )
@@ -188,7 +188,7 @@ elif test $x -eq 4; then
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 ชั่วโมงเรียบร้อยแล้ว"
 	echo ""
 
-elif test $x -eq 2; then
+	elif test $x -eq 2; then
 	echo "10 */6 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 6 ชั่วโมงเรียบร้อยแล้ว"
