@@ -257,5 +257,4 @@ elif test $x -eq 8; then
 else
 clear
 menu
-exit
 fi
