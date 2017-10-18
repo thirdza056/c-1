@@ -257,6 +257,4 @@ elif test $x -eq 7; then
 elif test $x -eq 8; then
 	echo ""
 else
-clear
-menu
 fi
