@@ -12,9 +12,7 @@ else
 	echo "คำสั่งนี้ยังไม่รองรับระบบปฏิบัติการอื่นนอกจาก Debian, Ubuntu และ CentOS"
 	exit
 fi
-color1='\e[031;1m'
-color2='\e[34;1m'
-color3='\e[0m'
+	color1='\e[031;1m'
 	echo ""
 	cname=$( awk -F: '/model name/ {name=$2} END {print name}' /proc/cpuinfo )
 	cores=$( awk -F: '/model name/ {core++} END {print core}' /proc/cpuinfo )
@@ -23,8 +21,7 @@ color3='\e[0m'
 	swap=$( free -m | awk 'NR==4 {print $2}' )
 	up=$(uptime|awk '{ $1=$2=$(NF-6)=$(NF-5)=$(NF-4)=$(NF-3)=$(NF-2)=$(NF-1)=$NF=""; print }')
 
-	echo -e "--------------------------------------------------------------"
-	echo -e "MENU SCRIPT"
+	echo -e "--------- MENU SCRIPT ---------"
 	echo ""
 	echo -e "|${color1}1${color3}| เพิ่มชื่อผู้ใช้"
 	echo -e "|${color1}2${color3}| ลบชื่อผู้ใช้"
@@ -34,7 +31,6 @@ color3='\e[0m'
 	echo -e "|${color1}6${color3}| Speedtest Server"
 	echo -e "|${color1}7${color3}| Restart Service"
 	echo -e "|${color1}8${color3}| ยกเลิก"
-	echo -e "---------------------------------------------------------------"
 	echo -e ""
 	
 read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " x
@@ -53,69 +49,70 @@ if test $x -eq 1; then
 
 	cd /etc/openvpn/
 	cat > /etc/openvpn/$Login.ovpn <<END
-client
-dev tun
-proto tcp
-remote $IP:1194@lvs.truehits.in.th
-http-proxy $IP 8080
-http-proxy-retry
-connect-retry 1
-connect-timeout 120
-resolv-retry infinite
-route-method exe
-nobind
-ping 5
-ping-restart 30
-persist-key
-persist-tun
-persist-remote-ip
-mute-replay-warnings
-verb 3
-sndbuf 393216
-rcvbuf 393216
-push "sndbuf 393216"
-push "rcvbuf 393216"
-<auth-user-pass>
-$Login
-</auth-user-pass>
-cipher none
-comp-lzo
-script-security 3
-key-proxy-DNS 8.8.8.8
-key-proxy-DNS 8.8.4.4
+	client
+	dev tun
+	proto tcp
+	remote $IP:1194@lvs.truehits.in.th
+	http-proxy $IP 8080
+	http-proxy-retry
+	connect-retry 1
+	connect-timeout 120
+	resolv-retry infinite
+	route-method exe
+	nobind
+	ping 5
+	ping-restart 30
+	persist-key
+	persist-tun
+	persist-remote-ip
+	mute-replay-warnings
+	verb 3
+	sndbuf 393216
+	rcvbuf 393216
+	push "sndbuf 393216"
+	push "rcvbuf 393216"
+	<auth-user-pass>
+	$Login
+	$Passwd
+	</auth-user-pass>
+	cipher none
+	comp-lzo
+	script-security 3
+	key-proxy-DNS 8.8.8.8
+	key-proxy-DNS 8.8.4.4
 
-<ca>
------BEGIN CERTIFICATE-----
-MIID4DCCA0mgAwIBAgIJAM3S4jaLTQBoMA0GCSqGSIb3DQEBBQUAMIGnMQswCQYD
-VQQGEwJJRDERMA8GA1UECBMIV2VzdEphdmExDjAMBgNVBAcTBUJvZ29yMRQwEgYD
-VQQKEwtKdWFsU1NILmNvbTEUMBIGA1UECxMLSnVhbFNTSC5jb20xFDASBgNVBAMT
-C0p1YWxTU0guY29tMRQwEgYDVQQpEwtKdWFsU1NILmNvbTEdMBsGCSqGSIb3DQEJ
-ARYObWVAanVhbHNzaC5jb20wHhcNMTMxMTA4MTQwODA3WhcNMjMxMTA2MTQwODA3
-WjCBpzELMAkGA1UEBhMCSUQxETAPBgNVBAgTCFdlc3RKYXZhMQ4wDAYDVQQHEwVC
-b2dvcjEUMBIGA1UEChMLSnVhbFNTSC5jb20xFDASBgNVBAsTC0p1YWxTU0guY29t
-MRQwEgYDVQQDEwtKdWFsU1NILmNvbTEUMBIGA1UEKRMLSnVhbFNTSC5jb20xHTAb
-BgkqhkiG9w0BCQEWDm1lQGp1YWxzc2guY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GN
-ADCBiQKBgQDO0s4v72Y+V1z3XpkQD8hVjYyJk1PzpaNGpubtVXf7b/2vhvYBfE3X
-46NvpgQejsAI4rW7XWMZrAjFzQBPE0zDAt1O0ukvGRFvHr16jLuC3cZCn3oQJ0+v
-HD7Z16sUhKqLWRTGAf1LDvNR3eVmzzRfBF8L3h+ZGaQFW9gsw1tSSwIDAQABo4IB
-EDCCAQwwHQYDVR0OBBYEFA5gsoPi0yORhvAA38zCXOQhX4wYMIHcBgNVHSMEgdQw
-gdGAFA5gsoPi0yORhvAA38zCXOQhX4wYoYGtpIGqMIGnMQswCQYDVQQGEwJJRDER
-MA8GA1UECBMIV2VzdEphdmExDjAMBgNVBAcTBUJvZ29yMRQwEgYDVQQKEwtKdWFs
-U1NILmNvbTEUMBIGA1UECxMLSnVhbFNTSC5jb20xFDASBgNVBAMTC0p1YWxTU0gu
-Y29tMRQwEgYDVQQpEwtKdWFsU1NILmNvbTEdMBsGCSqGSIb3DQEJARYObWVAanVh
-bHNzaC5jb22CCQDN0uI2i00AaDAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUA
-A4GBAL3ScsXaFFuBqkS8bDqDUkx2hYM2iAYx9ZEuz8DOgtenQiNcyety4YzWSE5b
-1/4JSlrO0hoFAZpz6tZtB9XM5efx5zSEIn+w4+2bWUk34Ro2zM3JxwDUp1tTcpbT
-T0G3VTuVrzgSMZV1unfbCHk6XR4VT3MmmoTl+97cmmMZgWV0
------END CERTIFICATE-----
-</ca>
-END
+	<ca>
+	-----BEGIN CERTIFICATE-----
+	MIID4DCCA0mgAwIBAgIJAM3S4jaLTQBoMA0GCSqGSIb3DQEBBQUAMIGnMQswCQYD
+	VQQGEwJJRDERMA8GA1UECBMIV2VzdEphdmExDjAMBgNVBAcTBUJvZ29yMRQwEgYD
+	VQQKEwtKdWFsU1NILmNvbTEUMBIGA1UECxMLSnVhbFNTSC5jb20xFDASBgNVBAMT
+	C0p1YWxTU0guY29tMRQwEgYDVQQpEwtKdWFsU1NILmNvbTEdMBsGCSqGSIb3DQEJ
+	ARYObWVAanVhbHNzaC5jb20wHhcNMTMxMTA4MTQwODA3WhcNMjMxMTA2MTQwODA3
+	WjCBpzELMAkGA1UEBhMCSUQxETAPBgNVBAgTCFdlc3RKYXZhMQ4wDAYDVQQHEwVC
+	b2dvcjEUMBIGA1UEChMLSnVhbFNTSC5jb20xFDASBgNVBAsTC0p1YWxTU0guY29t
+	MRQwEgYDVQQDEwtKdWFsU1NILmNvbTEUMBIGA1UEKRMLSnVhbFNTSC5jb20xHTAb
+	BgkqhkiG9w0BCQEWDm1lQGp1YWxzc2guY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GN
+	ADCBiQKBgQDO0s4v72Y+V1z3XpkQD8hVjYyJk1PzpaNGpubtVXf7b/2vhvYBfE3X
+	46NvpgQejsAI4rW7XWMZrAjFzQBPE0zDAt1O0ukvGRFvHr16jLuC3cZCn3oQJ0+v
+	HD7Z16sUhKqLWRTGAf1LDvNR3eVmzzRfBF8L3h+ZGaQFW9gsw1tSSwIDAQABo4IB
+	EDCCAQwwHQYDVR0OBBYEFA5gsoPi0yORhvAA38zCXOQhX4wYMIHcBgNVHSMEgdQw
+	gdGAFA5gsoPi0yORhvAA38zCXOQhX4wYoYGtpIGqMIGnMQswCQYDVQQGEwJJRDER
+	MA8GA1UECBMIV2VzdEphdmExDjAMBgNVBAcTBUJvZ29yMRQwEgYDVQQKEwtKdWFs
+	U1NILmNvbTEUMBIGA1UECxMLSnVhbFNTSC5jb20xFDASBgNVBAMTC0p1YWxTU0gu
+	Y29tMRQwEgYDVQQpEwtKdWFsU1NILmNvbTEdMBsGCSqGSIb3DQEJARYObWVAanVh
+	bHNzaC5jb22CCQDN0uI2i00AaDAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUA
+	A4GBAL3ScsXaFFuBqkS8bDqDUkx2hYM2iAYx9ZEuz8DOgtenQiNcyety4YzWSE5b
+	1/4JSlrO0hoFAZpz6tZtB9XM5efx5zSEIn+w4+2bWUk34Ro2zM3JxwDUp1tTcpbT
+	T0G3VTuVrzgSMZV1unfbCHk6XR4VT3MmmoTl+97cmmMZgWV0
+	-----END CERTIFICATE-----
+	</ca>
+	END
 
 	cp $Login.ovpn /home/vps/public_html/
 	cd
 	echo -e ""
 	echo -e "======== Account ============"
-	echo -e "Config		: http://$IP/$Login.ovpn"
+	echo -e "Config		: http://$IP:85/$Login.ovpn"
 	echo -e "Username	: $Login "
 	echo -e "Password	: $Passwd"
 	echo -e "Out of Date	: $exp"
@@ -160,67 +157,67 @@ elif test $x -eq 3; then
 	echo "-------------------------------------"
 	echo ""
 elif test $x -eq 4; then
-if [ ! -e /usr/local/bin/reboot_otomatis ]; then
+	if [ ! -e /usr/local/bin/reboot_otomatis ]; then
 	echo '#!/bin/bash' > /usr/local/bin/reboot_otomatis 
 	echo 'tanggal=$(date +"%m-%d-%Y")' >> /usr/local/bin/reboot_otomatis 
 	echo 'waktu=$(date +"%T")' >> /usr/local/bin/reboot_otomatis 
 	echo 'echo "เซิร์ฟเวอร์ได้รับการรีบูตเมื่อวันที่ $tanggal เวลา $waktu" >> /root/log-reboot.txt' >> /usr/local/bin/reboot_otomatis 
 	echo '/sbin/shutdown -r now' >> /usr/local/bin/reboot_otomatis 
 	chmod +x /usr/local/bin/reboot_otomatis
-fi
+	fi
 
-echo "---------------------------------"
-echo "ตั้งค่าเวลารีบูทเซิฟเวอร์อัตโนมัติ"
-echo "---------------------------------"
-echo "1.  รีบูททุกๆ 1 ชั่วโมง"
-echo "2.  รีบูททุกๆ 6 ชั่วโมง"
-echo "3.  รีบูททุกๆ 12 ชั่วโมง"
-echo "4.  รีบูททุกๆ 1 วัน"
-echo "5.  รีบูททุกๆ 1 สัปดาห์"
-echo "6.  รีบูททุกๆ 1 เดือน"
-echo "7.  ปิดการรีบูทอัตโนมัติ"
-echo "8.  ดูบันทึกการรีบูทอัตโนมัติ"
-echo "9.  ลบบันทึกการรีบูทอัตโนมัติ"
-echo ""
-read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข) : " x
+	echo "---------------------------------"
+	echo "ตั้งค่าเวลารีบูทเซิฟเวอร์อัตโนมัติ"
+	echo "---------------------------------"
+	echo "1.  รีบูททุกๆ 1 ชั่วโมง"
+	echo "2.  รีบูททุกๆ 6 ชั่วโมง"
+	echo "3.  รีบูททุกๆ 12 ชั่วโมง"
+	echo "4.  รีบูททุกๆ 1 วัน"
+	echo "5.  รีบูททุกๆ 1 สัปดาห์"
+	echo "6.  รีบูททุกๆ 1 เดือน"
+	echo "7.  ปิดการรีบูทอัตโนมัติ"
+	echo "8.  ดูบันทึกการรีบูทอัตโนมัติ"
+	echo "9.  ลบบันทึกการรีบูทอัตโนมัติ"
+	echo ""
+	read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข) : " x
 
-if test $x -eq 1; then
+	if test $x -eq 1; then
 	echo "10 * * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 ชั่วโมงเรียบร้อยแล้ว"
 	echo ""
-elif test $x -eq 2; then
+	elif test $x -eq 2; then
 	echo "10 */6 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 6 ชั่วโมงเรียบร้อยแล้ว"
 	echo ""
-elif test $x -eq 3; then
+	elif test $x -eq 3; then
 	echo "10 */12 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 12 ชั่วโมงเรียบร้อยแล้ว"
 	echo ""
-elif test $x -eq 4; then
+	elif test $x -eq 4; then
 	echo "10 0 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 วันเรียบร้อยแล้ว"
 	echo ""
-elif test $x -eq 5; then
+	elif test $x -eq 5; then
 	echo "10 0 */7 * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 สัปดาห์เรียบร้อยแล้ว"
 	echo ""
-elif test $x -eq 6; then
+	elif test $x -eq 6; then
 	echo "10 0 1 * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 เดือนเรียบร้อยแล้ว"
 	echo ""
-elif test $x -eq 7; then
+	elif test $x -eq 7; then
 	rm -f /etc/cron.d/reboot_otomatis
 	echo ""
 	echo "ปิดการรีบูทอัตโนมัติเรียบร้อยแล้ว"
 	echo ""
-elif test $x -eq 8; then
-if [ ! -e /root/log-reboot.txt ]; then
+	elif test $x -eq 8; then
+	if [ ! -e /root/log-reboot.txt ]; then
 	echo ""
 	echo "ไม่มีบันทึกในปัจจุบัน"
 	echo ""
@@ -228,18 +225,18 @@ if [ ! -e /root/log-reboot.txt ]; then
 	echo ""
 	cat /root/log-reboot.txt
 	echo ""
-fi
-elif test $x -eq 9; then
+	fi
+	elif test $x -eq 9; then
 	echo "" > /root/log-reboot.txt
 	echo ""
 	echo "ทำการลบบันทึกเรียบร้อยแล้ว"
 	echo ""
-else
+	else
 	echo ""
 	echo "ไม่มีตัวเลือกในเมนู กรุณาลองใหม่อีกครั้ง"
 	echo ""
-exit
-fi
+	exit
+	fi
 elif test $x -eq 5; then
 	cd /usr/local/bin
 	rm -f menu
@@ -258,5 +255,7 @@ elif test $x -eq 7; then
 elif test $x -eq 8; then
 	echo ""
 else
+clear
+menu
 exit
 fi
