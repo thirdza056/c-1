@@ -255,8 +255,8 @@ elif test $x -eq 7; then
 	service dropbear restart
 	service squid3 restart
 elif test $x -eq 8; then
-	echo ""
+	exit
 else
-echo "ไม่พบตัวเลือกในเมนู"
-exit
+	echo "ไม่พบตัวเลือกในเมนู"
+	exit
 fi
