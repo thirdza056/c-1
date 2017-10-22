@@ -174,8 +174,8 @@ END
 	cd
 	echo -e ""
 	echo -e "======== Account ============"
-	echo -e "Config ${color1}True${color3}		: http://$IP/True-$Login.ovpn"
-	echo -e "Config ${color1}Dtac${color3}|		: http://$IP/Dtac-$Login.ovpn"
+	echo -e "Config ${color1}True${color3}	: http://$IP/True-$Login.ovpn"
+	echo -e "Config ${color1}Dtac${color3}	: http://$IP/Dtac-$Login.ovpn"
 	echo -e "Username	: $Login "
 	echo -e "Password	: $Passwd"
 	echo -e "Out of Date	: $exp"
