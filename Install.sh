@@ -98,7 +98,7 @@ document_root='$document_root'
 fastcgi_script_name='$fastcgi_script_name'
 cat > /etc/nginx/conf.d/vps.conf <<END4
 server {
-  listen       80;
+  listen       85;
   server_name  127.0.0.1 localhost;
   access_log /var/log/nginx/vps-access.log;
   error_log /var/log/nginx/vps-error.log error;
@@ -115,7 +115,7 @@ server {
   }
 }
 END4
-service nginx restart
+/etc/init.d/nginx restart
 
 # Install Vnstat
 apt-get -y install vnstat
@@ -231,7 +231,7 @@ echo "..... Installing 98% ...restarting service."
 # Finishing
 cd
 chown -R www-data:www-data /home/vps/public_html
-service nginx start
+/etc/init.d/nginx restart
 service openvpn restart
 service cron restart
 service ssh restart
