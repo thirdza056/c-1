@@ -113,7 +113,7 @@ END
 	cd
 	echo -e ""
 	echo -e "======== Account ============"
-	echo -e "Configname	: http://$IP/$Login.ovpn"
+	echo -e "Configname	: http://$IP:85/$Login.ovpn"
 	echo -e "Username	: $Login"
 	echo -e "Password	: $Passwd"
 	echo -e "Out of Date	: $exp"
@@ -248,7 +248,7 @@ elif test $x -eq 5; then
 elif test $x -eq 6; then
 	speedtest --share
 elif test $x -eq 7; then
-	service nginx start
+	/etc/init.d/nginx restart
 	service openvpn restart
 	service cron restart
 	service ssh restart
