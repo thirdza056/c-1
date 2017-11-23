@@ -378,7 +378,7 @@ elif test $x -eq 10; then
 	if test $x -eq 1; then
         clear
         echo ""
-        echo "เซิฟเวอร๋จะใช้งานไม่ได้ชั่วขณะเมื่อทำการรีสตาร์ทระบบ"
+        echo "เซิฟเวอร์จะใช้งานไม่ได้ชั่วขณะเมื่อทำการรีสตาร์ทระบบ"
         echo "และจะกลับมาใช้งานได้อีกครั้งภายใน 30 วินาที"
         echo "nginx ,openvpn ,cron ,ssh ,dropbear ,squid3 ....Restarting"
         echo ""
