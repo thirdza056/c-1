@@ -172,11 +172,11 @@ elif test $x -eq 3; then
 
 elif test $x -eq 4; then
         echo ""
-        read "ชื่อผู้ใช้ที่ต้องการเปลี่ยนรหัสผ่าน : " username
+        read -p "ชื่อผู้ใช้ที่ต้องการเปลี่ยนรหัสผ่าน : " username
         egrep "^$username" /etc/passwd >/dev/null
         if [ $? -eq 0 ]; then
         echo ""
-        read "กำหนดรหัสผ่านใหม่ของผู้ใช้ $username : " password
+        read -p "กำหนดรหัสผ่านใหม่ของผู้ใช้ $username : " password
 	
         egrep "^$username" /etc/passwd >/dev/null
         echo -e "$password\n$password" | passwd $username
