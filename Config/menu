@@ -28,10 +28,10 @@ color3='\e[0m'
 	echo -e "|${color1} 2${color3}| ลบชื่อผู้ใช้"
 	echo -e "|${color1} 3${color3}| รายชื่อผู้ใช้ทั้งหมด"
 	echo -e "|${color1} 4${color3}| เปลี่ยนรหัสผ่านผู้ใช้ใหม่"
-	echo -e "|${color1} 5${color3}| ตั้งค่ารีบูทเซิฟเวอร์อัตโนมัติ"
-	echo -e "|${color1} 6${color3}| รายชื่อผู้ใช้ที่กำลังออนไลน์"
-	echo -e "|${color1} 7${color3}| แบนชื่อผู้ใช้"
-	echo -e "|${color1} 8${color3}| ปลดแบนชื่อผู้ใช้"
+	echo -e "|${color1} 5${color3}| รายชื่อผู้ใช้ที่กำลังออนไลน์"
+	echo -e "|${color1} 6${color3}| แบนชื่อผู้ใช้"
+	echo -e "|${color1} 7${color3}| ปลดแบนชื่อผู้ใช้"
+	echo -e "|${color1} 8${color3}| ตั้งค่ารีบูทเซิฟเวอร์อัตโนมัติ"
 	echo -e "|${color1} 9${color3}| ตรวจสอบดาต้าที่ใช้ไปทั้งหมดในปัจจุบัน"
 	echo -e "|${color1}10${color3}| ทดสอบความเร็วอินเตอร์เน็ต"
 	echo -e "|${color1}11${color3}| รีสตาร์ทระบบ (สำหรับผู้ที่แก้ไขสคริปท์)"
@@ -207,7 +207,101 @@ elif test $x -eq 4; then
         fi
 
 elif test $x -eq 5; then
-	if [ ! -e /usr/local/bin/reboot_otomatis ]; then
+	clear
+        echo ""
+        echo "รายชื่อผู้ใช้ที่กำลังใช้งานอยู่ในขณะนี้"
+        echo "==========================================";
+
+        if [ -e "/var/log/auth.log" ]; then
+        LOG="/var/log/auth.log";
+        fi
+        if [ -e "/var/log/secure" ]; then
+        LOG="/var/log/secure";
+        fi
+		
+        data=( `ps aux | grep -i dropbear | awk '{print $2}'`);
+        echo "รายชื่อผู้ใช้ที่ใช้งานพอร์ตของ Dropbear";
+        echo "(ID - Username - IP)";
+        echo "==========================================";
+        cat $LOG | grep -i dropbear | grep -i "Password auth succeeded" > /tmp/login-db.txt;
+        for PID in "${data[@]}"
+        do
+        cat /tmp/login-db.txt | grep "dropbear\[$PID\]" > /tmp/login-db-pid.txt;
+        NUM=`cat /tmp/login-db-pid.txt | wc -l`;
+        USER=`cat /tmp/login-db-pid.txt | awk '{print $10}'`;
+        IP=`cat /tmp/login-db-pid.txt | awk '{print $12}'`;
+        if [ $NUM -eq 1 ]; then
+                echo "$PID - $USER - $IP";
+		fi
+        done
+        echo " "
+        echo "รายชื่อผู้ใช้ที่ใช้งานพอร์ตของ OpenSSH";
+        echo "(ID - Username - IP)";
+        echo "==========================================";
+        cat $LOG | grep -i sshd | grep -i "Accepted password for" > /tmp/login-db.txt
+        data=( `ps aux | grep "\[priv\]" | sort -k 72 | awk '{print $2}'`);
+
+        for PID in "${data[@]}"
+        do
+        cat /tmp/login-db.txt | grep "sshd\[$PID\]" > /tmp/login-db-pid.txt;
+        NUM=`cat /tmp/login-db-pid.txt | wc -l`;
+        USER=`cat /tmp/login-db-pid.txt | awk '{print $9}'`;
+        IP=`cat /tmp/login-db-pid.txt | awk '{print $11}'`;
+        if [ $NUM -eq 1 ]; then
+                echo "$PID - $USER - $IP";
+        fi
+        done
+        if [ -f "/etc/openvpn/log.log" ]; then
+	line=`cat /etc/openvpn/log.log | wc -l`
+	a=$((3+((line-8)/2)))
+	b=$(((line-8)/2))
+	echo " "
+	echo "รายชื่อผู้ใช้ที่ใช้งาน OpenVPN";
+	echo "(Username - IP - วันนี้ - เวลาที่เชื่อมต่อ)";
+	echo "==========================================";
+	cat /etc/openvpn/log.log | head -n $a | tail -n $b | cut -d "," -f 1,2,5 | sed -e 's/,/   /g' > /tmp/vpn-login-db.txt
+	cat /tmp/vpn-login-db.txt
+        fi
+
+        echo " "
+        echo " "
+        echo "==========================================";
+        echo " "
+	
+elif test $x -eq 6; then
+        echo ""
+        read -p "Username Ban : " username
+        egrep "^$username" /etc/passwd >/dev/null
+        if [ $? -eq 0 ]; then
+        passwd -l $username
+        echo ""
+        echo "ชื่อผู้ใช้ $username ได้ถูกแบนเรียบร้อยแล้ว"
+	echo ""
+        else
+	echo ""
+        echo "ไม่พบชื่อผู้ใช้ $username อยู่ในระบบ"
+	echo ""
+        exit 1
+        fi
+	
+elif test $x -eq 7; then
+        echo ""
+	read -p "Username Unban : " username
+        egrep "^$username" /etc/passwd >/dev/null
+        if [ $? -eq 0 ]; then
+        passwd -u $username
+        echo ""
+        echo "ชื่อผู้ใช้ $username ได้ถูกปลดแบนเรียบร้อยแล้ว"
+	echo ""
+        else
+	echo ""
+        echo "ไม่พบชื่อผู้ใช้ $username อยู่ในระบบ"
+	echo ""
+        exit 1
+        fi
+	
+elif test $x -eq 8; then
+        if [ ! -e /usr/local/bin/reboot_otomatis ]; then
 	echo '#!/bin/bash' > /usr/local/bin/reboot_otomatis 
 	echo 'tanggal=$(date +"%m-%d-%Y")' >> /usr/local/bin/reboot_otomatis 
 	echo 'waktu=$(date +"%T")' >> /usr/local/bin/reboot_otomatis 
@@ -287,100 +381,6 @@ elif test $x -eq 5; then
 	echo ""
 	exit
 	fi
-	
-elif test $x -eq 6; then
-        clear
-        echo ""
-        echo "รายชื่อผู้ใช้ที่กำลังใช้งานอยู่ในขณะนี้"
-        echo "==========================================";
-
-        if [ -e "/var/log/auth.log" ]; then
-        LOG="/var/log/auth.log";
-        fi
-        if [ -e "/var/log/secure" ]; then
-        LOG="/var/log/secure";
-        fi
-		
-        data=( `ps aux | grep -i dropbear | awk '{print $2}'`);
-        echo "รายชื่อผู้ใช้ที่ใช้งานพอร์ตของ Dropbear";
-        echo "(ID - Username - IP)";
-        echo "==========================================";
-        cat $LOG | grep -i dropbear | grep -i "Password auth succeeded" > /tmp/login-db.txt;
-        for PID in "${data[@]}"
-        do
-        cat /tmp/login-db.txt | grep "dropbear\[$PID\]" > /tmp/login-db-pid.txt;
-        NUM=`cat /tmp/login-db-pid.txt | wc -l`;
-        USER=`cat /tmp/login-db-pid.txt | awk '{print $10}'`;
-        IP=`cat /tmp/login-db-pid.txt | awk '{print $12}'`;
-        if [ $NUM -eq 1 ]; then
-                echo "$PID - $USER - $IP";
-		fi
-        done
-        echo " "
-        echo "รายชื่อผู้ใช้ที่ใช้งานพอร์ตของ OpenSSH";
-        echo "(ID - Username - IP)";
-        echo "==========================================";
-        cat $LOG | grep -i sshd | grep -i "Accepted password for" > /tmp/login-db.txt
-        data=( `ps aux | grep "\[priv\]" | sort -k 72 | awk '{print $2}'`);
-
-        for PID in "${data[@]}"
-        do
-        cat /tmp/login-db.txt | grep "sshd\[$PID\]" > /tmp/login-db-pid.txt;
-        NUM=`cat /tmp/login-db-pid.txt | wc -l`;
-        USER=`cat /tmp/login-db-pid.txt | awk '{print $9}'`;
-        IP=`cat /tmp/login-db-pid.txt | awk '{print $11}'`;
-        if [ $NUM -eq 1 ]; then
-                echo "$PID - $USER - $IP";
-        fi
-        done
-        if [ -f "/etc/openvpn/log.log" ]; then
-	line=`cat /etc/openvpn/log.log | wc -l`
-	a=$((3+((line-8)/2)))
-	b=$(((line-8)/2))
-	echo " "
-	echo "รายชื่อผู้ใช้ที่ใช้งาน OpenVPN";
-	echo "(Username - IP - วันนี้ - เวลาที่เชื่อมต่อ)";
-	echo "==========================================";
-	cat /etc/openvpn/log.log | head -n $a | tail -n $b | cut -d "," -f 1,2,5 | sed -e 's/,/   /g' > /tmp/vpn-login-db.txt
-	cat /tmp/vpn-login-db.txt
-        fi
-
-        echo " "
-        echo " "
-        echo "==========================================";
-        echo " "
-	
-elif test $x -eq 7; then
-        echo ""
-        read -p "Username Ban : " username
-        egrep "^$username" /etc/passwd >/dev/null
-        if [ $? -eq 0 ]; then
-        passwd -l $username
-        echo ""
-        echo "ชื่อผู้ใช้ $username ได้ถูกแบนเรียบร้อยแล้ว"
-	echo ""
-        else
-	echo ""
-        echo "ไม่พบชื่อผู้ใช้ $username อยู่ในระบบ"
-	echo ""
-        exit 1
-        fi
-	
-elif test $x -eq 8; then
-        echo ""
-	read -p "Username Unban : " username
-        egrep "^$username" /etc/passwd >/dev/null
-        if [ $? -eq 0 ]; then
-        passwd -u $username
-        echo ""
-        echo "ชื่อผู้ใช้ $username ได้ถูกปลดแบนเรียบร้อยแล้ว"
-	echo ""
-        else
-	echo ""
-        echo "ไม่พบชื่อผู้ใช้ $username อยู่ในระบบ"
-	echo ""
-        exit 1
-        fi
 	
 elif test $x -eq 9; then
         clear
