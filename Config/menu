@@ -120,6 +120,9 @@ END
 	echo -e "Username	: $Login"
 	echo -e "Password	: $Passwd"
 	echo -e "Out of Date	: $exp"
+	echo -e "สามารถใช้ได้ทั้งเครือข่าย Truemove และ Dtac"
+	echo -e "หมายเหตุ : สำหรับ Truemove ใช้ได้เฉพาะซิมแบบเติมเงินเท่านั้น"
+	echo -e "หมายเหตุ : สำหรับ Dtac ต้องสมัครโปรฯ Line ถึงจะสามารถใช้งาน VPN ได้"
 	echo -e "============================="
 	echo -e ""
 
@@ -129,10 +132,12 @@ elif test $x -eq 2; then
 
 	if getent passwd $User > /dev/null 2>&1; then
 		userdel $User
-		echo -e "User $User Was Deleted."
+		echo ""
+		echo -e "ชื่อผู้ใช้ $User ได้ถูกลบออกจากระบบเรียบร้อยแล้ว"
 		echo ""
 	else
-		echo -e "$User Not Found."
+		echo ""
+		echo -e "ไม่พบชื่อผู้ใช้ $User อยู่ในระบบ"
 		echo ""
 	fi
 elif test $x -eq 3; then
