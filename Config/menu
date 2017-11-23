@@ -491,17 +491,11 @@ T0G3VTuVrzgSMZV1unfbCHk6XR4VT3MmmoTl+97cmmMZgWV0
 -----END CERTIFICATE-----
 </ca>
 END
-echo '<ca>' >> /home/vps/public_html/Client.ovpn
-cat /etc/openvpn/ca.crt >> /home/vps/public_html/Client.ovpn
-echo '</ca>' >> /home/vps/public_html/Client.ovpn
 fi
         IP=`dig +short myip.opendns.com @resolver1.opendns.com`
         echo ""
         echo -e "Download Config	: http://$IP:85/Client.ovpn"
         echo ""
-        echo '<ca>' >> /home/vps/public_html/Client.ovpn
-        cat /etc/openvpn/ca.crt >> /home/vps/public_html/Client.ovpn
-        echo '</ca>' >> /home/vps/public_html/Client.ovpn
 
 elif test $x -eq 13; then
 	cd /usr/local/bin
