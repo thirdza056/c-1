@@ -120,6 +120,7 @@ END
 	echo -e "Username	: $Login"
 	echo -e "Password	: $Passwd"
 	echo -e "Out of Date	: $exp"
+	echo -e ""
 	echo -e "สามารถใช้ได้ทั้งเครือข่าย Truemove และ Dtac"
 	echo -e "หมายเหตุ : สำหรับ Truemove ใช้ได้เฉพาะซิมแบบเติมเงินเท่านั้น"
 	echo -e "หมายเหตุ : สำหรับ Dtac ต้องสมัครโปรฯ Line ถึงจะสามารถใช้งาน VPN ได้"
