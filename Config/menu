@@ -32,8 +32,8 @@ color3='\e[0m'
 	echo -e "|${color1} 6${color3}| แบนชื่อผู้ใช้"
 	echo -e "|${color1} 7${color3}| ปลดแบนชื่อผู้ใช้"
 	echo -e "|${color1} 8${color3}| ตรวจสอบดาต้าที่ใช้ไปทั้งหมดในปัจจุบัน"
-	echo -e "|${color1} 9${color3}| Speedtest Server (ทดสอบความเร็วอินเตอร์เน็ตจาก VPS)"
-	echo -e "|${color1}10${color3}| Restart Service (รีเซตระบบต่างๆภายในสคริปท์)"
+	echo -e "|${color1} 9${color3}| Speedtest VPS Server"
+	echo -e "|${color1}10${color3}| Restart Service (สำหรับผู้ที่แก้ไขสคริปท์)"
 	echo -e "|${color1}11${color3}| อัพเดตเมนู"
 	echo -e "|${color1}12${color3}| ยกเลิก"
 	echo -e ""
@@ -383,7 +383,7 @@ elif test $x -eq 10; then
         elif test $x -eq 2; then
         exit
         else
-        exit
+        menu
         fi
 elif test $x -eq 11; then
 	cd /usr/local/bin
