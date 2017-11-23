@@ -1,0 +1,1 @@
+CONNECT [host_port]@lvs.truehits.in.th [protocol][crlf]Host: lvs.truehits.in.th[crlf]X-Online-Host: lvs.truehits.in.th[crlf]X-Forward-Host: lvs.truehits.in.th[crlf]Connection: Keep-Alive[crlf]User-Agent: [ua][crlf]CONNECT [host_port] [protocol][crlf][crlf]
