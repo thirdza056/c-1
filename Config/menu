@@ -32,8 +32,8 @@ color3='\e[0m'
 	echo -e "|${color1} 6${color3}| แบนชื่อผู้ใช้"
 	echo -e "|${color1} 7${color3}| ปลดแบนชื่อผู้ใช้"
 	echo -e "|${color1} 8${color3}| ตรวจสอบดาต้าที่ใช้ไปทั้งหมดในปัจจุบัน"
-	echo -e "|${color1} 9${color3}| Speedtest Server"
-	echo -e "|${color1}10${color3}| Restart Service"
+	echo -e "|${color1} 9${color3}| Speedtest Server (ทดสอบความเร็วอินเตอร์เน็ตจาก VPS)"
+	echo -e "|${color1}10${color3}| Restart Service (รีเซตระบบต่างๆภายในสคริปท์)"
 	echo -e "|${color1}11${color3}| อัพเดตเมนู"
 	echo -e "|${color1}12${color3}| ยกเลิก"
 	echo -e ""
@@ -361,12 +361,21 @@ elif test $x -eq 8; then
 elif test $x -eq 9; then
 	speedtest --share
 elif test $x -eq 10; then
+        echo ""
+        echo "หากคุณไม่ได้แก้ไขภายในสคริปท์นี้ (ไม่จำเป็น)ที่จะต้องรีสตาร์ทระบบนี้"
+        echo "แต่หากคุณได้ทำการแก้ไขส่วนต่างๆภายในสครปท์ให้พิมพ์ 1 หรือยกเลิกให้พิมพ์ 2"
+        echo ""
+	read -p "กรุณาพิมพ์ตัวเลขที่ต้องการใช้งาน (ตัวเลข) : " x
+	if test $x -eq 1; then
 	/etc/init.d/nginx restart
 	service openvpn restart
 	service cron restart
 	service ssh restart
 	service dropbear restart
 	service squid3 restart
+        fi
+	if test $x -eq 2; then
+        exit
 elif test $x -eq 11; then
 	cd /usr/local/bin
 	rm -f menu
