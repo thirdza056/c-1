@@ -116,16 +116,27 @@ END
 
 	cp $Login.ovpn /home/vps/public_html/
 	cd
+	clear
 	echo -e ""
 	echo -e "======== Account ============"
-	echo -e "Configname	: http://$IP:85/$Login.ovpn"
+	echo -e "Download Config	: http://$IP:85/$Login.ovpn"
 	echo -e "Username	: $Login"
 	echo -e "Password	: $Passwd"
 	echo -e "Out of Date	: $exp"
 	echo -e ""
-	echo -e "สามารถใช้ได้ทั้งเครือข่าย Truemove และ Dtac"
+	echo -e "ไฟล์เดียวสามารถใช้ได้ทั้งเครือข่าย Truemove และ Dtac"
 	echo -e "หมายเหตุ : สำหรับ Truemove ใช้ได้เฉพาะซิมแบบเติมเงินเท่านั้น"
 	echo -e "หมายเหตุ : สำหรับ Dtac ต้องสมัครโปรฯ Line ถึงจะสามารถใช้งาน VPN ได้"
+        echo -e ""
+        echo -e "นอกจากจะสามารถใช้งานผ่านแอพฯ OpenVPN Connect ได้แล้ว..."
+	echo -e "ยังสามารถใช้งานได้ทั้งแอพฯ HTTP Injector ,Ki4a ,eProxy ,KPN Tunnel"
+	echo -e "และแอพฯจำพวก HTTP อีกมากมาย..."
+	echo -e "IP         : $IP"
+	echo -e "Proxy      : $IP"
+	echo -e "Port Proxy : 8080"
+	echo -e "หากต้องการรูปแบบข้อมูลของแอพฯ HTTP Injector ให้พิมพ์คำสั่ง http"
+	echo -e ""
+	echo -e "หมายเหตุ : ขณะนี้ยังไม่สามารถใช้งานผ่านทางคอมพิวเตอร์ได้ กำลังทำการแก้ไข"
 	echo -e "============================="
 	echo -e ""
 
