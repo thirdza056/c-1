@@ -492,6 +492,7 @@ T0G3VTuVrzgSMZV1unfbCHk6XR4VT3MmmoTl+97cmmMZgWV0
 </ca>
 END
 fi
+IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 echo ""
 echo -e "Download Config	: http://$IP:85/Client.ovpn"
 echo ""
