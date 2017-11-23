@@ -197,7 +197,6 @@ elif test $x -eq 4; then
 	echo ""
 	echo "ตั้งค่ารีบูทอัตโนมัติทุกๆ 1 ชั่วโมงเรียบร้อยแล้ว"
 	echo ""
-
 	elif test $x -eq 2; then
 	echo "10 */6 * * * root /usr/local/bin/reboot_otomatis" > /etc/cron.d/reboot_otomatis
 	echo ""
@@ -363,8 +362,9 @@ elif test $x -eq 9; then
 elif test $x -eq 10; then
         echo ""
         echo "กรุณาเลือกหัวข้อที่คุณต้องการใช้งาน"
-        echo "1. YES หากคุณได้แก้ไขส่วนต่างๆภายในสคริปท์ และต้องการรีสตาร์ทระบบเดี๋ยวนี้"
-        echo "2.  NO หากคุณไม่ได้แก้ไขสคริปท์จึงไม่จำเป็นที่จะต้องต้องรีสตาร์ทระะบบ"
+        echo ""
+        echo "1. หากคุณได้แก้ไขส่วนต่างๆภายในสคริปท์ และต้องการรีสตาร์ทระบบเดี๋ยวนี้"
+        echo "2. หากคุณไม่ได้แก้ไขสคริปท์จึงไม่จำเป็นที่จะต้องต้องรีสตาร์ทระะบบ"
         echo ""
 	read -p "กรุณาพิมพ์ตัวเลขที่ต้องการใช้งาน (ตัวเลข) : " x
 	if test $x -eq 1; then
@@ -374,9 +374,9 @@ elif test $x -eq 10; then
 	service ssh restart
 	service dropbear restart
 	service squid3 restart
-        fi
-	if test $x -eq 2; then
+        elif test $x -eq 2; then
         exit
+        fi
 elif test $x -eq 11; then
 	cd /usr/local/bin
 	rm -f menu
