@@ -184,7 +184,9 @@ elif test $x -eq 4; then
         echo "รหัสผ่านใหม่ของชื่อผู้ใช้ $username คือรหัส $password"
         echo ""
         else
+        echo ""
         echo "ไม่พบชื่อผู้ใช้ $username อยู่ในระบบ"
+        echo ""
         fi
 
 elif test $x -eq 5; then
