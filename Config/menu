@@ -360,14 +360,20 @@ elif test $x -eq 8; then
 elif test $x -eq 9; then
 	speedtest --share
 elif test $x -eq 10; then
+        clear
         echo ""
         echo "กรุณาเลือกหัวข้อที่คุณต้องการใช้งาน"
         echo ""
-        echo "1. หากคุณได้แก้ไขส่วนต่างๆภายในสคริปท์ และต้องการรีสตาร์ทระบบเดี๋ยวนี้"
-        echo "2. หากคุณไม่ได้แก้ไขสคริปท์จึงไม่จำเป็นที่จะต้องต้องรีสตาร์ทระะบบ"
+        echo "1. หากคุณได้ทำการแก้ไขส่วนต่างๆภายในสคริปท์ และต้องการรีสตาร์ทระบบเดี๋ยวนี้"
+        echo "2. หากคุณไม่ได้แก้ไขสคริปท์ คุณไม่จำเป็นที่จะต้องต้องรีสตาร์ทระะบบ"
         echo ""
 	read -p "กรุณาพิมพ์ตัวเลขที่ต้องการใช้งาน (ตัวเลข) : " x
 	if test $x -eq 1; then
+        echo ""
+        echo "เซิฟเวอร๋จะใช้งานไม่ได้ชั่วขณะเมื่อทำการรีสตาร์ทระบบ"
+        echo "และจะกลับมาใช้งานได้อีกครั้งภายใน 30 วินาที"
+        echo "nginx ,openvpn ,cron ,ssh ,dropbear ,squid3 ....Restarting"
+        echo ""
 	/etc/init.d/nginx restart
 	service openvpn restart
 	service cron restart
@@ -375,6 +381,8 @@ elif test $x -eq 10; then
 	service dropbear restart
 	service squid3 restart
         elif test $x -eq 2; then
+        exit
+        else
         exit
         fi
 elif test $x -eq 11; then
