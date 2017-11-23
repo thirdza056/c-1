@@ -132,7 +132,7 @@ END
 	echo -e "ยังสามารถใช้งานได้ทั้งแอพฯ HTTP Injector ,Ki4a ,eProxy ,KPN Tunnel"
 	echo -e "และแอพฯจำพวก HTTP อีกมากมาย..."
 	echo -e ""
-	echo -e "หากต้องการรูปแบบข้อมูลของแอพฯ HTTP Injector ให้พิมพ์คำสั่ง payload"
+	echo -e "หากต้องการรูปแบบข้อมูลหรือเพโหลด... ให้พิมพ์คำสั่ง payload"
 	echo -e "IP         : $IP"
 	echo -e "Proxy      : $IP"
 	echo -e "Port Proxy : 8080"
