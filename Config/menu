@@ -27,15 +27,16 @@ color3='\e[0m'
 	echo -e "|${color1} 1${color3}| เพิ่มชื่อผู้ใช้"
 	echo -e "|${color1} 2${color3}| ลบชื่อผู้ใช้"
 	echo -e "|${color1} 3${color3}| รายชื่อผู้ใช้ทั้งหมด"
-	echo -e "|${color1} 4${color3}| ตั้งค่ารีบูทเซิฟเวอร์อัตโนมัติ"
-	echo -e "|${color1} 5${color3}| รายชื่อผู้ใช้ที่กำลังออนไลน์"
-	echo -e "|${color1} 6${color3}| แบนชื่อผู้ใช้"
-	echo -e "|${color1} 7${color3}| ปลดแบนชื่อผู้ใช้"
-	echo -e "|${color1} 8${color3}| ตรวจสอบดาต้าที่ใช้ไปทั้งหมดในปัจจุบัน"
-	echo -e "|${color1} 9${color3}| Speedtest Server (ทดสอบความเร็วอินเตอร์เน็ตจาก VPS)"
-	echo -e "|${color1}10${color3}| Restart Service (สำหรับผู้ที่แก้ไขสคริปท์)"
-	echo -e "|${color1}11${color3}| อัพเดตเมนู"
-	echo -e "|${color1}12${color3}| ยกเลิก"
+	echo -e "|${color1} 4${color3}| เปลี่ยนรหัสผ่านผู้ใช้ใหม่"
+	echo -e "|${color1} 5${color3}| ตั้งค่ารีบูทเซิฟเวอร์อัตโนมัติ"
+	echo -e "|${color1} 6${color3}| รายชื่อผู้ใช้ที่กำลังออนไลน์"
+	echo -e "|${color1} 7${color3}| แบนชื่อผู้ใช้"
+	echo -e "|${color1} 8${color3}| ปลดแบนชื่อผู้ใช้"
+	echo -e "|${color1} 9${color3}| ตรวจสอบดาต้าที่ใช้ไปทั้งหมดในปัจจุบัน"
+	echo -e "|${color1} 10${color3}| Speedtest Server (ทดสอบความเร็วอินเตอร์เน็ตจาก VPS)"
+	echo -e "|${color1}11${color3}| Restart Service (สำหรับผู้ที่แก้ไขสคริปท์)"
+	echo -e "|${color1}12${color3}| อัพเดตเมนู"
+	echo -e "|${color1}13${color3}| ยกเลิก"
 	echo -e ""
 	read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " x
 	
@@ -168,8 +169,25 @@ elif test $x -eq 3; then
 	echo "รวมทั้งหมด : $total USER"
 	echo "-------------------------------------"
 	echo ""
-	
+
 elif test $x -eq 4; then
+        echo ""
+        read "ชื่อผู้ใช้ที่ต้องการเปลี่ยนรหัสผ่าน : " username
+        egrep "^$username" /etc/passwd >/dev/null
+        if [ $? -eq 0 ]; then
+        echo ""
+        read "กำหนดรหัสผ่านใหม่ของผู้ใช้ $username : " password
+	
+        egrep "^$username" /etc/passwd >/dev/null
+        echo -e "$password\n$password" | passwd $username
+        echo ""
+        echo "รหัสผ่านใหม่ของชื่อผู้ใช้ $username คือรหัส $password"
+        echo ""
+        else
+        echo "ไม่พบชื่อผู้ใช้ $username อยู่ในระบบ"
+        fi
+
+elif test $x -eq 5; then
 	if [ ! -e /usr/local/bin/reboot_otomatis ]; then
 	echo '#!/bin/bash' > /usr/local/bin/reboot_otomatis 
 	echo 'tanggal=$(date +"%m-%d-%Y")' >> /usr/local/bin/reboot_otomatis 
@@ -251,7 +269,7 @@ elif test $x -eq 4; then
 	exit
 	fi
 	
-elif test $x -eq 5; then
+elif test $x -eq 6; then
         clear
         echo ""
         echo "รายชื่อผู้ใช้ที่กำลังใช้งานอยู่ในขณะนี้"
@@ -313,7 +331,7 @@ elif test $x -eq 5; then
         echo "==========================================";
         echo " "
 	
-elif test $x -eq 6; then
+elif test $x -eq 7; then
         echo ""
         read -p "Username Ban : " username
         egrep "^$username" /etc/passwd >/dev/null
@@ -329,7 +347,7 @@ elif test $x -eq 6; then
         exit 1
         fi
 	
-elif test $x -eq 7; then
+elif test $x -eq 8; then
         echo ""
 	read -p "Username Unban : " username
         egrep "^$username" /etc/passwd >/dev/null
@@ -345,7 +363,7 @@ elif test $x -eq 7; then
         exit 1
         fi
 	
-elif test $x -eq 8; then
+elif test $x -eq 9; then
         clear
         echo ""
         echo ""
@@ -364,10 +382,10 @@ elif test $x -eq 8; then
         echo ""
 	vnstat -m
 	
-elif test $x -eq 9; then
+elif test $x -eq 10; then
 	speedtest --share
 	
-elif test $x -eq 10; then
+elif test $x -eq 11; then
         clear
         echo ""
         echo ""
@@ -395,14 +413,14 @@ elif test $x -eq 10; then
         menu
         fi
 	
-elif test $x -eq 11; then
+elif test $x -eq 12; then
 	cd /usr/local/bin
 	rm -f menu
 	wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
 	chmod +x menu
 	cd
 	
-elif test $x -eq 12; then
+elif test $x -eq 13; then
 	exit
 	
 else
