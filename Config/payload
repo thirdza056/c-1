@@ -1,6 +1,12 @@
 #!/bin/bash
 
+clear
+echo ""
 echo "คัดลอกรูปแบบข้อมูลหรือเพโหลดด้านล่างนี้ไปวางไว้ในแอพฯ"
 echo ""
+echo " ---------------------------------"
+echo ""
 echo "CONNECT [host_port]@lvs.truehits.in.th.static.tlcdn4.com.naver.jp [protocol][crlf]Host: lvs.truehits.in.th.static.tlcdn4.com.naver.jp[crlf]X-Online-Host: lvs.truehits.in.th.static.tlcdn4.com.naver.jp[crlf]X-Forward-Host: lvs.truehits.in.th.static.tlcdn4.com.naver.jp[crlf]Connection: Keep-Alive[crlf]User-Agent: [ua][crlf]CONNECT [host_port] [protocol][crlf][crlf]"
+echo ""
+echo " ---------------------------------"
 echo ""
