@@ -357,7 +357,6 @@ elif test $x -eq 8; then
         echo "หน่วยวัด tx (Transmit) คือขนาดการส่งข้อมูลออกจากเซิฟเวอร์ให้กับผู้ใช้งานอินเตอร์เน็ต"
         echo "หน่วยวัด avg. rate (Average Rate) คืออัตราการใช้งานดาต้าต่อวินาที"
         echo ""
-	sleep 3
 	vnstat -m
 elif test $x -eq 9; then
 	speedtest --share
