@@ -117,8 +117,8 @@ END
 	cp $Login.ovpn /home/vps/public_html/
 	cd
 	clear
-	if [ ! -d /usr/local/bin/payload ]; then
-        wget -O /usr/local/bin "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/payload"
+	if [ ! -e /usr/local/bin/payload ]; then
+        wget -O /usr/local/bin/payload "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/payload"
 	chmod +x /usr/local/bin/payload
         fi
 	echo -e ""
