@@ -116,11 +116,11 @@ END
 
 	cp $Login.ovpn /home/vps/public_html/
 	cd
-	clear
 	if [ ! -e /usr/local/bin/payload ]; then
         wget -O /usr/local/bin/payload "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/payload"
 	chmod +x /usr/local/bin/payload
         fi
+	clear
 	echo -e ""
 	echo -e "======== Account ============"
 	echo -e "Download Config	: http://$IP:85/$Login.ovpn"
