@@ -343,6 +343,7 @@ elif test $x -eq 7; then
 elif test $x -eq 8; then
         clear
         echo ""
+        echo ""
         echo "ตรวจสอบดูตรงคำว่า Total ว่าได้ใช้ดาต้าไปทั้งหมดเท่าไหร่"
         echo "ในส่วนของแถว estimated คือการประมาณดาต้าที่ใช้ (ส่วนนี้ไม่ต้องสนใจ)"
         echo ""
