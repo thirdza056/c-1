@@ -223,10 +223,8 @@ sed -i $MYIP2 /etc/squid3/squid.conf;
 cd /usr/local/bin
 wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
 wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/speedtest
-wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/payload
 chmod +x menu
 chmod +x speedtest
-chmod +x payload
 echo ""
 echo "..... Installing 98% ...restarting service."
 
