@@ -435,9 +435,6 @@ elif test $x -eq 11; then
 elif test $x -eq 12; then
 if [ ! -e /home/vps/public_html/Client.ovpn ]; then
 	IP=`dig +short myip.opendns.com @resolver1.opendns.com`
-	useradd -e `date -d "$TimeActive days" +"%Y-%m-%d"` -s /bin/false -M Client
-	exp="$(chage -l Client | grep "Account expires" | awk -F": " '{print $2}')"
-	echo -e "$Passwd\n$Passwd\n"|passwd Client &> /dev/null
 
 cat > /home/vps/public_html/Client.ovpn <<-END
 client
@@ -494,14 +491,17 @@ T0G3VTuVrzgSMZV1unfbCHk6XR4VT3MmmoTl+97cmmMZgWV0
 -----END CERTIFICATE-----
 </ca>
 END
+echo '<ca>' >> /home/vps/public_html/Client.ovpn
+cat /etc/openvpn/ca.crt >> /home/vps/public_html/Client.ovpn
+echo '</ca>' >> /home/vps/public_html/Client.ovpn
 fi
         IP=`dig +short myip.opendns.com @resolver1.opendns.com`
-	useradd -e `date -d "$TimeActive days" +"%Y-%m-%d"` -s /bin/false -M Client
-	exp="$(chage -l Client | grep "Account expires" | awk -F": " '{print $2}')"
-	echo -e "$Passwd\n$Passwd\n"|passwd Client &> /dev/null
         echo ""
         echo -e "Download Config	: http://$IP:85/Client.ovpn"
         echo ""
+        echo '<ca>' >> /home/vps/public_html/Client.ovpn
+        cat /etc/openvpn/ca.crt >> /home/vps/public_html/Client.ovpn
+        echo '</ca>' >> /home/vps/public_html/Client.ovpn
 
 elif test $x -eq 13; then
 	cd /usr/local/bin
