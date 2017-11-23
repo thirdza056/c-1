@@ -310,10 +310,10 @@ elif test $x -eq 6; then
         if [ $? -eq 0 ]; then
         passwd -l $username
         echo ""
-        echo "ชื่อผู้ใช้ $username$ ได้ถูกแบนเรียบร้อยแล้ว"
+        echo "ชื่อผู้ใช้ $username ได้ถูกแบนเรียบร้อยแล้ว"
 	echo ""
         else
-        echo "ไม่พบชื่อผู้ใช้ $username$ อยู่ในระบบ"
+        echo "ไม่พบชื่อผู้ใช้ $username อยู่ในระบบ"
 	echo ""
         exit 1
         fi
@@ -323,10 +323,10 @@ elif test $x -eq 7; then
         if [ $? -eq 0 ]; then
         passwd -u $username
         echo ""
-        echo "ชื่อผู้ใช้ $username$ ได้ถูกปลดแบนเรียบร้อยแล้ว"
+        echo "ชื่อผู้ใช้ $username ได้ถูกปลดแบนเรียบร้อยแล้ว"
 	echo ""
         else
-        echo "ไม่พบชื่อผู้ใช้ $username$ อยู่ในระบบ"
+        echo "ไม่พบชื่อผู้ใช้ $username อยู่ในระบบ"
 	echo ""
         exit 1
         fi
