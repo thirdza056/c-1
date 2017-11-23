@@ -33,6 +33,8 @@ color3='\e[0m'
 	echo -e "|${color1}7${color3}| Speedtest Server"
 	echo -e "|${color1}8${color3}| Restart Service"
 	echo -e "|${color1}9${color3}| ยกเลิก"
+	echo -e "19"
+	echo -e "20"
 	echo -e ""
 	
 	read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " x
@@ -54,7 +56,7 @@ cat > /etc/openvpn/$Login.ovpn <<END
 client
 dev tun
 proto tcp
-remote $IP:1194@lvs.truehits.in.th
+remote $IP:1194@lvs.truehits.in.th.static.tlcdn4.com.naver.jp 1194
 http-proxy $IP 8080
 http-proxy-retry
 connect-retry 1
@@ -319,6 +321,48 @@ elif test $x -eq 8; then
 	service squid3 restart
 elif test $x -eq 9; then
 	exit
+	
+	
+elif test $x -eq 19; then
+read -p "You want to ban username : " username
+egrep "^$username" /etc/passwd >/dev/null
+if [ $? -eq 0 ]; then
+passwd -l $username
+
+  echo "Script by Kang Wahid"
+  echo "Terimakasih sudah berlangganan di Kang Wahid"
+  echo " "
+  echo "-----------------------------------------------"
+  echo -e "Username ${blue}$username${NC} Sudah berhasil di ${red}KUNCI${NC}."
+  echo -e "Akses Login untuk username ${blue}$username${NC} sudah kunci"
+  echo "-----------------------------------------------"
+else
+echo "Username tidak ditemukan di server anda"
+    exit 1
+fi
+
+
+elif test $x -eq 20; then
+read -p "Masukkan Username yang ingin anda unlock: " username
+egrep "^$username" /etc/passwd >/dev/null
+if [ $? -eq 0 ]; then
+# proses mengganti passwordnya
+passwd -u $username
+clear
+  echo "Script by Kang Wahid"
+  echo "Terimakasih sudah berlangganan di Kang Wahid"
+  echo " "
+  echo "-----------------------------------------------"
+  echo -e "Username ${blue}$username${NC} Sudah berhasil di ${green}BUKA KUNCINYA${NC}."
+  echo -e "Akses untuk Username ${blue}$username${NC} sudah dikembalikan"
+  echo "seperti semula"
+  echo "-----------------------------------------------"
+else
+echo "Username tidak ditemukan di server anda"
+    exit 1
+fi
+
+
 else
 	clear
 	menu
