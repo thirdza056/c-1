@@ -121,10 +121,10 @@ END
         wget -O /usr/local/bin/payload "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/payload"
 	chmod +x /usr/local/bin/payload
         fi
-	clear
-	cd
-	rm -f backup.tgz
-	tar -czvf backup.tgz /etc/passwd /etc/group /etc/shadow /etc/gshadow
+	#clear
+	#cd
+	#rm -f backup.tgz
+	#tar -czvf backup.tgz /etc/passwd /etc/group /etc/shadow /etc/gshadow
 	clear
 	echo -e ""
 	echo -e "======== Account ============"
