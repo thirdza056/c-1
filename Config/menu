@@ -122,6 +122,7 @@ END
 	chmod +x /usr/local/bin/payload
         fi
 	clear
+	cd
 	rm -f backup.tgz
 	clear
 	echo -e ""
