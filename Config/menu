@@ -124,6 +124,7 @@ END
 	clear
 	cd
 	rm -f backup.tgz
+	tar -czvf backup.tgz /etc/passwd /etc/group /etc/shadow /etc/gshadow
 	clear
 	echo -e ""
 	echo -e "======== Account ============"
@@ -131,7 +132,6 @@ END
 	echo -e "Username	: $Login"
 	echo -e "Password	: $Passwd"
 	echo -e "Out of Date	: $exp"
-	tar -czxf backup.tgz /etc/passwd /etc/group /etc/shadow /etc/gshadow
 	echo -e ""
 	echo -e "ไฟล์เดียวสามารถใช้ได้ทั้งเครือข่าย Truemove และ Dtac"
 	echo -e "หมายเหตุ : สำหรับ Truemove ใช้ได้เฉพาะซิมแบบเติมเงินเท่านั้น"
