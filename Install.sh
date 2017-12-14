@@ -181,8 +181,8 @@ sed -i 's/DROPBEAR_PORT=22/DROPBEAR_PORT=443/g' /etc/default/dropbear
 sed -i 's/DROPBEAR_EXTRA_ARGS=/DROPBEAR_EXTRA_ARGS="-p 443 -p 80"/g' /etc/default/dropbear
 echo "/bin/false" >> /etc/shells
 echo "/usr/sbin/nologin" >> /etc/shells
-service ssh restart
-service dropbear restart
+/etc/init.d/ssh restart
+/etc/init.d/dropbear restart
 
 # Install Squid3
 cd
@@ -234,8 +234,8 @@ chown -R www-data:www-data /home/vps/public_html
 /etc/init.d/nginx restart
 service openvpn restart
 service cron restart
-service ssh restart
-service dropbear restart
+/etc/init.d/ssh restart
+/etc/init.d/dropbear restart
 service vnstat restart
 service squid3 restart
 rm -rf ~/.bash_history && history -c
