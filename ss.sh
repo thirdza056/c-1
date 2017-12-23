@@ -13,12 +13,6 @@ cd
 #echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
 #sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 
-# Install Essential Package
-apt-get -y install nginx php5-fpm php5-cli iptables openvpn wget curl
-
-# Update
-apt-get update
-
 # Set Timezone Thailand GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 
@@ -48,6 +42,9 @@ cat jcameron-key.asc | apt-key add -;rm jcameron-key.asc
 
 # Update
 apt-get update
+
+# Install Essential Package
+apt-get -y install nginx php5-fpm php5-cli iptables openvpn wget curl
 
 # Install Screenfetch
 cd
