@@ -34,6 +34,8 @@ deb-src http://mirrors.digitalocean.com/debian jessie-updates main
 deb http://cdn.debian.net/debian wheezy main contrib non-free
 deb http://security.debian.org/ wheezy/updates main contrib non-free
 deb http://packages.dotdeb.org wheezy all
+deb http://download.webmin.com/download/repository sarge contrib
+deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib
 END
 wget "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/dotdeb.gpg"
 wget "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/jcameron-key.asc"
@@ -129,15 +131,15 @@ chown -R vnstat:vnstat /var/lib/vnstat
 
 # Install Vnstat GUI
 cd /home/vps/public_html/
-wget https://github.com/nwqionnwkn/OPENEXTRA/raw/master/Config/vnstat_php_frontend-1.5.1.tar.gz
+wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
 tar xf vnstat_php_frontend-1.5.1.tar.gz
 rm vnstat_php_frontend-1.5.1.tar.gz
 mv vnstat_php_frontend-1.5.1 vnstat
 cd vnstat
 sed -i "s/\$iface_list = array('eth0', 'sixxs');/\$iface_list = array('eth0');/g" config.php
-sed -i "s/\$language = 'th';/\$language = 'en';/g" config.php
+sed -i "s/\$language = 'nl';/\$language = 'en';/g" config.php
 sed -i 's/Internal/Internet/g' config.php
-sed -i '/IPv6/d' config.php
+sed -i '/SixXS IPv6/d' config.php
 
 # Install OpenVPN
 wget -O /etc/openvpn/openvpn.tar "https://github.com/nwqionnwkn/OPENEXTRA/raw/master/Config/openvpn.tar"
