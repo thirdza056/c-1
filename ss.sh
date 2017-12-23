@@ -22,15 +22,6 @@ sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 
 # Set repo
 cat > /etc/apt/sources.list <<END
-deb http://mirrors.digitalocean.com/debian jessie main
-deb-src http://mirrors.digitalocean.com/debian jessie main
-
-deb http://security.debian.org/ jessie/updates main
-deb-src http://security.debian.org/ jessie/updates main
-
-deb http://mirrors.digitalocean.com/debian jessie-updates main
-deb-src http://mirrors.digitalocean.com/debian jessie-updates main
-
 deb http://cdn.debian.net/debian wheezy main contrib non-free
 deb http://security.debian.org/ wheezy/updates main contrib non-free
 deb http://packages.dotdeb.org wheezy all
@@ -46,7 +37,7 @@ cat jcameron-key.asc | apt-key add -;rm jcameron-key.asc
 apt-get update
 
 # Install Essential Package
-apt-get -y install nginx php5-fpm php5-cli iptables openvpn wget curl nano dnsutils screen whois ngrep unzip unrar
+apt-get -y install nginx iptables openvpn wget curl nano dnsutils screen whois ngrep unzip unrar apache2 mysql-server php5 php5-mysql php5-cli php5-imagick php5-gd php5-mcrypt php5-intl php5-curl phpmyadmin
 
 # Install Screenfetch
 cd
