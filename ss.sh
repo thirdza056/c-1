@@ -253,8 +253,8 @@ cd
 /etc/init.d/openvpn restart
 /etc/init.d/cron restart
 /etc/init.d/ssh restart
-/etc/init.d/dropbear restart
 /etc/init.d/vnstat restart
+/etc/init.d/dropbear restart
 /etc/init.d/squid3 restart
 
 # info
