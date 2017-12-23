@@ -10,8 +10,8 @@ MYIP2="s/xxxxxxxxx/$MYIP/g";
 cd
 
 # Disable ipv6
-#echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
-#sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
+echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6
+sed -i '$ i\echo 1 > /proc/sys/net/ipv6/conf/all/disable_ipv6' /etc/rc.local
 
 # Set Timezone Thailand GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
@@ -46,7 +46,7 @@ cat jcameron-key.asc | apt-key add -;rm jcameron-key.asc
 apt-get update
 
 # Install Essential Package
-apt-get -y install nginx php5-fpm php5-cli iptables openvpn wget curl
+apt-get -y install nginx php5-fpm php5-cli iptables openvpn wget curl nano dnsutils screen whois ngrep unzip unrar
 
 # Install Screenfetch
 cd
@@ -126,7 +126,6 @@ sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php
 cd
 apt-get -y install vnstat
 vnstat -u -i eth0
-chown -R vnstat:vnstat /var/lib/vnstat
 /etc/init.d/vnstat restart
 
 # Install Vnstat GUI
@@ -252,6 +251,7 @@ echo "..... Installing 98% ...restarting service."
 cd
 /etc/init.d/nginx restart
 /etc/init.d/php5-fpm restart
+/etc/init.d/php5-cli restart
 /etc/init.d/openvpn restart
 /etc/init.d/cron restart
 /etc/init.d/ssh restart
