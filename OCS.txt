@@ -94,7 +94,7 @@ service php5-fpm restart && service nginx restart
 
 # สร้างฐานข้อมูลที่ไม่เคยมีอยู่
 mysql -u root -p
-# เมื่อพิมคำสั่งด้านบนแล้วจะถามหารหัส Mysql ที่เราตั้งไว้
+# เมื่อพิมคำสั่งด้านบนแล้วจะถามหารหัส Mysql ที่เราตั้งไว้แล้วเอนเตอร์
 # จากนั้นให้ใส่คำสั่งด้านล่างนี้
 CREATE DATABASE IF NOT EXISTS OCSREBORN;EXIT;
 
@@ -112,12 +112,14 @@ nano /home/vps/public_html/application/config/database.php
 $db['default']['username'] = "root";
 $db['default']['password'] = "รหัสผ่าน VPS ของเรา";
 $db['default']['database'] = "OCSREBORN";
+# เมื่อเปลี่ยนแปลงเสร็จแล้วให้ทำการบันทึกโดยกด CTRL+X ตามด้วย Y และ Enter
 
 # แก้ไขไฟล์
 nano /home/vps/public_html/application/config/config.php
 # เมื่อพิมคำสั่งด้านบนแล้วให้เลื่อนบรรทัดที่มีคำว่า config[‘base_url’] = $root;
 # แล้วทำการแก้ไขตามด้านล่างนี้ เช่น $config[‘base_url’] = “http://192.168.33.29:81”;
 $config[‘base_url’] = “http://ip:81”;
+# เมื่อเปลี่ยนแปลงเสร็จแล้วให้ทำการบันทึกโดยกด CTRL+X ตามด้วย Y และ Enter
 
 # เปิดเบราเซอร์และคัดลอกลิ้งค์ด้านล่างนี้ไปวางไว้ จากนั้นจะปรากฏหน้าต่างสร้างผู้ใช้ที่เป็นเจ้าของ OCS นี้
 # ตรงคำว่า ip ให้เปลี่ยนเป็น IP ของเซิฟเวอร์เรา
