@@ -1,11 +1,25 @@
+
+# อัพเดตและติดตั้ง Mysql
 apt-get update && apt-get -y install mysql-server
 
+# ติดตั้งความปลอดภัยของ Mysql
 mysql_secure_installation
+# เมื่อใส่คำสั่งติดตั้งความปลอดภัยมันจะถามหารหัส Mysql ที่เราตั้งไว้
+# และจะถามคำถามตาม 5 บรรทัดด้านล่างนี้ก็ให้ตอบตามนี้
+Change the root password? [Y/n] n
+Remove anonymous users? [Y/n] y
+Disallow root login remotely? [Y/n] y
+Remove test database and access to it? [Y/n] y
+Reload privilege tables now? [Y/n] y
 
+# เปลี่ยนเจ้าของไฟล์และเปลี่ยนสิทธิ์ในการเข้าถึง
 chown -R mysql:mysql /var/lib/mysql/ && chmod -R 755 /var/lib/mysql/
 
+# อัพเดตและติดตั้งสิ่งที่สำคัญ
 apt-get -y install nginx php5 php5-fpm php5-cli php5-mysql php5-mcrypt
 
+# ลบไฟล์, ย้ายไฟล์, ติดตั้ง Repo, เปลี่ยนเจ้าของไฟล์, เพิ่มผู้ใช้, สร้างโฟลเดอร์, รีเซตระบบเว็บไซต์
+# คัดลอกบรรทัดที่ 23 ถึง 93 ทั้งหมดไปวางในเทอมินอลทีเดียว
 rm /etc/nginx/sites-enabled/default && rm /etc/nginx/sites-available/default
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.backup
 mv /etc/nginx/conf.d/vps.conf /etc/nginx/conf.d/vps.conf.backup
@@ -78,9 +92,13 @@ echo "<?php phpinfo() ?>" > /home/vps/public_html/info.php
 chown -R www-data:www-data /home/vps/public_html && chmod -R g+rw /home/vps/public_html
 service php5-fpm restart && service nginx restart
 
+# สร้างฐานข้อมูลที่ไม่เคยมีอยู่
 mysql -u root -p
+# เมื่อพิมคำสั่งด้านบนแล้วจะถามหารหัส Mysql ที่เราตั้งไว้
+# จากนั้นให้ใส่คำสั่งด้านล่างนี้
 CREATE DATABASE IF NOT EXISTS OCSREBORN;EXIT;
 
+# ติดตั้ง OCS จาก Github ของใครก็ไม่รู้
 apt-get -y install git
 cd /home/vps/public_html
 git init
@@ -88,15 +106,27 @@ git remote add origin https://github.com/rzengineer/Ocs-Panel-Reborns.git
 git pull origin master
 chmod 777 /home/vps/public_html/application/config/database.php
 
+# แก้ไขไฟล์
 nano /home/vps/public_html/application/config/database.php
-$db['default']['username'] = "k6162467_db1";
-$db['default']['password'] = "ok123!";
-$db['default']['database'] = "k6162467_demo";
+# เมื่อพิมคำสั่งด้านบนแล้วให้เลื่อนหา 3 บรรทัดล่างนี้เพื่อทำการแก้ไขตามนี้
+$db['default']['username'] = "root";
+$db['default']['password'] = "รหัสผ่าน VPS ของเรา";
+$db['default']['database'] = "OCSREBORN";
 
+# แก้ไขไฟล์
 nano /home/vps/public_html/application/config/config.php
+# เมื่อพิมคำสั่งด้านบนแล้วให้เลื่อนบรรทัดที่มีคำว่า config[‘base_url’] = $root;
+# แล้วทำการแก้ไขตามด้านล่างนี้ เช่น $config[‘base_url’] = “http://192.168.33.29:81”;
 $config[‘base_url’] = “http://ip:81”;
 
-
+# เปิดเบราเซอร์และคัดลอกลิ้งค์ด้านล่างนี้ไปวางไว้ จากนั้นจะปรากฏหน้าต่างสร้างผู้ใช้ที่เป็นเจ้าของ OCS นี้
+# ตรงคำว่า ip ให้เปลี่ยนเป็น IP ของเซิฟเวอร์เรา
 http://ip:81/install
 
+# เมื่อสร้างผู้ใช้สำเร็จก็ให้พิมคำสั่งนี้เพื่อลบไฟล์ติดตั้งออก
 rm -rf /home/vps/public_html/install
+
+# เข้า OCS โดยเปิดเบราเซอร์แล้วใส่ตามด้านล่างนี้
+http://ip:81
+
+# จบ
