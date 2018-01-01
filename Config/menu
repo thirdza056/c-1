@@ -87,6 +87,7 @@ comp-lzo
 script-security 3
 key-proxy-DNS 8.8.8.8
 key-proxy-DNS 8.8.4.4
+management 127.0.0.1 5555
 
 <ca>
 -----BEGIN CERTIFICATE-----
