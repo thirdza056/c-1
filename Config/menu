@@ -510,15 +510,16 @@ elif test $x -eq 13; then
 	cd
 
 elif test $x -eq 14; then
-
+clear
 color1='\e[031;1m'
 color2='\e[34;1m'
 color3='\e[0m'
+	echo ""
 	echo "กรุณาเลือกหัวข้อที่ต้องการในหมวดของ"
 	echo "     เก็บไฟล์สำรองข้อมูลผู้ใช้ หรือนำเข้าไฟล์สำรองข้อมูลผู้ใช้"
 	echo ""
 	echo -e "|${color1} 1${color3}| เก็บไฟล์สำรองข้อมูลผู้ใช้ (Export Backup File)"
-	echo -e "|${color1} 1${color3}| นำเข้าไฟล์สำรองข้อมูลผู้ใช้ (Import Backup File)"
+	echo -e "|${color1} 2${color3}| นำเข้าไฟล์สำรองข้อมูลผู้ใช้ (Import Backup File)"
 	echo ""
 	read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข) : " x
 	
