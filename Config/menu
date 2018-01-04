@@ -37,7 +37,8 @@ color3='\e[0m'
 	echo -e "|${color1}11${color3}| รีสตาร์ทระบบ (สำหรับผู้ที่แก้ไขสคริปท์)"
 	echo -e "|${color1}12${color3}| ลิ้งค์ดาวน์โหลดคอนฟิกแบบใส่ชื่อผู้ใช้และรหัสผ่าน"
 	echo -e "|${color1}13${color3}| อัพเดตเมนู"
-	echo -e "|${color1}14${color3}| ยกเลิก"
+	echo -e "|${color1}14${color3}| เก็บไฟล์สำรองข้อมูลผู้ใช้ หรือนำเข้าไฟล์สำรองข้อมูลผู้ใช้"
+	echo -e "|${color1}15${color3}| ยกเลิก"
 	echo -e ""
 	read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " x
 	
@@ -507,8 +508,85 @@ elif test $x -eq 13; then
 	wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/menu
 	chmod +x menu
 	cd
-	
+
 elif test $x -eq 14; then
+
+color1='\e[031;1m'
+color2='\e[34;1m'
+color3='\e[0m'
+	echo "กรุณาเลือกหัวข้อที่ต้องการในหมวดของ"
+	echo "     เก็บไฟล์สำรองข้อมูลผู้ใช้ หรือนำเข้าไฟล์สำรองข้อมูลผู้ใช้"
+	echo ""
+	echo -e "|${color1} 1${color3}| เก็บไฟล์สำรองข้อมูลผู้ใช้ (Export Backup File)"
+	echo -e "|${color1} 1${color3}| นำเข้าไฟล์สำรองข้อมูลผู้ใช้ (Import Backup File)"
+	echo ""
+	read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข) : " x
+	
+	
+	if test $x -eq 1; then
+	IP=`dig +short myip.opendns.com @resolver1.opendns.com`
+	rm -r /home/vps/public_html/backup.tgz
+	rm -r /home/vps/public_html/etc
+	tar -czvf /home/vps/public_html/backup.tgz /etc/passwd /etc/group /etc/shadow /etc/gshadow
+	clear
+	echo ""
+	echo "ทำการเก็บไฟล์สำรองข้อมูลผู้ใช้เสร็จสิ้น..."
+	echo "ไฟล์สำรองข้อมูลผู้ใช้ถูกเก็บไว้ที่ /home/vps/public_html/"
+	echo ""
+	echo "ลิ้งค์ดาวน์โหลดไฟล์สำรองข้อมูล"
+	echo "$IP:85/backup.tgz"
+	echo ""
+	echo "หมายเหตุ : การนำเข้าไฟล์สำรองข้อมูลผู้ใช้ ไม่ควรลบ IP ปัจจุบันนี้ก่อนทำการนำเข้าไฟล์สำรองข้อมูลผู้ใช้ไปยัง IP ใหม่"
+	echo ""
+	
+	elif test $x -eq 2; then
+	rm -r /home/vps/public_html/backup.tgz
+	rm -r /home/vps/public_html/etc
+	clear
+	echo ""
+	read -p "กรุณาใส่ลิ้งค์ดาวน์โหลดไฟล์สำรองข้อมูลจาก IP เก่า : " Download
+	wget -O /home/vps/public_html/backup.tgz "$Download"
+	cd /home/vps/public_html
+	tar -xzvf backup.tgz
+	cp -r etc/* /etc/
+	echo ""
+	echo "ทำการนำเข้าไฟล์สำรองข้อมูลผู้ใช้เสร็จสิ้น..."
+	echo ""
+		sleep 3
+		clear
+		echo "1) เก็บไว้ (แนะนำ)"
+		echo "2) ลบทิ้ง"
+		read -p "ต้องการเก็บไฟล์สำรองข้อมูลผู้ใช้ที่นำเข้ามาจาก IP อื่นหรือไม่ : " x
+		
+		if test $x -eq 1; then
+		echo ""
+		echo "ไฟล์สำรองข้อมูลผู้ใช้ของคุณยังคงถูกเก็บไว้ที่ /home/vps/public_html/ เช่นเดิม"
+		echo ""
+		elif test $x -eq 2; then
+		0 0 * * * rm -r /home/vps/public_html/backup.tgz
+		echo ""
+		echo "ไฟล์สำรองข้อมูลผู้ใช้ที่คุณที่นำมากจาก IP อื่น"
+		echo "จะถูกลบเมื่อถึงเวลา 00:00 น. ของคืนนี้โดยอัตโนมัติ"
+		echo ""
+		else
+		echo ""
+		echo "คุณไม่ได้เลือกหัวข้อที่ให้มีให้เลือกไว้"
+		echo "ดังนั้นเราจึงไม่ลบไฟล์สำรองข้อมูลผู้ใช้ของคุณ"
+		echo "และยังคงเก็บไว้ที่ /home/vps/public_html/"
+		echo ""
+		exit
+		fi
+
+	else
+	echo ""
+	echo "ไม่มีตัวเลือกในเมนู กรุณาลองใหม่อีกครั้ง"
+	echo ""
+	exit
+	fi
+	
+	
+	
+elif test $x -eq 15; then
 	exit
 	
 else
