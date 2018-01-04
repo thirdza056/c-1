@@ -534,10 +534,11 @@ color3='\e[0m'
 	echo "ทำการเก็บไฟล์สำรองข้อมูลผู้ใช้เสร็จสิ้น..."
 	echo "ไฟล์สำรองข้อมูลผู้ใช้ถูกเก็บไว้ที่ /home/vps/public_html/"
 	echo ""
-	echo "ลิ้งค์ดาวน์โหลดไฟล์สำรองข้อมูล"
-	echo "$IP:85/backup.tgz"
+	echo "ลิ้งค์ดาวน์โหลดไฟล์สำรองข้อมูลผู้ใช้"
+	echo "Your File : $IP:85/backup.tgz"
 	echo ""
-	echo "หมายเหตุ : การนำเข้าไฟล์สำรองข้อมูลผู้ใช้ ไม่ควรลบ IP ปัจจุบันนี้ก่อนทำการนำเข้าไฟล์สำรองข้อมูลผู้ใช้ไปยัง IP ใหม่"
+	echo "หมายเหตุ"
+	echo "การนำเข้าไฟล์สำรองข้อมูลผู้ใช้ไม่ควรปิดหรือลบ IP ปัจจุบันนี้ก่อนทำการนำเข้าไฟล์สำรองข้อมูลผู้ใช้ไปยัง IP ใหม่"
 	echo ""
 	
 	elif test $x -eq 2; then
@@ -545,29 +546,33 @@ color3='\e[0m'
 	rm -r /home/vps/public_html/etc
 	clear
 	echo ""
-	read -p "กรุณาใส่ลิ้งค์ดาวน์โหลดไฟล์สำรองข้อมูลจาก IP เก่า : " Download
+	echo ""
+	read -p "กรุณากรอกลิ้งค์ดาวน์โหลดไฟล์สำรองข้อมูลผู้ใช้ของคุณ : " Download
 	wget -O /home/vps/public_html/backup.tgz "$Download"
 	cd /home/vps/public_html
 	tar -xzvf backup.tgz
+	rm -r /etc/passwd /etc/group /etc/shadow /etc/gshadow
 	cp -r etc/* /etc/
 	echo ""
 	echo "ทำการนำเข้าไฟล์สำรองข้อมูลผู้ใช้เสร็จสิ้น..."
-	echo ""
-		sleep 3
+		sleep 5
 		clear
-		echo "1) เก็บไว้ (แนะนำ)"
-		echo "2) ลบทิ้ง"
-		read -p "ต้องการเก็บไฟล์สำรองข้อมูลผู้ใช้ที่นำเข้ามาจาก IP อื่นหรือไม่ : " x
+		echo ""
+		echo -e "|${color1} 1${color3}| เก็บไว้ (แนะนำ)"
+		echo -e "|${color1} 2${color3}| ลบทิ้ง"
+		echo ""
+		read -p "ต้องการเก็บไฟล์สำรองข้อมูลผู้ใช้ที่นำเข้าไว้หรือไม่ (ตัวเลข) : " x
 		
 		if test $x -eq 1; then
 		echo ""
 		echo "ไฟล์สำรองข้อมูลผู้ใช้ของคุณยังคงถูกเก็บไว้ที่ /home/vps/public_html/ เช่นเดิม"
 		echo ""
 		elif test $x -eq 2; then
-		0 0 * * * rm -r /home/vps/public_html/backup.tgz
+		rm -r /home/vps/public_html/backup.tgz
+		rm -r /home/vps/public_html/etc
 		echo ""
-		echo "ไฟล์สำรองข้อมูลผู้ใช้ที่คุณที่นำมากจาก IP อื่น"
-		echo "จะถูกลบเมื่อถึงเวลา 00:00 น. ของคืนนี้โดยอัตโนมัติ"
+		echo "ไฟล์สำรองข้อมูลผู้ใช้ที่คุณนำมากจาก IP อื่น"
+		echo "ถูกลบออกจากระบบแล้ว..."
 		echo ""
 		else
 		echo ""
