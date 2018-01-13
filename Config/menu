@@ -60,7 +60,7 @@ cat > /etc/openvpn/$Login.ovpn <<END
 client
 dev tun
 proto tcp
-remote $IP:1194@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com 1194
+remote $IP:1194@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th 1194
 http-proxy $IP 8080
 http-proxy-retry
 connect-retry 1
@@ -125,8 +125,6 @@ END
         fi
 	clear
 	cd
-	rm -f backup.tgz
-	tar -czvf backup.tgz /etc/passwd /etc/group /etc/shadow /etc/gshadow
 	echo -e ""
 	echo -e "======== Account ============"
 	echo -e "Download Config	: http://$IP:85/$Login.ovpn"
@@ -445,7 +443,7 @@ cat > /home/vps/public_html/Client.ovpn <<-END
 client
 dev tun
 proto tcp
-remote $IP:1194@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com 1194
+remote $IP:1194@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th 1194
 http-proxy $IP 8080
 http-proxy-retry
 connect-retry 1
