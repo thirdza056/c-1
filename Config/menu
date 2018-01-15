@@ -60,7 +60,7 @@ cat > /etc/openvpn/$Login.ovpn <<END
 client
 dev tun
 proto tcp
-remote $IP:1194@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th 1194
+remote $IP:1194@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th/lvs.truehits.in.th/dl-obs.official.line.naver.jp 1194
 http-proxy $IP 8080
 http-proxy-retry
 connect-retry 1
@@ -443,7 +443,7 @@ cat > /home/vps/public_html/Client.ovpn <<-END
 client
 dev tun
 proto tcp
-remote $IP:1194@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th 1194
+remote $IP:1194@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th/lvs.truehits.in.th/dl-obs.official.line.naver.jp 1194
 http-proxy $IP 8080
 http-proxy-retry
 connect-retry 1
