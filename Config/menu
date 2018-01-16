@@ -46,12 +46,17 @@ if test $x -eq 1; then
 	echo ""
 	read -p "Username : " Login
 	echo ""
-	read -p "Password : " Passwd
+	#read -p "Password : " Passwd
 	echo ""
 	read -p "Expired (Day) : " TimeActive
 
 	IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 	useradd -e `date -d "$TimeActive days" +"%Y-%m-%d"` -s /bin/false -M $Login
+	
+	passrandom=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+	egrep "^$Login" /etc/passwd >/dev/null
+	echo -e "$passrandom\n$passrandom" | passwd $Login
+	
 	exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
 	echo -e "$Passwd\n$Passwd\n"|passwd $Login &> /dev/null
 
@@ -129,7 +134,7 @@ END
 	echo -e "======== Account ============"
 	echo -e "Download Config	: http://$IP:85/$Login.ovpn"
 	echo -e "Username	: $Login"
-	echo -e "Password	: $Passwd"
+	echo -e "Password	: $passrandom"
 	echo -e "Out of Date	: $exp"
 	echo -e ""
 	echo -e "ไฟล์เดียวสามารถใช้ได้ทั้งเครือข่าย Truemove และ Dtac"
