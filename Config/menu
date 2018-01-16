@@ -55,10 +55,10 @@ if test $x -eq 1; then
 	
 	passrandom=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 	egrep "^$Login" /etc/passwd >/dev/null
-	echo -e "$passrandom\n$passrandom" | passwd $Login
+	echo -e "$passrandom\n$passrandom\n"|passwd $Login &> /dev/null
 	
 	exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
-	echo -e "$Passwd\n$Passwd\n"|passwd $Login &> /dev/null
+	#echo -e "$Passwd\n$Passwd\n"|passwd $Login &> /dev/null
 
 cd /etc/openvpn/
 cat > /etc/openvpn/$Login.ovpn <<END
