@@ -591,6 +591,7 @@ color3='\e[0m'
 	
 	
 elif test $x -eq 15; then
+	clear
 	MYIP=$(wget -qO- ipv4.icanhazip.com)
 passrandom=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
 
