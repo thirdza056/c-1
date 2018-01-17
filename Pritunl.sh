@@ -1,5 +1,6 @@
 #!/bin/bash
 
+if [[ "$OS" = 'debian' ]]; then
 
 		# Debian 7
 		if [[ "$VERSION_ID" = 'VERSION_ID="7"' ]]; then
@@ -9,6 +10,9 @@
 		if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
 			echo "8"
 		fi
+
+elif [[ "$OS" = 'ubuntu' ]]; then
+
 		# Ubuntu 14.04
 		if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 			echo "14.04"
@@ -17,3 +21,4 @@
 		if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 			echo "16.04"
 		fi
+fi
