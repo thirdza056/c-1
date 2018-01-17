@@ -58,7 +58,7 @@ IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 echo ""
 echo "Install Pritunl Finish..."
 echo "Os $OS Version $OS_VERSION"
-echo "Source by Mnm Ami  (Donate via TrueMoney Wallet : 082-038-2600)"
+echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
 echo ""
 echo "http://$IP"
 echo ""
@@ -121,7 +121,7 @@ IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 echo ""
 echo "Install Pritunl Finish..."
 echo "Os $OS Version $OS_VERSION"
-echo "Source by Mnm Ami  (Donate via TrueMoney Wallet : 082-038-2600)"
+echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
 echo ""
 echo "http://$IP"
 echo ""
@@ -189,7 +189,7 @@ IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 echo ""
 echo "Install Pritunl Finish..."
 echo "Os $OS Version $OS_VERSION"
-echo "Source by Mnm Ami  (Donate via TrueMoney Wallet : 082-038-2600)"
+echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
 echo ""
 echo "http://$IP"
 echo ""
@@ -203,5 +203,6 @@ fi
 clear
 echo ""
 echo "สคริปท์นี้รองรับเฉพาะ Debian 8, Ubuntu 14.04 และ 16.04 เท่านั้น"
+echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
 echo ""
 rm Pritunl.sh
