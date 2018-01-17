@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [[ $OS = "ubuntu" ]]; then
-OS_VERSION=$(lsb_release -r -s)
+#if [[ $OS = "ubuntu" ]]; then
+OS_VERSION=$(lsb_release -c)
      
-     if [[ $OS_VERSION = "16.04" ]]; then
+     if [[ $OS_VERSION = "xenial" ]]; then
 sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF 
 deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse 
 EOF
@@ -129,7 +129,7 @@ echo ""
 rm Pritunl.sh
 
      fi
-fi
+#fi
 
 if [[ $OS = "debian" ]]; then
 OS_VERSION=$(lsb_release -r -s)
