@@ -51,6 +51,7 @@ END
 MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | grep -v '192.168'`;
 sed -i s/xxxxxxxxx/$MYIP/g /etc/squid/squid.conf;
 /etc/init.d/squid restart
+sleep 2
 
 clear
 IP=`dig +short myip.opendns.com @resolver1.opendns.com`
@@ -118,6 +119,7 @@ END
 MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | grep -v '192.168'`;
 sed -i s/xxxxxxxxx/$MYIP/g /etc/squid3/squid.conf;
 /etc/init.d/squid3 restart
+sleep 2
 
 clear
 IP=`dig +short myip.opendns.com @resolver1.opendns.com`
@@ -186,6 +188,7 @@ END
 MYIP=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0' | grep -v '192.168'`;
 sed -i s/xxxxxxxxx/$MYIP/g /etc/squid3/squid.conf;
 /etc/init.d/squid3 restart
+sleep 2
 
 clear
 IP=`dig +short myip.opendns.com @resolver1.opendns.com`
