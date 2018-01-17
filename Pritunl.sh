@@ -1,22 +1,9 @@
 #!/bin/bash
 
 if [[ -e /etc/lsb-release ]]; then
-	OS=ubuntu
-     echo "16.04........."
-elif [[ -e /etc/centos-release || -e /etc/redhat-release ]]; then
-	OS=centos
-	RCLOCAL='/etc/rc.d/rc.local'
-	chmod +x /etc/rc.d/rc.local
-else
-	echo "คำสั่งนี้ยังไม่รองรับระบบปฏิบัติการอื่นนอกจาก Debian, Ubuntu และ CentOS"
-	exit
-fi
+OS=ubuntu
 
-
-#if [[ $OS = "ubuntu" ]]; then
-OS_VERSION=$(lsb_release -c)
-     
-     if [[ $OS_VERSION = "xenial" ]]; then
+# Ubuntu 16.04
 sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF 
 deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse 
 EOF
@@ -51,7 +38,7 @@ acl Safe_ports port 488
 acl Safe_ports port 591
 acl Safe_ports port 777
 acl CONNECT method CONNECT
-acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255                 
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
 http_access allow SSH
 http_access allow localnet
 http_access allow localhost
@@ -69,18 +56,22 @@ clear
 IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 echo ""
 echo "Install Pritunl Finish..."
-echo "Os $OS Version $OS_VERSION"
+echo "Ubuntu 16.04 Xenial version."
 echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
 echo ""
+echo "IP Proxy : $IP"
+echo "Proxy Port : 8080"
+echo "==================================="
 echo "http://$IP"
 echo ""
 pritunl setup-key
-echo ""
+echo "==================================="
 rm Pritunl.sh
 
-     fi
+elif [[ -e /etc/lsb-release ]]; then
+OS=ubuntu
 
-     if [[ $OS_VERSION = "14.04" ]]; then
+# Ubuntu 14.04
 sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
 deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse
 EOF
@@ -132,22 +123,22 @@ clear
 IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 echo ""
 echo "Install Pritunl Finish..."
-echo "Os $OS Version $OS_VERSION"
+echo "Ubuntu 14.04 Trusty version."
 echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
 echo ""
+echo "IP Proxy : $IP"
+echo "Proxy Port : 8080"
+echo "==================================="
 echo "http://$IP"
 echo ""
 pritunl setup-key
-echo ""
+echo "==================================="
 rm Pritunl.sh
 
-     fi
-#fi
+elif [[ -e /etc/lsb-release ]]; then
+OS=debian
 
-if [[ $OS = "debian" ]]; then
-OS_VERSION=$(lsb_release -r -s)
-
-     if [[ $OS_VERSION = "8" ]]; then
+# Debian 8
 sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
 deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main
 EOF
@@ -200,21 +191,26 @@ clear
 IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 echo ""
 echo "Install Pritunl Finish..."
-echo "Os $OS Version $OS_VERSION"
+echo "Debian 8 Jessie version."
 echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
 echo ""
+echo "IP Proxy : $IP"
+echo "Proxy Port : 8080"
+echo "==================================="
 echo "http://$IP"
 echo ""
 pritunl setup-key
-echo ""
+echo "==================================="
 rm Pritunl.sh
 
-     fi
-fi
-
+else
 clear
 echo ""
 echo "สคริปท์นี้รองรับเฉพาะ Debian 8, Ubuntu 14.04 และ 16.04 เท่านั้น"
+echo ""
 echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
 echo ""
 rm Pritunl.sh
+exit
+
+fi
