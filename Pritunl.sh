@@ -24,7 +24,7 @@ if [[ -e /etc/debian_version ]]; then
 		fi
 		
 		# Ubuntu 16.04
-		if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+		if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 			echo "16.04"
 		fi
     fi
