@@ -8,4 +8,6 @@ elif [ "$dist" == "trusty" ]; then
   echo "14"
 elif [ "$dist" == "xenial" ]; then
   echo "16"
+else
+echo "0000"
 fi
