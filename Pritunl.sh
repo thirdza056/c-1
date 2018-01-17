@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [[ -e /etc/*-release ]]; then
-VERSION_ID="16.04"
+. /etc/*-release
+if [[ -e VERSION_ID="16.04" ]]; then
 
 # Ubuntu 16.04
 sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF 
@@ -69,8 +69,7 @@ pritunl setup-key
 echo "==================================="
 rm Pritunl.sh
 
-elif [[ -e /etc/*-release ]]; then
-VERSION_ID="14.04"
+elif [[ -e VERSION_ID="14.04" ]]; then
 
 # Ubuntu 14.04
 sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
@@ -137,8 +136,7 @@ pritunl setup-key
 echo "==================================="
 rm Pritunl.sh
 
-elif [[ -e /etc/*-release ]]; then
-VERSION_ID="8"
+elif [[ -e VERSION_ID="8" ]]; then
 
 # Debian 8
 sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
