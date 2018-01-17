@@ -1,14 +1,15 @@
-function add_vapor_apt() {
-    eval "$(cat /etc/lsb-release)"
+#!/bin/bash
 
-    if [[ "$DISTRIB_CODENAME" != "xenial" && "$DISTRIB_CODENAME" != "yakkety" && "$DISTRIB_CODENAME" != "trusty" ]];
-    then
-        echo "Only Ubuntu 14.04, 16.04, and 16.10 are supported."
-        echo "You are running $DISTRIB_RELEASE ($DISTRIB_CODENAME) [`uname`]"
-        return 1;
-    fi
-        echo "....."
-        exit
-}
-
-add_vapor_apt
+if [[ ${DISTRIB_CODENAME} == "trusty" ]]; then
+    echo "=== 14.04"
+    exit
+    
+elif [[ ${DISTRIB_CODENAME} == "xenial" ]]; then
+    echo "=== 16.04"
+    exit
+    
+elif [[ ${DISTRIB_CODENAME} == "jessie" ]]; then
+    echo "=== 8"
+    exit
+    
+fi
