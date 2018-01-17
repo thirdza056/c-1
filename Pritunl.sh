@@ -1,17 +1,11 @@
 #!/bin/bash
 
-. /etc/lsb-release
+dist=`grep DISTRIB_CODENAME /etc/*-release | awk -F '=' '{print $2}'`
 
-if [[ ${DISTRIB_CODENAME} == "trusty" ]]; then
-    echo "=== 14.04"
-    
-elif [[ ${DISTRIB_CODENAME} == "xenial" ]]; then
-    echo "=== 16.04"
-    
-elif [[ ${DISTRIB_CODENAME} == "jessie" ]]; then
-    echo "=== 8"
-    
-else
-    echo "พัง...!!"
-    
+if [ "$dist" == "jessie" ]; then
+  echo "8"
+elif [ "$dist" == "trusty" ]; then
+  echo "14"
+elif [ "$dist" == "xenial" ]; then
+  echo "16"
 fi
