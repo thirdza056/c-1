@@ -1,6 +1,7 @@
 #!/bin/bash
 
-dist=`grep VERSION_ID /etc/*-release | awk -F '=' '{print $2}'`
+. /etc/*-release
+VERSION_ID=dist
 
 if [ "$dist" == "8" ]; then
   echo "8"
