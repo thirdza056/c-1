@@ -64,6 +64,7 @@ echo "http://$IP"
 echo ""
 pritunl setup-key
 echo ""
+rm Pritunl.sh
 
      fi
 
@@ -126,6 +127,7 @@ echo "http://$IP"
 echo ""
 pritunl setup-key
 echo ""
+rm Pritunl.sh
 
      fi
 fi
@@ -193,16 +195,13 @@ echo "http://$IP"
 echo ""
 pritunl setup-key
 echo ""
-
-     else
-     
-echo ""
-echo "สคริปท์นี้รองรับเฉพาะ Debian 8, Ubuntu 14.04 และ 16.04 เท่านั้น"
-echo ""
+rm Pritunl.sh
 
      fi
 fi
 
+clear
 echo ""
 echo "สคริปท์นี้รองรับเฉพาะ Debian 8, Ubuntu 14.04 และ 16.04 เท่านั้น"
 echo ""
+rm Pritunl.sh
