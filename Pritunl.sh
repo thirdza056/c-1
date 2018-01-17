@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. /etc/lsb-release
+
 if [[ ${DISTRIB_CODENAME} == "trusty" ]]; then
     echo "=== 14.04"
     
