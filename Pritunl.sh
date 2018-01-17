@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dist=`grep DISTRIB_CODENAME /etc/*-release | awk -F '=' '{print $2}'`
+dist=`grep Codename lsb_release -c | awk -F '=' '{print $2}'`
 
 if [ "$dist" == "jessie" ]; then
   echo "8"
