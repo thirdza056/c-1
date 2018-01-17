@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [[ "$DISTRIB_CODENAME" != "trusty" ]]; then
+echo "....."
+fi
+
+
+
 if [[ -e /etc/lsb-release ]]; then
 OS=ubuntu
 
