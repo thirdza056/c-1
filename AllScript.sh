@@ -8,24 +8,27 @@ echo ""
 fi
 
 clear
-# Etc
-echo ""
-echo "•*´¨`*•.¸¸.•*´¨`*•.¸¸.•*´¨`*•.¸¸.•*´¨`*•.¸¸.•"
-echo "::: (\_(\ ...*...*...*...*...*...*...*...*...::::::::::::::"
-echo "*: (=' :') :: Script by Mnm Ami :::::::::::::::::::::"
-echo "•.. (,('')('')¤...*...*...*...*...*...*...*...*...:::::::::::"
-echo "¸.•*´¨`*•.¸¸.•*´¨`*•.¸¸.•*´¨`*•.¸¸.•*´¨`*•.¸"
-echo ""
-echo "สามารถบริจาคผ่านทรูมันนี่วอลเลตได้ที่เบอร์ : 082-038-2600"
-echo "You can donate via truemoney wallet : 082-038-2600"
 
 # Color
 color1='\e[031;1m'
 color3='\e[0m'
 
+# Etc
+echo ""
+echo " •*´¨`*•.¸¸.•*´¨`*•.¸¸.•*´¨`*•.¸¸.•*´¨`*•.¸¸.• "
+echo ""
+echo " :   ${color1}(\_(\  ${color3} .*...*...*...*...*...*...*...*... "
+echo " *: ${color1}(=' :')  ${color3}  Script by Mnm Ami "
+echo " •.. ${color1}(,('')('')${color3}¤...*...*...*...*...*...*...*...*... "
+echo ""
+echo " ¸.•*´¨`*•.¸¸.•*´¨`*•.¸¸.•*´¨`*•.¸¸.•*´¨`*•. "
+echo ""
+echo "สามารถบริจาคผ่านทรูมันนี่วอลเลตได้ที่เบอร์ : 082-038-2600"
+echo "You can donate via truemoney wallet : 082-038-2600"
+
 # Choose Script
 echo ""
-echo "¨°o.O O.o *.:｡ ✿*ﾟ‘ FUNCTION SCRIPT ﾟ･✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:* "
+echo "¨°.o *.:｡ ✿*ﾟ‘ FUNCTION SCRIPT ･✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:* "
 echo ""
 echo -e "|${color1} 1 ${color3}|  OPENVPN (TERMINAL CONTROL)"
 echo -e "|${color1} 2 ${color3}|  OPENVPN (PRITUNL CONTROL)"
@@ -34,13 +37,13 @@ echo -e "|${color1} 4 ${color3}|  WEB PANEL"
 echo -e "|${color1} 5 ${color3}|  VNSTAT (CHECK BANDWIDTH or DATA)"
 echo -e "|${color1} 6 ${color3}|  SETUP ALL FUNCTION"
 echo ""
-read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข)  : " f
+read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข)  : " x
 
-if test $f -eq 1; then
+if test $x -eq 1; then
 echo "...."
 fi
 
-elif test $f -eq 2; then
+elif test $x -eq 2; then
 
 if [[ -e /etc/debian_version ]]; then
 OS="debian"
@@ -284,19 +287,19 @@ fi
 
 fi
 
-elif test $f -eq 3; then
+elif test $x -eq 3; then
 echo "...."
 fi
 
-elif test $f -eq 4; then
+elif test $x -eq 4; then
 echo "...."
 fi
 
-elif test $f -eq 5; then
+elif test $x -eq 5; then
 echo "...."
 fi
 
-elif test $f -eq 6; then
+elif test $x -eq 6; then
 echo "...."
 fi
 
