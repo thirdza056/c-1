@@ -273,9 +273,6 @@ elif test $x -eq 2; then
 				echo ""
 				echo "==================================="
 			fi
-			
-			echo "อิอิ"
-			echo "OS ที่ใช้ยังไม่รองรับ"
 		fi
 
 	elif [[ -e /etc/centos-release ]]; then
