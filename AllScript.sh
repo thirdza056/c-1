@@ -92,7 +92,7 @@ elif test $x -eq 2; then
 		echo "Source by Mnm Ami"
 		echo "You can donate via truemoney wallet : 082-038-2600"
 		echo ""
-		rm Pritunl.sh
+		rm AllScript.sh
 	fi
 
 elif test $x -eq 3; then
