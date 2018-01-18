@@ -67,6 +67,9 @@ elif test $x -eq 2; then
 			if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 			echo "16.04"
 			fi
+		elif
+		echo "อิอิ"
+		
 		fi
 
 	elif [[ -e /etc/centos-release ]]; then
