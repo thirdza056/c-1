@@ -35,33 +35,9 @@ echo ""
 read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข)  : " x
 
 if test $x -eq 1; then
-	if [[ -e /etc/debian_version ]]; then
-		OS="debian"
-		VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
-		IPTABLES='/etc/iptables/iptables.rules'
-		SYSCTL='/etc/sysctl.conf'
-
-		if [[ "$OS" = 'debian' ]]; then
-
-			# Debian 8
-			if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
 			mkdir /root/backup
 			cp /etc/apt/sources.list /root/backup
-			# Ubuntu 14.04
-			elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
-			
-			# Ubuntu 16.04
-			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
-			
-			else
-			echo "อิอิ"
-			exit
-			
-			if
 
-		fi
-	fi
-	
 elif test $x -eq 2; then
 
 	if [[ -e /etc/debian_version ]]; then
