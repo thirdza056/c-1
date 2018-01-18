@@ -120,14 +120,15 @@ elif test $x -eq 2; then
 				pritunl setup-key
 				echo ""
 				echo "==================================="
+			fi
 
 			# Debian 9
-			elif [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
+			if [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 			echo "9"
-			
+			fi
 
 			# Ubuntu 14.04
-			elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+			if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
 				cd
 				# Pritunl
@@ -197,10 +198,10 @@ elif test $x -eq 2; then
 				pritunl setup-key
 				echo ""
 				echo "==================================="
-			
-			
+			fi
+
 			# Ubuntu 16.04
-			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+			if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
 				cd
 				# Pritunl
@@ -271,11 +272,10 @@ elif test $x -eq 2; then
 				pritunl setup-key
 				echo ""
 				echo "==================================="
-
-			else
-			echo "อิอิ"
-
 			fi
+			
+			echo "อิอิ"
+			echo "OS ที่ใช้ยังไม่รองรับ"
 		fi
 
 	elif [[ -e /etc/centos-release ]]; then
