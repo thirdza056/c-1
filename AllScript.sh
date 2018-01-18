@@ -36,49 +36,44 @@ echo "...."
 
 elif test $x -eq 2; then
 
-if [[ -e /etc/debian_version ]]; then
-OS="debian"
-VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
-IPTABLES='/etc/iptables/iptables.rules'
-SYSCTL='/etc/sysctl.conf'
+	if [[ -e /etc/debian_version ]]; then
+		OS="debian"
+		VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
+		IPTABLES='/etc/iptables/iptables.rules'
+		SYSCTL='/etc/sysctl.conf'
 
-if [[ "$OS" = 'debian' ]]; then
+		if [[ "$OS" = 'debian' ]]; then
 
-# Debian 7
-if [[ "$VERSION_ID" = 'VERSION_ID="7"' ]]; then
-fi
+			# Debian 7
+			if [[ "$VERSION_ID" = 'VERSION_ID="7"' ]]; then
+				echo "7"
 		
-# Debian 8
-if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
-echo "8"
-fi
+			# Debian 8
+			elif [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
+				echo "8"
 
-# Ubuntu 14.04
-if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
-fi
-		
-# Ubuntu 16.04
-if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
-fi
+			# Ubuntu 14.04
+			elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+				echo "14.04"
 
-fi
-fi
+			# Ubuntu 16.04
+			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+				echo "16.04"
 
-else
-
-clear
-echo ""
-echo "`•.¸¸.•´´¯`•• .¸¸.•´¯`•.•●•۰• ••.•´¯`•.•• ••.•´¯`•.••—"
-echo "     สคริปท์นี้รองรับเฉพาะ Debian 7 - 8 และ Ubuntu 14.04 - 16.04 เท่านั้น"
-echo ""
-echo "     Source by Mnm Ami"
-echo "     You can donate via truemoney wallet : 082-038-2600"
-echo "`•.¸¸.•´´¯`•• .¸¸.•´¯`•.•●•۰• ••.•´¯`•.•• ••.•´¯`•.••—"
-echo ""
-rm Pritunl.sh
-
-fi
-fi
+			else
+				clear
+				echo ""
+				echo "`•.¸¸.•´´¯`•• .¸¸.•´¯`•.•●•۰• ••.•´¯`•.•• ••.•´¯`•.••—"
+				echo "     สคริปท์นี้รองรับเฉพาะ Debian 7 - 8 และ Ubuntu 14.04 - 16.04 เท่านั้น"
+				echo ""
+				echo "     Source by Mnm Ami"
+				echo "     You can donate via truemoney wallet : 082-038-2600"
+				echo "`•.¸¸.•´´¯`•• .¸¸.•´¯`•.•●•۰• ••.•´¯`•.•• ••.•´¯`•.••—"
+				echo ""
+				rm Pritunl.sh
+			fi
+		fi
+	fi
 
 elif test $x -eq 3; then
 echo "...."
