@@ -70,6 +70,7 @@ elif test $x -eq 2; then
 			else
 			echo "อิอิ"
 
+			fi
 		fi
 
 	elif [[ -e /etc/centos-release ]]; then
