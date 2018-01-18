@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Check root
 if [[ "$EUID" -ne 0 ]]; then
 echo ""
 echo "     กรุณาเข้าสู่ระบบผู้ใช้ root ก่อนทำการติดตั้งสคริปท์..."
@@ -13,20 +14,13 @@ clear
 color1='\e[031;1m'
 color3='\e[0m'
 
-# Etc
-echo " *.:｡*ﾟ‘ﾟ･.｡.:* *.:｡*ﾟ’ﾟ･.｡.:* *.:｡*ﾟ¨ﾟ･ .｡.:* *.:｡*ﾟ"
+# Menu Function
 echo ""
 echo -e "${color1}  (\_(\  ${color3}"
 echo -e "${color1} (=’ :’) :* ${color3} Script by Mnm Ami"
-echo -e "${color1}  (,(”)(”) °.¸¸.• ${color3}"
+echo -e "${color1}  (,(”)(”) °.¸¸.• ${color3} บริจาคกันได้ที่ทรูมันนี่วอลเลต 082-038-2600"
 echo ""
-echo " *.:｡*ﾟ‘ﾟ･.｡.:* *.:｡*ﾟ’ﾟ･.｡.:* *.:｡*ﾟ¨ﾟ･ .｡.:* *.:｡*ﾟ"
-echo "สามารถบริจาคผ่านทรูมันนี่วอลเลตได้ที่เบอร์ : 082-038-2600"
-echo "You can donate via truemoney wallet : 082-038-2600"
-
-# Choose Script
-echo ""
-echo "°.o.:｡ ✿*ﾟ‘ FUNCTION SCRIPT ･✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:* "
+echo -e "FUNCTION SCRIPT ${color1}✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:*${color1}"
 echo ""
 echo -e "|${color1} 1 ${color3}|  OPENVPN (TERMINAL CONTROL)"
 echo -e "|${color1} 2 ${color3}|  OPENVPN (PRITUNL CONTROL)"
