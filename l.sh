@@ -10,5 +10,3 @@ while [[ $CONTINUE != "y" && $CONTINUE != "n" ]]; do
 		fi
 
 echo "====+++==+"
-
-exit
