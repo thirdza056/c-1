@@ -52,6 +52,10 @@ if test $x -eq 1; then
 			
 			# Ubuntu 16.04
 			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+			
+			else
+			echo ""
+			exit
 
 		fi
 	fi
