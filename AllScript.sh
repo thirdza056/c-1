@@ -22,18 +22,17 @@ echo -e "${color1}  (,(”)(”) °.¸¸.• ${color3} บริจาคกั�
 echo ""
 echo -e "FUNCTION SCRIPT ${color1}✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:*${color3}"
 echo ""
-echo -e "|${color1} 1 ${color3}|  OPENVPN (TERMINAL CONTROL)"
-echo -e "|${color1} 2 ${color3}|  OPENVPN (PRITUNL CONTROL)"
-echo -e "|${color1} 3 ${color3}|  SSH + DROPBEAR"
-echo -e "|${color1} 4 ${color3}|  WEB PANEL"
-echo -e "|${color1} 5 ${color3}|  VNSTAT (CHECK BANDWIDTH or DATA)"
-echo -e "|${color1} 6 ${color3}|  SETUP ALL FUNCTION"
+echo -e "|${color1}1${color3}|  OPENVPN (TERMINAL CONTROL)"
+echo -e "|${color1}2${color3}|  OPENVPN (PRITUNL CONTROL)"
+echo -e "|${color1}3${color3}|  SSH + DROPBEAR"
+echo -e "|${color1}4${color3}|  WEB PANEL"
+echo -e "|${color1}5${color3}|  VNSTAT (CHECK BANDWIDTH or DATA)"
+echo -e "|${color1}6${color3}|  SETUP ALL FUNCTION"
 echo ""
 read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข)  : " x
 
 if test $x -eq 1; then
 echo "...."
-fi
 
 elif test $x -eq 2; then
 
@@ -281,19 +280,15 @@ fi
 
 elif test $x -eq 3; then
 echo "...."
-fi
 
 elif test $x -eq 4; then
 echo "...."
-fi
 
 elif test $x -eq 5; then
 echo "...."
-fi
 
 elif test $x -eq 6; then
 echo "...."
-fi
 
 else
 clear
