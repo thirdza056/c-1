@@ -54,7 +54,7 @@ if test $x -eq 1; then
 			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 			
 			else
-			echo ""
+			echo "อิอิ"
 			exit
 			
 			if
