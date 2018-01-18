@@ -3,8 +3,8 @@
 # Check root
 if [[ "$EUID" -ne 0 ]]; then
 	echo ""
-	echo "     กรุณาเข้าสู่ระบบผู้ใช้ root ก่อนทำการติดตั้งสคริปท์"
-	echo "     คำสั่งเข้าสู่ระบบผู้ใช้ root คือ sudo -i"
+	echo "กรุณาเข้าสู่ระบบผู้ใช้ root ก่อนทำการติดตั้งสคริปท์"
+	echo "คำสั่งเข้าสู่ระบบผู้ใช้ root คือ sudo -i"
 	echo ""
 fi
 
@@ -50,28 +50,49 @@ elif test $x -eq 2; then
 
 			# Debian 8
 			if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
-echo "8"
+			echo "8"
+			fi
+
+			# Debian 9
+			if [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
+			echo "9"
 			fi
 
 			# Ubuntu 14.04
 			if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
-echo "14.04"
+			echo "14.04"
 			fi
 			
 			# Ubuntu 16.04
 			if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
-echo "16.04"
+			echo "16.04"
 			fi
-		fi
+		if
+
+	elif [[ -e /etc/centos-release ]]; then
+		OS=centos
+		IPTABLES='/etc/iptables/iptables.rules'
+		SYSCTL='/etc/sysctl.conf'
+
+		if [[ "$OS" = 'centos' ]]; then
+
+			# CentOS
+			if [[ "$VERSION_ID" = 'VERSION_ID="7"' ]]; then
+			echo "7"
+			fi
+		if
 
 	else
 		cd
 		clear
 		echo ""
-		echo "     ${color1}การติดตั้ง Pritunl รองรับเฉพาะ Debian 8 และ Ubuntu 14.04 - 16.04 เท่านั้น${color3}"
+		echo "การติดตั้ง Pritunl รองรับเฉพาะระบบปฏิบัติการด้านล่างนี้"
+		echo "Debian 8 - 9"
+		echo "Ubuntu 14.04 - 16.04"
+		echo "CentOS 7"
 		echo ""
-		echo "     Source by Mnm Ami"
-		echo "     You can donate via truemoney wallet : 082-038-2600"
+		echo "Source by Mnm Ami"
+		echo "You can donate via truemoney wallet : 082-038-2600"
 		echo ""
 		rm Pritunl.sh
 	fi
