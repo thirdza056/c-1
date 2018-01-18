@@ -41,6 +41,7 @@ if test $x -eq 1; then
 elif test $x -eq 2; then
 
 	if [[ -e /etc/debian_version ]]; then
+
 		OS="debian"
 		VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
 		IPTABLES='/etc/iptables/iptables.rules'
@@ -194,7 +195,7 @@ elif test $x -eq 2; then
 				rm Pritunl.sh
 
 			# Ubuntu 16.04
-			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+			else [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 				cd
 				# Pritunl
 				
@@ -215,19 +216,19 @@ elif test $x -eq 2; then
 				echo ""
 				echo "==================================="
 				rm Pritunl.sh
-
-			else
-				cd
-				clear
-				echo ""
-				echo "     ${color1}การติดตั้ง Pritunl รองรับเฉพาะ Debian 8 และ Ubuntu 14.04 - 16.04 เท่านั้น${color3}"
-				echo ""
-				echo "     Source by Mnm Ami"
-				echo "     You can donate via truemoney wallet : 082-038-2600"
-				echo ""
-				rm Pritunl.sh
 			fi
 		fi
+
+	else
+		cd
+		clear
+		echo ""
+		echo "     ${color1}การติดตั้ง Pritunl รองรับเฉพาะ Debian 8 และ Ubuntu 14.04 - 16.04 เท่านั้น${color3}"
+		echo ""
+		echo "     Source by Mnm Ami"
+		echo "     You can donate via truemoney wallet : 082-038-2600"
+		echo ""
+		rm Pritunl.sh
 	fi
 
 elif test $x -eq 3; then
