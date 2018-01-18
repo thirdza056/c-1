@@ -67,7 +67,7 @@ elif test $x -eq 2; then
 			if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 			echo "16.04"
 			fi
-		if
+		fi
 
 	elif [[ -e /etc/centos-release ]]; then
 		OS=centos
@@ -80,7 +80,7 @@ elif test $x -eq 2; then
 			if [[ "$VERSION_ID" = 'VERSION_ID="7"' ]]; then
 			echo "7"
 			fi
-		if
+		fi
 
 	else
 		cd
