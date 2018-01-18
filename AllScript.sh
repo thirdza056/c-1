@@ -56,6 +56,8 @@ if test $x -eq 1; then
 			else
 			echo ""
 			exit
+			
+			if
 
 		fi
 	fi
