@@ -77,9 +77,7 @@ elif test $x -eq 2; then
 		if [[ "$OS" = 'centos' ]]; then
 
 			# CentOS
-			if [[ "$VERSION_ID" = 'VERSION_ID="7"' ]]; then
 			echo "7"
-			fi
 		fi
 
 	else
