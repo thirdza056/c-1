@@ -50,7 +50,6 @@ elif test $x -eq 2; then
 
 			# Debian 8
 			if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
-
 				cd
 				# Pritunl
 				sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
