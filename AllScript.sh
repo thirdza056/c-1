@@ -89,6 +89,6 @@ echo "...."
 
 else
 clear
-menu
+./AllScript.sh
 
 fi
