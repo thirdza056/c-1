@@ -389,6 +389,7 @@ auth-user-pass" > /etc/openvpn/client-common.txt
 		done
 
 		if [[ "$CONTINUE" = "N" ]]; then
+
 			echo ""
 			echo "Source by Mnm Ami"
 			echo "Donate via TrueMoney Wallet : 082-038-2600"
@@ -402,8 +403,10 @@ auth-user-pass" > /etc/openvpn/client-common.txt
 			echo ""
 			exit
 		fi
-	
-	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+		
+		if [[ "$CONTINUE" = "Y" ]]; then
+
+			if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
 apt-get -y install squid3
 cat > /etc/squid3/squid.conf <<END
@@ -448,8 +451,9 @@ echo "IP    : $IP"
 echo "Port OpenVPN : $PORT
 echo "Proxy : $IP"
 echo "Port  : 8080"
+exit
 
-	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+			elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
 apt-get -y install squid
 cat > /etc/squid/squid.conf <<END
@@ -494,9 +498,10 @@ echo "IP    : $IP"
 echo "Port OpenVPN : $PORT
 echo "Proxy : $IP"
 echo "Port  : 8080"
-
-	fi
-
+exit
+			fi
+		if
+		
 # newclient "$CLIENT"
 exit
 fi
