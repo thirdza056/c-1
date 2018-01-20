@@ -151,6 +151,9 @@ elif test $x -eq 2; then
 			sudo yum -y install pritunl mongodb-org
 			sudo systemctl start mongod pritunl
 			sudo systemctl enable mongod pritunl
+
+			yum -y install squid
+			systemctl restart squid
 		fi
 
 	else
