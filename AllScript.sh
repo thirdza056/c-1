@@ -234,7 +234,7 @@ cat > /etc/squid3/squid.conf <<END
 				visible_hostname OPENEXTRA.NET
 END
 				sed -i $MYIP2 /etc/squid3/squid.conf;
-				/etc/init.d/squid3 restart
+				/etc/init.d/squid restart
 
 				elif [[ "$VERSION_ID" != 'VERSION_ID="9"' && "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
 
