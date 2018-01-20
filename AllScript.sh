@@ -203,11 +203,6 @@ END
 				if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
 
 				apt-get -y install squid3
-
-				echo ""
-				echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
-				read -p "Enter Your Proxry Hostname : " Hostname
-
 cat > /etc/squid3/squid.conf <<END
 				acl manager proto cache_object
 				acl localhost src 127.0.0.1/32 ::1
@@ -236,20 +231,14 @@ cat > /etc/squid3/squid.conf <<END
 				refresh_pattern ^gopher: 1440 0% 1440
 				refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 				refresh_pattern . 0 20% 4320
-				visible_hostname $Hostname
+				visible_hostname OPENEXTRA.NET
 END
 				sed -i $MYIP2 /etc/squid3/squid.conf;
 				/etc/init.d/squid3 restart
-				exit
 
 				elif [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
 
 				apt-get -y install squid
-
-				echo ""
-				echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
-				read -p "Enter Your Proxry Hostname : " Hostname
-
 cat > /etc/squid/squid.conf <<END
 				acl manager proto cache_object
 				acl localhost src 127.0.0.1/32 ::1
@@ -278,11 +267,10 @@ cat > /etc/squid/squid.conf <<END
 				refresh_pattern ^gopher: 1440 0% 1440
 				refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 				refresh_pattern . 0 20% 4320
-				visible_hostname $Hostname
+				visible_hostname OPENEXTRA.NET
 END
 				sed -i $MYIP2 /etc/squid/squid.conf;
 				/etc/init.d/squid restart
-				exit
 
 				fi
 
