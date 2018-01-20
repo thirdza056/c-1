@@ -519,7 +519,7 @@ fi
 		while [[ $Squid3 != "Y" && $Squid3 != "N" ]]; do
 
 			echo ""
-			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่"
 			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y Squid3
 
 		done
