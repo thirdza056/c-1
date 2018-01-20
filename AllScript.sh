@@ -61,9 +61,10 @@ elif test $x -eq 2; then
 			# Debian 9
 			if [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 
-			cat > /etc/apt/sources.list.d/pritunl.list <<END
-			deb http://repo.pritunl.com/stable/apt stretch main
-			END
+cat > /etc/apt/sources.list.d/pritunl.list <<END
+deb http://repo.pritunl.com/stable/apt stretch main
+END
+
 			sudo apt-get install dirmngr
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 			sudo apt-get update
