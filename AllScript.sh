@@ -58,7 +58,7 @@ echo -e "|${color1}2${color3}|  OPENVPN (PRITUNL CONTROL)"
 echo -e "|${color1}3${color3}|  SSH + DROPBEAR"
 echo -e "|${color1}4${color3}|  WEB PANEL"
 echo -e "|${color1}5${color3}|  VNSTAT (CHECK BANDWIDTH or DATA)"
-echo -e "|${color1}6${color3}|  SETUP ALL FUNCTION"
+echo -e "|${color1}6${color3}|  SQUID PROXY"
 echo ""
 read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข) : " Menu
 
@@ -348,7 +348,16 @@ exit
 	;;
 
 	6)
-	echo "6 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+	
+	if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
+	cat /etc/os-release
+	exit
+	elif [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
+	cat /etc/os-release
+	exit
+	
+	fi
+	
 	;;
 
 esac
