@@ -270,7 +270,6 @@ echo "Pritunl : http://$MYIP"
 echo ""
 pritunl setup-key
 echo ""
-exit
 
 	elif [[ "$Squid" = "Y" ]]; then
 
@@ -320,7 +319,6 @@ echo "Pritunl : http://$MYIP"
 echo ""
 pritunl setup-key
 echo ""
-exit
 
 	fi
 
@@ -393,9 +391,8 @@ echo "Install Squid Proxy Finish"
 echo "Proxy : $MYIP"
 echo "Port  : 8080"
 echo ""
-exit
 
-	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"'  ]]; then
+	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
 apt-get -y install squid3
 cat > /etc/squid3/squid.conf <<END
@@ -439,7 +436,6 @@ echo "Install Squid Proxy Finish"
 echo "Proxy : $MYIP"
 echo "Port  : 8080"
 echo ""
-exit
 
 	fi
 
