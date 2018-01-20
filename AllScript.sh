@@ -114,28 +114,17 @@ END
 			# Debian 9
 			if [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 
-cat > /etc/apt/sources.list.d/pritunl.list <<END
-			deb http://repo.pritunl.com/stable/apt stretch main
-END
-			sudo apt-get install dirmngr
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-			sudo apt-get update
-			sudo apt-get --assume-yes install pritunl mongodb-server
-			sudo systemctl start mongodb pritunl
-			sudo systemctl enable mongodb pritunl
+
 
 			while [[ $CONTINUE != "1" && $CONTINUE != "2" ]]; do
 
 				echo ""
 				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-				read -p "You Need Install Squid Proxy or Not ? :" -e -i 1 CONTINUE
+				read -p "You Need Install Squid Proxy or Not ? : " -e -i 1 CONTINUE
 
 			done
 
-				if [[ "$CONTINUE" = "1" ]]; then
-				echo "ติดตั้งแล้ว"
-
-				elif [[ "$CONTINUE" = "2" ]]; then
+				if [[ "$CONTINUE" = "2" ]]; then
 				echo "ยังไม่ติดตั้ง"
 
 				fi
@@ -258,21 +247,7 @@ END
 			fi
 
 		fi
-
-	else
-
-	cd
-	clear
-	echo ""
-	echo "การติดตั้ง Pritunl รองรับเฉพาะระบบปฏิบัติการด้านล่างนี้"
-	echo "Debian 8 - 9"
-	echo "Ubuntu 14.04 - 16.04"
-	echo ""
-	echo "Source by Mnm Ami"
-	echo "You can donate via truemoney wallet : 082-038-2600"
-	echo ""
-	rm AllScript.sh
-
+			echo "ติดตั้งแล้ว..."
 	fi
 
 elif test $x -eq 3; then
