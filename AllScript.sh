@@ -350,10 +350,10 @@ exit
 	6)
 	
 	if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
-	cat /etc/os-release
+	echo "8 14"
 	exit
 	elif [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
-	cat /etc/os-release
+	echo "9 16"
 	exit
 	
 	fi
