@@ -8,6 +8,20 @@ if [[ "$EUID" -ne 0 ]]; then
 	echo ""
 fi
 
+if [[ -e /etc/centos-release || -e /etc/redhat-release || -e /etc/system-release && ! -e /etc/fedora-release ]]; then
+	OS=centos
+	echo ""
+	echo "ขณะนี้ OS $OS ยังไม่รอบรับกับสคริปท์นี้"
+elif [[ -e /etc/arch-release ]]; then
+	OS=arch
+	echo ""
+	echo "ขณะนี้ OS $OS ยังไม่รอบรับกับสคริปท์นี้"
+elif [[ -e /etc/fedora-release ]]; then
+	OS=fedora
+	echo ""
+	echo "ขณะนี้ OS $OS ยังไม่รอบรับกับสคริปท์นี้"
+fi
+
 # Set my IP
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
