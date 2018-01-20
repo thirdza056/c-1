@@ -281,10 +281,7 @@ persist-key
 persist-tun
 status openvpn-status.log
 verb 3
-crl-verify crl.pem
-plugin /usr/lib/openvpn/openvpn-plugin-auth-pam.so login
-client-cert-not-required
-username-as-common-name" >> /etc/openvpn/server.conf
+crl-verify crl.pem" >> /etc/openvpn/server.conf
 
 	# Enable net.ipv4.ip_forward for the system
 	sed -i '/\<net.ipv4.ip_forward\>/c\net.ipv4.ip_forward=1' /etc/sysctl.conf
@@ -362,8 +359,7 @@ cipher AES-256-CBC
 comp-lzo
 setenv opt block-outside-dns
 key-direction 1
-verb 3
-auth-user-pass" > /etc/openvpn/client-common.txt
+verb 3" > /etc/openvpn/client-common.txt
 
 
 	EXTERNALIP=$(wget -4qO- "http://whatismyip.akamai.com/")
