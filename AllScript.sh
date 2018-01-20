@@ -8,6 +8,12 @@ if [[ "$EUID" -ne 0 ]]; then
 	echo ""
 fi
 
+# Set OS Version
+OS="debian"
+VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
+IPTABLES='/etc/iptables/iptables.rules'
+SYSCTL='/etc/sysctl.conf'
+
 # Check OS can't run script
 if [[ -e /etc/centos-release || -e /etc/redhat-release || -e /etc/system-release && ! -e /etc/fedora-release ]]; then
 	OS=centos
@@ -22,12 +28,6 @@ elif [[ -e /etc/fedora-release ]]; then
 	echo ""
 	echo "ขณะนี้ OS $OS ยังไม่รอบรับกับสคริปท์นี้"
 fi
-
-# Set OS Version
-OS="debian"
-VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
-IPTABLES='/etc/iptables/iptables.rules'
-SYSCTL='/etc/sysctl.conf'
 
 # Set your IP
 MYIP=$(wget -qO- ipv4.icanhazip.com);
