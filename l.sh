@@ -17,6 +17,11 @@ newclient () {
 	echo "</tls-auth>" >> ~/$1.ovpn
 }
 
+IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+if [[ "$IP" = "" ]]; then
+        IP=$(wget -4qO- "http://whatismyip.akamai.com/")
+fi
+
 echo -e "|${color1}1${color3}| ยกเลิก"
 echo -e ""
 read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " x
