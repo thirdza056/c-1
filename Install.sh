@@ -25,11 +25,11 @@ service ssh restart
 
 # Set repo
 cat > /etc/apt/sources.list <<END
-			deb http://cdn.debian.net/debian wheezy main contrib non-free
-			deb http://security.debian.org/ wheezy/updates main contrib non-free
-			deb http://packages.dotdeb.org wheezy all
-			deb http://download.webmin.com/download/repository sarge contrib
-			deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib
+deb http://cdn.debian.net/debian wheezy main contrib non-free
+deb http://security.debian.org/ wheezy/updates main contrib non-free
+deb http://packages.dotdeb.org wheezy all
+deb http://download.webmin.com/download/repository sarge contrib
+deb http://webmin.mirror.somersettechsolutions.co.uk/repository sarge contrib
 END
 wget "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/dotdeb.gpg"
 wget "https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Config/jcameron-key.asc"
