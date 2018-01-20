@@ -267,7 +267,7 @@ sed -i $MYIP2 /etc/squid/squid.conf;
 	;;
 	
 	5)
-	echo "4 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+	echo "5 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
 	# Install Vnstat
 #	apt-get -y install vnstat
 #	vnstat -u -i eth0
