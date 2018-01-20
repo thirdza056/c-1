@@ -26,11 +26,12 @@ color3='\e[0m'
 	
 if test $x -eq 1; then
 	echo ""
-	read -p "Username : " Login
-	echo ""
-	read -p "Password : " Passwd
-	echo ""
-	read -p "Expired (Day) : " TimeActive
+	echo "ชื่อผู้ใช้ (ววรค) รหัสผ่าน (ววรค) วันหมดอายุ"
+	read -p "Username Password Expired : " Login Passwd TimeActive
+#	echo ""
+#	read -p "Password : " Passwd
+#	echo ""
+#	read -p "Expired (Day) : " TimeActive
 
 	IP=`dig +short myip.opendns.com @resolver1.opendns.com`
 	useradd -e `date -d "$TimeActive days" +"%Y-%m-%d"` -s /bin/false -M $Login
