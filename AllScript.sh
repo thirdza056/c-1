@@ -6,7 +6,7 @@ if [[ "$EUID" -ne 0 ]]; then
 	echo "กรุณาเข้าสู่ระบบผู้ใช้ root ก่อนทำการติดตั้งสคริปท์"
 	echo "คำสั่งเข้าสู่ระบบผู้ใช้ root คือ sudo -i"
 	echo ""
-elif
+fi
 
 # Set Localtime GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Thailand /etc/localtime
@@ -317,5 +317,4 @@ else
 	cd
 	clear
 	./AllScript.sh
-fi
 fi
