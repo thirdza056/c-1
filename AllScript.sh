@@ -70,7 +70,7 @@ case $Menu in
 #	cp /etc/apt/sources.list /root/backup
 
 	;;
-	
+
 	2)
 
 	# Debian 8
@@ -325,8 +325,7 @@ exit
 	fi
 
 	;;
-	
-	
+
 	3)
 	echo "3 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
 	;;
@@ -334,20 +333,20 @@ exit
 	4)
 	echo "4 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
 	;;
-	
+
 	5)
 	echo "5 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
 	# Install Vnstat
 #	apt-get -y install vnstat
 #	vnstat -u -i eth0
-	
+
 	# Install Vnstat GUI
-	
+
 #	rm /etc/apt/sources.list
 #	cp /root/backup/sources.list /etc/apt/
 
 	;;
-	
+
 	6)
 	echo "6 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
 	;;
