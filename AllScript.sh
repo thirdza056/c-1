@@ -348,17 +348,101 @@ exit
 	;;
 
 	6)
-	if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
-	echo "8"
-	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
-	echo "9"
-	elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
-	echo "14.04"
-	elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
-	echo "16.04"
-	
+
+	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+
+apt-get -y install squid
+cat > /etc/squid/squid.conf <<END
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 21
+acl Safe_ports port 443
+acl Safe_ports port 70
+acl Safe_ports port 210
+acl Safe_ports port 1025-65535
+acl Safe_ports port 280
+acl Safe_ports port 488
+acl Safe_ports port 591
+acl Safe_ports port 777
+acl CONNECT method CONNECT
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+http_access allow SSH
+http_access allow manager localhost
+http_access deny manager
+http_access allow localhost
+http_access deny all
+http_port 8080
+coredump_dir /var/spool/squid
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern . 0 20% 4320
+visible_hostname OPENEXTRA.NET
+END
+sed -i $MYIP2 /etc/squid/squid.conf;
+service squid restart
+
+echo ""
+echo "Source by Mnm Ami"
+echo "Donate via TrueMoney Wallet : 082-038-2600"
+echo ""
+echo "Install Squid Proxy Finish"
+echo "Proxy : $MYIP"
+echo "Port  : 8080"
+echo ""
+exit
+
+	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"'  ]]; then
+
+apt-get -y install squid3
+cat > /etc/squid3/squid.conf <<END
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 21
+acl Safe_ports port 443
+acl Safe_ports port 70
+acl Safe_ports port 210
+acl Safe_ports port 1025-65535
+acl Safe_ports port 280
+acl Safe_ports port 488
+acl Safe_ports port 591
+acl Safe_ports port 777
+acl CONNECT method CONNECT
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+http_access allow SSH
+http_access allow manager localhost
+http_access deny manager
+http_access allow localhost
+http_access deny all
+http_port 8080
+coredump_dir /var/spool/squid3
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern . 0 20% 4320
+visible_hostname OPENEXTRA.NET
+END
+sed -i $MYIP2 /etc/squid3/squid.conf;
+service squid3 restart
+
+echo ""
+echo "Source by Mnm Ami"
+echo "Donate via TrueMoney Wallet : 082-038-2600"
+echo ""
+echo "Install Squid Proxy Finish"
+echo "Proxy : $MYIP"
+echo "Port  : 8080"
+echo ""
+exit
+
 	fi
-	
+
 	;;
 
 esac
