@@ -76,7 +76,7 @@ END
 			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
 			read -p "Enter Your Proxry Hostname : " Hostname
 
-			cat > /etc/squid3/squid.conf <<END
+cat > /etc/squid3/squid.conf <<END
 			acl manager proto cache_object
 			acl localhost src 127.0.0.1/32 ::1
 			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
@@ -105,7 +105,7 @@ END
 			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 			refresh_pattern . 0 20% 4320
 			visible_hostname $Hostname
-			END
+END
 			sed -i $MYIP2 /etc/squid3/squid.conf;
 			/etc/init.d/squid3 restart
 
@@ -164,7 +164,7 @@ END
 			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
 			read -p "Enter Your Proxry Hostname : " Hostname
 
-			cat > /etc/squid3/squid.conf <<END
+cat > /etc/squid3/squid.conf <<END
 			acl manager proto cache_object
 			acl localhost src 127.0.0.1/32 ::1
 			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
@@ -193,7 +193,7 @@ END
 			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 			refresh_pattern . 0 20% 4320
 			visible_hostname $Hostname
-			END
+END
 			sed -i $MYIP2 /etc/squid3/squid.conf;
 			/etc/init.d/squid3 restart
 
@@ -222,7 +222,7 @@ END
 			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
 			read -p "Enter Your Proxry Hostname : " Hostname
 
-			cat > /etc/squid/squid.conf <<END
+cat > /etc/squid/squid.conf <<END
 			acl manager proto cache_object
 			acl localhost src 127.0.0.1/32 ::1
 			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
@@ -251,7 +251,7 @@ END
 			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 			refresh_pattern . 0 20% 4320
 			visible_hostname $Hostname
-			END
+END
 			sed -i $MYIP2 /etc/squid/squid.conf;
 			/etc/init.d/squid restart
 
