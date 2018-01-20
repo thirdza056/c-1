@@ -67,9 +67,438 @@ read -p "กรุณาเลือกฟังก์ชั่นที่ต�
 case $Menu in
 
 	1)
-	echo "1 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
-#	mkdir /root/backup
-#	cp /etc/apt/sources.list /root/backup
+
+newclient () {
+	# Generates the custom client.ovpn
+	cp /etc/openvpn/client-common.txt ~/$1.ovpn
+	echo "<ca>" >> ~/$1.ovpn
+	cat /etc/openvpn/easy-rsa/pki/ca.crt >> ~/$1.ovpn
+	echo "</ca>" >> ~/$1.ovpn
+	echo "<cert>" >> ~/$1.ovpn
+	cat /etc/openvpn/easy-rsa/pki/issued/$1.crt >> ~/$1.ovpn
+	echo "</cert>" >> ~/$1.ovpn
+	echo "<key>" >> ~/$1.ovpn
+	cat /etc/openvpn/easy-rsa/pki/private/$1.key >> ~/$1.ovpn
+	echo "</key>" >> ~/$1.ovpn
+	echo "<tls-auth>" >> ~/$1.ovpn
+	cat /etc/openvpn/ta.key >> ~/$1.ovpn
+	echo "</tls-auth>" >> ~/$1.ovpn
+}
+
+# Set IP
+IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+if [[ "$IP" = "" ]]; then
+        IP=$(wget -4qO- "http://whatismyip.akamai.com/")
+fi
+IP2="s/xxxxxxxxx/$IP/g";
+
+if [[ -e /etc/openvpn/server.conf ]]; then
+	while :
+	do
+		clear
+		echo ""
+		echo "ระบบตรวจสอบพบว่าได้ทำการติดตั้งเซิฟเวอร์ OpenVPN ไปแล้ว"
+		echo ""
+		echo ""
+		echo "|${RED}1${NC}|  ถอดถอนเซิฟเวอร์  OpenVPN"
+		echo "|${RED}2${NC}|  ยกเลิก"
+		echo ""
+		read -p "หรือหากคุณต้องการทำสิ่งใด โปรดเลือกหัวข้อด้านบนนี้ : " option
+
+		case $option in
+
+			1) 
+			echo ""
+			read -p "คุณแน่ใจใช่หรือไม่ว่าต้องการถอดถอนเซิฟเวอร์  OpenVPN " -e -i N REMOVE
+
+			if [[ "$REMOVE" = 'Y' ]]; then
+				PORT=$(grep '^port ' /etc/openvpn/server.conf | cut -d " " -f 2)
+				PROTOCOL=$(grep '^proto ' /etc/openvpn/server.conf | cut -d " " -f 2)
+
+				if pgrep firewalld; then
+					IP=$(firewall-cmd --direct --get-rules ipv4 nat POSTROUTING | grep '\-s 10.8.0.0/24 '"'"'!'"'"' -d 10.8.0.0/24 -j SNAT --to ' | cut -d " " -f 10)
+					firewall-cmd --zone=public --remove-port=$PORT/$PROTOCOL
+					firewall-cmd --zone=trusted --remove-source=10.8.0.0/24
+					firewall-cmd --permanent --zone=public --remove-port=$PORT/$PROTOCOL
+					firewall-cmd --permanent --zone=trusted --remove-source=10.8.0.0/24
+					firewall-cmd --direct --remove-rule ipv4 nat POSTROUTING 0 -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to $IP
+					firewall-cmd --permanent --direct --remove-rule ipv4 nat POSTROUTING 0 -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to $IP
+
+				else
+
+					IP=$(grep 'iptables -t nat -A POSTROUTING -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to ' $RCLOCAL | cut -d " " -f 14)
+					iptables -t nat -D POSTROUTING -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to $IP
+					sed -i '/iptables -t nat -A POSTROUTING -s 10.8.0.0\/24 ! -d 10.8.0.0\/24 -j SNAT --to /d' $RCLOCAL
+
+					if iptables -L -n | grep -qE '^ACCEPT'; then
+						iptables -D INPUT -p $PROTOCOL --dport $PORT -j ACCEPT
+						iptables -D FORWARD -s 10.8.0.0/24 -j ACCEPT
+						iptables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+						sed -i "/iptables -I INPUT -p $PROTOCOL --dport $PORT -j ACCEPT/d" $RCLOCAL
+						sed -i "/iptables -I FORWARD -s 10.8.0.0\/24 -j ACCEPT/d" $RCLOCAL
+						sed -i "/iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT/d" $RCLOCAL
+					fi
+				fi
+
+				if hash sestatus 2>/dev/null; then
+					if sestatus | grep "Current mode" | grep -qs "enforcing"; then
+						if [[ "$PORT" != '443' || "$PROTOCOL" = 'tcp' ]]; then
+							semanage port -d -t openvpn_port_t -p $PROTOCOL $PORT
+						fi
+					fi
+				fi
+
+				apt-get remove --purge -y openvpn
+				rm -rf /etc/openvpn
+
+				echo ""
+				echo "เซิฟเวอร์ OpenVPN ได้ถูกถอดถอนเรียบร้อยแล้ว"
+
+			else
+
+				exit
+
+			fi
+			exit
+			;;
+
+			2)
+			exit
+			;;
+
+		esac
+	done
+
+else
+
+	clear
+	echo ""
+	echo "เริ่มทำการตั้งค่าเซิฟเวอร์ OpenVPN ของคุณ"
+	echo ""
+	read -p "IP ของคุณคือ : " -e -i $IP IP
+	echo ""
+	echo "|${RED}1${NC}|  TCP (แนะนำ)"
+	echo "|${RED}2${NC}|  UDP"
+	echo ""
+	read -p "กรุณาเลือก Protocal ที่ต้องการติดตั้ง : " -e -i 1 PROTOCOL
+
+	case $PROTOCOL in
+		1)
+		PROTOCOL=tcp
+		;;
+		2)
+		PROTOCOL=udp
+		;;
+	esac
+
+	echo ""
+	read -p "กรุณาเลือกระบุ Port เซิฟเวอร์ที่ต้องการติดตั้ง : " -e -i 443 PORT
+	echo ""
+	echo "|${RED}1${NC}|  DNS จากระบบปัจจุบัน"
+	echo "|${RED}2${NC}|  DNS จาก Google"
+	read -p "กรุณาเลือกรูปแบบ DNS ที่ต้องการติดตั้ง : " -e -i 1 DNS
+	echo ""
+	read -p "กรุณาระบุชื่อเซิฟเวอร์ OpenVPN ของคุณ : " -e -i client CLIENT
+	echo ""
+	echo "ข้อมูลที่คุณตั้งค่าทั้งหมดถูกเซ็ตค่าไว้เรียบร้อยแล้ว"
+	read -n1 -r -p "กด Enter 1 ครั้งเพื่อเริ่มทำการติดตั้งเซิฟเวอร์ OpenVPN"
+
+	# Install Essential Package
+	apt-get update
+	apt-get install openvpn iptables openssl ca-certificates -y
+
+	# Delete old easy-rsa
+	if [[ -d /etc/openvpn/easy-rsa/ ]]; then
+		rm -rf /etc/openvpn/easy-rsa/
+	fi
+
+	# Get easy-rsa
+	wget -O ~/EasyRSA-3.0.3.tgz "https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.3/EasyRSA-3.0.3.tgz"
+	tar xzf ~/EasyRSA-3.0.3.tgz -C ~/
+
+	sed -i 's/\[\[/\[/g;s/\]\]/\]/g;s/==/=/g' ~/EasyRSA-3.0.3/easyrsa
+	mv ~/EasyRSA-3.0.3/ /etc/openvpn/
+	mv /etc/openvpn/EasyRSA-3.0.3/ /etc/openvpn/easy-rsa/
+	chown -R root:root /etc/openvpn/easy-rsa/
+	rm -rf ~/EasyRSA-3.0.3.tgz
+	cd /etc/openvpn/easy-rsa/
+
+	# Create the PKI, set up the CA, the DH params and the Server + Client certificates
+	./easyrsa init-pki
+	./easyrsa --batch build-ca nopass
+	./easyrsa gen-dh
+	./easyrsa build-server-full server nopass
+	./easyrsa build-client-full $CLIENT nopass
+	EASYRSA_CRL_DAYS=3650 ./easyrsa gen-crl
+
+	# Move the stuff we need
+	cp pki/ca.crt pki/private/ca.key pki/dh.pem pki/issued/server.crt pki/private/server.key pki/crl.pem /etc/openvpn
+
+	# CRL is read with each client connection, when OpenVPN is dropped to nobody
+	chown nobody:$GROUPNAME /etc/openvpn/crl.pem
+
+	# Generate key for tls-auth
+	openvpn --genkey --secret /etc/openvpn/ta.key
+
+	# Generate server.conf
+	echo "port $PORT
+proto $PROTOCOL
+dev tun
+sndbuf 0
+rcvbuf 0
+ca ca.crt
+cert server.crt
+key server.key
+dh dh.pem
+auth SHA512
+tls-auth ta.key 0
+topology subnet
+server 10.8.0.0 255.255.255.0
+ifconfig-pool-persist ipp.txt" > /etc/openvpn/server.conf
+	echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
+
+	# DNS
+	case $DNS in
+		1)
+		grep -v '#' /etc/resolv.conf | grep 'nameserver' | grep -E -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | while read line; do
+			echo "push \"dhcp-option DNS $line\"" >> /etc/openvpn/server.conf
+		done
+		;;
+		2)
+		echo 'push "dhcp-option DNS 8.8.8.8"' >> /etc/openvpn/server.conf
+		echo 'push "dhcp-option DNS 8.8.4.4"' >> /etc/openvpn/server.conf
+		;;
+	esac
+
+	echo "keepalive 10 120
+cipher AES-256-CBC
+comp-lzo
+user nobody
+group $GROUPNAME
+persist-key
+persist-tun
+status openvpn-status.log
+verb 3
+crl-verify crl.pem
+plugin /usr/lib/openvpn/openvpn-plugin-auth-pam.so login
+client-cert-not-required
+username-as-common-name" >> /etc/openvpn/server.conf
+
+	# Enable net.ipv4.ip_forward for the system
+	sed -i '/\<net.ipv4.ip_forward\>/c\net.ipv4.ip_forward=1' /etc/sysctl.conf
+
+	if ! grep -q "\<net.ipv4.ip_forward\>" /etc/sysctl.conf; then
+		echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+	fi
+
+	# Avoid an unneeded reboot
+	echo 1 > /proc/sys/net/ipv4/ip_forward
+
+	if pgrep firewalld; then
+		firewall-cmd --zone=public --add-port=$PORT/$PROTOCOL
+		firewall-cmd --zone=trusted --add-source=10.8.0.0/24
+		firewall-cmd --permanent --zone=public --add-port=$PORT/$PROTOCOL
+		firewall-cmd --permanent --zone=trusted --add-source=10.8.0.0/24
+
+		# Set NAT for the VPN subnet
+		firewall-cmd --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to $IP
+		firewall-cmd --permanent --direct --add-rule ipv4 nat POSTROUTING 0 -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to $IP
+
+	else
+
+		# Needed to use rc.local with some systemd distros
+		if [[ "$OS" = 'debian' && ! -e $RCLOCAL ]]; then
+			echo "#!/bin/sh -e
+exit 0" > $RCLOCAL
+		fi
+		chmod +x $RCLOCAL
+
+		# Set NAT for the VPN subnet
+		iptables -t nat -A POSTROUTING -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to $IP
+		sed -i "1 a\iptables -t nat -A POSTROUTING -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j SNAT --to $IP" $RCLOCAL
+
+		if iptables -L -n | grep -qE '^(REJECT|DROP)'; then
+			iptables -I INPUT -p $PROTOCOL --dport $PORT -j ACCEPT
+			iptables -I FORWARD -s 10.8.0.0/24 -j ACCEPT
+			iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+			sed -i "1 a\iptables -I INPUT -p $PROTOCOL --dport $PORT -j ACCEPT" $RCLOCAL
+			sed -i "1 a\iptables -I FORWARD -s 10.8.0.0/24 -j ACCEPT" $RCLOCAL
+			sed -i "1 a\iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT" $RCLOCAL
+		fi
+	fi
+
+	if hash sestatus 2>/dev/null; then
+		if sestatus | grep "Current mode" | grep -qs "enforcing"; then
+			if [[ "$PORT" != '443' || "$PROTOCOL" = 'tcp' ]]; then
+				semanage port -a -t openvpn_port_t -p $PROTOCOL $PORT
+			fi
+		fi
+	fi
+
+	# Little hack to check for systemd
+	if pgrep systemd-journal; then
+		systemctl restart openvpn@server.service
+	else
+		/etc/init.d/openvpn restart
+	fi
+
+	# Set Client
+	echo "client
+dev tun
+proto $PROTOCOL
+sndbuf 0
+rcvbuf 0
+remote $IP:$PORT@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th/lvs.truehits.in.th/dl-obs.official.line.naver.jp 443
+http-proxy $IP 8080
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+remote-cert-tls server
+auth SHA512
+cipher AES-256-CBC
+comp-lzo
+setenv opt block-outside-dns
+key-direction 1
+verb 3
+auth-user-pass" > /etc/openvpn/client-common.txt
+
+
+	EXTERNALIP=$(wget -4qO- "http://whatismyip.akamai.com/")
+
+	if [[ "$IP" != "$EXTERNALIP" ]]; then
+		echo ""
+		echo "ตรวจพบเบื้องหลังเซิฟเวอร์ของคุณเป็น Network Addrsss Translation (NAT)"
+		echo "NAT คืออะไร ? : http://www.greatinfonet.co.th/15396685/nat"
+		echo ""
+		echo "หากเซิฟเวอร์ของคุณเป็น (NAT) คุณจำเป็นต้องระบุ IP ภายนอกของคุณ"
+		echo "หากไม่ใช่ กรุณาเว้นว่างไว้"
+		echo "หรือหากไม่แน่ใจ กรุณาเปิดดูลิ้งค์ด้านบนเพื่อศึกษาข้อมูลเกี่ยวกับ (NAT)"
+		echo ""
+		read -p "External IP: " -e USEREXTERNALIP
+
+		if [[ "$USEREXTERNALIP" != "" ]]; then
+			IP=$USEREXTERNALIP
+		fi
+	fi
+
+		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+			echo ""
+			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+		done
+
+		if [[ "$CONTINUE" = "N" ]]; then
+			echo ""
+			echo "Source by Mnm Ami"
+			echo "Donate via TrueMoney Wallet : 082-038-2600"
+			echo ""
+			echo "Install OpenVPN and Squid Proxy Finish"
+			echo "IP    : $IP"
+			echo "Port OpenVPN : $PORT
+			echo "Proxy : $IP"
+			echo "Port  : 8080"
+			echo "No Proxy"
+			echo ""
+			exit
+		fi
+	
+	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+
+apt-get -y install squid3
+cat > /etc/squid3/squid.conf <<END
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 21
+acl Safe_ports port 443
+acl Safe_ports port 70
+acl Safe_ports port 210
+acl Safe_ports port 1025-65535
+acl Safe_ports port 280
+acl Safe_ports port 488
+acl Safe_ports port 591
+acl Safe_ports port 777
+acl CONNECT method CONNECT
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+http_access allow SSH
+http_access allow manager localhost
+http_access deny manager
+http_access allow localhost
+http_access deny all
+http_port 8080
+coredump_dir /var/spool/squid3
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern . 0 20% 4320
+visible_hostname OPENEXTRA.NET
+END
+sed -i $IP2 /etc/squid3/squid.conf;
+service squid3 restart
+
+echo ""
+echo "Source by Mnm Ami"
+echo "Donate via TrueMoney Wallet : 082-038-2600"
+echo ""
+echo "Install OpenVPN and Squid Proxy Finish"
+echo "IP    : $IP"
+echo "Port OpenVPN : $PORT
+echo "Proxy : $IP"
+echo "Port  : 8080"
+
+	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+
+apt-get -y install squid
+cat > /etc/squid/squid.conf <<END
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 21
+acl Safe_ports port 443
+acl Safe_ports port 70
+acl Safe_ports port 210
+acl Safe_ports port 1025-65535
+acl Safe_ports port 280
+acl Safe_ports port 488
+acl Safe_ports port 591
+acl Safe_ports port 777
+acl CONNECT method CONNECT
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+http_access allow SSH
+http_access allow manager localhost
+http_access deny manager
+http_access allow localhost
+http_access deny all
+http_port 8080
+coredump_dir /var/spool/squid
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern . 0 20% 4320
+visible_hostname OPENEXTRA.NET
+END
+sed -i $IP2 /etc/squid/squid.conf;
+service squid restart
+
+echo ""
+echo "Source by Mnm Ami"
+echo "Donate via TrueMoney Wallet : 082-038-2600"
+echo ""
+echo "Install OpenVPN and Squid Proxy Finish"
+echo "IP    : $IP"
+echo "Port OpenVPN : $PORT
+echo "Proxy : $IP"
+echo "Port  : 8080"
+
+	fi
+
+# newclient "$CLIENT"
+fi
 
 	;;
 
