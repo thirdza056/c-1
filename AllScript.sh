@@ -177,7 +177,7 @@ elif test $x -eq 2; then
 		# Install Squid
 		cd
 
-		if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]
+		if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
 
 apt-get -y install squid3
 cat > /etc/squid3/squid.conf <<END
@@ -214,7 +214,7 @@ sed -i $MYIP2 /etc/squid3/squid.conf;
 /etc/init.d/squid restart
 		fi
 
-		if [[ "$VERSION_ID" != 'VERSION_ID="7"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="8"' ]]
+		if [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
 
 apt-get -y install squid
 cat > /etc/squid/squid.conf <<END
