@@ -69,25 +69,25 @@ END
 			sudo systemctl start mongod pritunl
 			sudo systemctl enable mongod pritunl
 
-			while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
-				echo ""
-				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-				read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+					echo ""
+					echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+					read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
-			done
+				done
 
-				if [[ "$CONTINUE" = "N" ]]; then
+					if [[ "$CONTINUE" = "N" ]]; then
 
-				echo "ยังไม่ติดตั้ง"
-				exit
+					echo "ยังไม่ติดตั้ง"
+					exit
 
-				fi
+					fi
 
-			fi
+#			fi
 
 			# Debian 9
-			if [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
+			elif [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 
 cat > /etc/apt/sources.list.d/pritunl.list <<END
 			deb http://repo.pritunl.com/stable/apt stretch main
@@ -99,25 +99,25 @@ END
 			sudo systemctl start mongodb pritunl
 			sudo systemctl enable mongodb pritunl
 
-			while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
-				echo ""
-				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-				read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+					echo ""
+					echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+					read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
-			done
+				done
 
-				if [[ "$CONTINUE" = "N" ]]; then
+					if [[ "$CONTINUE" = "N" ]]; then
 
-				echo "ยังไม่ติดตั้ง"
-				exit
+					echo "ยังไม่ติดตั้ง"
+					exit
 
-				fi
+					fi
 
-			fi
+#			fi
 
 			# Ubuntu 14.04
-			if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+			elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
 cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
 			deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse
@@ -131,25 +131,25 @@ END
 			sudo apt-get --assume-yes install pritunl mongodb-org
 			sudo service pritunl start
 
-			while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
-				echo ""
-				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-				read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+					echo ""
+					echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+					read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
-			done
+				done
 
-				if [[ "$CONTINUE" = "N" ]]; then
+					if [[ "$CONTINUE" = "N" ]]; then
 
-				echo "ยังไม่ติดตั้ง"
-				exit
+					echo "ยังไม่ติดตั้ง"
+					exit
 
-				fi
+					fi
 
-			fi
+#			fi
 
 			# Ubuntu 16.04
-			if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
 cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
 			deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
@@ -164,20 +164,20 @@ END
 			sudo systemctl start pritunl mongod
 			sudo systemctl enable pritunl mongod
 
-			while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
-				echo ""
-				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-				read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+					echo ""
+					echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+					read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
-			done
+				done
 
-				if [[ "$CONTINUE" = "N" ]]; then
+					if [[ "$CONTINUE" = "N" ]]; then
 
-				echo "ยังไม่ติดตั้ง 16.04"
-				exit
+					echo "ยังไม่ติดตั้ง 16.04"
+					exit
 
-				fi
+					fi
 
 			fi
 
@@ -228,7 +228,7 @@ END
 				/etc/init.d/squid3 restart
 				exit
 
-				else
+				elif [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
 
 				apt-get -y install squid
 
@@ -271,6 +271,7 @@ END
 				exit
 
 				fi
+
 	fi
 
 elif test $x -eq 3; then
@@ -280,6 +281,13 @@ elif test $x -eq 4; then
 	echo "กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
 
 elif test $x -eq 5; then
+
+	# Install Vnstat
+	apt-get -y install vnstat
+	vnstat -u -i eth0
+	
+	# Install Vnstat GUI
+	
 	rm /etc/apt/sources.list
 	cp /root/backup/sources.list /etc/apt/
 
