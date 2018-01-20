@@ -82,16 +82,15 @@ case $Menu in
 	sudo systemctl start mongod pritunl
 	sudo systemctl enable mongod pritunl
 
-		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+		while [[ $Squid3 != "Y" && $Squid3 != "N" ]]; do
 
 			echo ""
-			echo "OS "
 			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y Squid3
 
 		done
 
-			if [[ "$CONTINUE" = "N" ]]; then
+			if [[ "$Squid3" = "N" ]]; then
 
 			echo "ยังไม่ติดตั้ง 8"
 			exit
@@ -109,15 +108,15 @@ case $Menu in
 	sudo systemctl start mongodb pritunl
 	sudo systemctl enable mongodb pritunl
 
-		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+		while [[ $Squid != "Y" && $Squid != "N" ]]; do
 
 			echo ""
 			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y Squid
 
 		done
 
-			if [[ "$CONTINUE" = "N" ]]; then
+			if [[ "$Squid" = "N" ]]; then
 
 			echo "ยังไม่ติดตั้ง 9"
 			exit
@@ -135,15 +134,15 @@ case $Menu in
 	sudo apt-get --assume-yes install pritunl mongodb-org
 	sudo service pritunl start
 
-		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+		while [[ $Squid3 != "Y" && $Squid3 != "N" ]]; do
 
 			echo ""
 			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y Squid3
 
 		done
 
-			if [[ "$CONTINUE" = "N" ]]; then
+			if [[ "$Squid3" = "N" ]]; then
 
 			echo "ยังไม่ติดตั้ง 14.04"
 			exit
@@ -162,15 +161,15 @@ case $Menu in
 #	sudo systemctl start pritunl mongod
 #	sudo systemctl enable pritunl mongod
 
-		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+		while [[ $Squid != "Y" && $Squid != "N" ]]; do
 
 			echo ""
 			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y Squid
 
 		done
 
-			if [[ "$CONTINUE" = "N" ]]; then
+			if [[ "$Squid" = "N" ]]; then
 
 			echo "ยังไม่ติดตั้ง 16.04"
 			exit
@@ -180,7 +179,7 @@ case $Menu in
 	fi
 
 		# Install Squid
-		if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
+		if [[ "$Squid3" = "Y" ]]; then
 
 apt-get -y install squid3
 cat > /etc/squid3/squid.conf <<END
@@ -215,9 +214,8 @@ visible_hostname openextra.net
 END
 sed -i $MYIP2 /etc/squid3/squid.conf;
 /etc/init.d/squid restart
-		fi
 
-		if [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
+		elif [[ "$Squid" = "Y" ]]; then
 
 apt-get -y install squid
 cat > /etc/squid/squid.conf <<END
