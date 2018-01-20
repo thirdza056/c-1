@@ -78,12 +78,12 @@ case $Menu in
 
 	echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main" > /etc/apt/sources.list.d/mongodb-org-3.6.list
 	echo "deb http://repo.pritunl.com/stable/apt jessie main" > /etc/apt/sources.list.d/pritunl.list
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-	sudo apt-get update
-	sudo apt-get --assume-yes install pritunl mongodb-org
-	sudo systemctl start mongod pritunl
-	sudo systemctl enable mongod pritunl
+	apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+	apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+	apt-get update
+	apt-get --assume-yes install pritunl mongodb-org
+	systemctl start mongod pritunl
+	systemctl enable mongod pritunl
 
 		while [[ $Squid3 != "Y" && $Squid3 != "N" ]]; do
 
@@ -114,12 +114,12 @@ case $Menu in
 	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 
 	echo "deb http://repo.pritunl.com/stable/apt stretch main" > /etc/apt/sources.list.d/pritunl.list
-	sudo apt-get -y install dirmngr
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-	sudo apt-get update
-	sudo apt-get --assume-yes install pritunl mongodb-server
-	sudo systemctl start mongodb pritunl
-	sudo systemctl enable mongodb pritunl
+	apt-get -y install dirmngr
+	apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+	apt-get update
+	apt-get --assume-yes install pritunl mongodb-server
+	systemctl start mongodb pritunl
+	systemctl enable mongodb pritunl
 
 		while [[ $Squid != "Y" && $Squid != "N" ]]; do
 
@@ -151,11 +151,11 @@ case $Menu in
 
 	echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.6.list
 	echo "deb http://repo.pritunl.com/stable/apt trusty main" > /etc/apt/sources.list.d/pritunl.list
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-	sudo apt-get update
-	sudo apt-get --assume-yes install pritunl mongodb-org
-	sudo service pritunl start
+	apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+	apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+	apt-get update
+	apt-get --assume-yes install pritunl mongodb-org
+	service pritunl start
 
 		while [[ $Squid3 != "Y" && $Squid3 != "N" ]]; do
 
@@ -187,12 +187,12 @@ case $Menu in
 
 	echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.6.list
 	echo "deb http://repo.pritunl.com/stable/apt xenial main" > /etc/apt/sources.list.d/pritunl.list
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-	sudo apt-get update
-	sudo apt-get --assume-yes install pritunl mongodb-org
-	sudo systemctl start pritunl mongod
-	sudo systemctl enable pritunl mongod
+	apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+	apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+	apt-get update
+	apt-get --assume-yes install pritunl mongodb-org
+	systemctl start pritunl mongod
+	systemctl enable pritunl mongod
 
 		while [[ $Squid != "Y" && $Squid != "N" ]]; do
 
