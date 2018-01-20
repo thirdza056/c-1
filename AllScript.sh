@@ -46,26 +46,77 @@ elif test $x -eq 2; then
 		IPTABLES='/etc/iptables/iptables.rules'
 		SYSCTL='/etc/sysctl.conf'
 
-		if [[ "$OS" = 'debian' ]]; then
+			if [[ "$OS" = 'debian' ]]; then
 
 			# Debian 8
 			if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
-			echo "8"
+
+			sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
+			deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main
+			EOF
+
+			sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+			deb http://repo.pritunl.com/stable/apt jessie main
+			EOF
+
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+			sudo apt-get update
+			sudo apt-get --assume-yes install pritunl mongodb-org
+			sudo systemctl start mongod pritunl
+			sudo systemctl enable mongod pritunl
 			fi
 
 			# Debian 9
 			if [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
-			echo "9"
+
+			sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+			deb http://repo.pritunl.com/stable/apt stretch main
+			EOF
+
+			sudo apt-get install dirmngr
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+			sudo apt-get update
+			sudo apt-get --assume-yes install pritunl mongodb-server
+			sudo systemctl start mongodb pritunl
+			sudo systemctl enable mongodb pritunl
 			fi
 
 			# Ubuntu 14.04
 			if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
-			echo "14.04"
+
+			sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
+			deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse
+			EOF
+
+			sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+			deb http://repo.pritunl.com/stable/apt trusty main
+			EOF
+
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+			sudo apt-get update
+			sudo apt-get --assume-yes install pritunl mongodb-org
+			sudo service pritunl start
 			fi
 
 			# Ubuntu 16.04
 			if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
-			echo "16.04"
+
+			sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
+			deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
+			EOF
+
+			sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+			deb http://repo.pritunl.com/stable/apt xenial main
+			EOF
+
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+			sudo apt-get update
+			sudo apt-get --assume-yes install pritunl mongodb-org
+			sudo systemctl start pritunl mongod
+			sudo systemctl enable pritunl mongod
 			fi
 		fi
 
@@ -76,8 +127,30 @@ elif test $x -eq 2; then
 
 		if [[ "$OS" = 'centos' ]]; then
 
-			# CentOS
-			echo "7"
+			# CentOS 7
+			sudo tee -a /etc/yum.repos.d/mongodb-org-3.4.repo << EOF
+			[mongodb-org-3.6]
+			name=MongoDB Repository
+			baseurl=https://repo.mongodb.org/yum/redhat/7/mongodb-org/3.6/x86_64/
+			gpgcheck=1
+			enabled=1
+			gpgkey=https://www.mongodb.org/static/pgp/server-3.6.asc
+			EOF
+
+			sudo tee -a /etc/yum.repos.d/pritunl.repo << EOF
+			[pritunl]
+			name=Pritunl Repository
+			baseurl=https://repo.pritunl.com/stable/yum/centos/7/
+			gpgcheck=1
+			enabled=1
+			EOF
+
+			sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+			gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+			gpg --armor --export 7568D9BB55FF9E5287D586017AE645C0CF8E292A > key.tmp; sudo rpm --import key.tmp; rm -f key.tmp
+			sudo yum -y install pritunl mongodb-org
+			sudo systemctl start mongod pritunl
+			sudo systemctl enable mongod pritunl
 		fi
 
 	else
