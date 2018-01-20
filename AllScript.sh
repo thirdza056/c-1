@@ -445,7 +445,7 @@ echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install OpenVPN and Squid Proxy Finish"
 echo "IP    : $IP"
-echo "Port OpenVPN : $PORT
+echo "Port OpenVPN : $PORT"
 echo "Proxy : $IP"
 echo "Port  : 8080"
 
@@ -491,7 +491,7 @@ echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install OpenVPN and Squid Proxy Finish"
 echo "IP    : $IP"
-echo "Port OpenVPN : $PORT
+echo "Port OpenVPN : $PORT"
 echo "Proxy : $IP"
 echo "Port  : 8080"
 
