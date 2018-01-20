@@ -56,14 +56,12 @@ elif test $x -eq 2; then
 			# Debian 8
 			if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
 
-			sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
+			cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
 			deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main
-			EOF
-
-			sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+			END
+			cat > /etc/apt/sources.list.d/pritunl.list <<END
 			deb http://repo.pritunl.com/stable/apt jessie main
-			EOF
-
+			END
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 			sudo apt-get update
@@ -116,10 +114,9 @@ elif test $x -eq 2; then
 			# Debian 9
 			if [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 
-			sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+			cat > /etc/apt/sources.list.d/pritunl.list <<END
 			deb http://repo.pritunl.com/stable/apt stretch main
-			EOF
-
+			END
 			sudo apt-get install dirmngr
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 			sudo apt-get update
@@ -137,10 +134,10 @@ elif test $x -eq 2; then
 
 				if [[ "$CONTINUE" = "1" ]]; then
 				echo "ติดตั้งแล้ว"
-				
+
 				elif [[ "$CONTINUE" = "2" ]]; then
 				echo "ยังไม่ติดตั้ง"
-			
+
 				fi
 
 			fi
@@ -148,14 +145,12 @@ elif test $x -eq 2; then
 			# Ubuntu 14.04
 			if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
-			sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
+			cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
 			deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse
-			EOF
-
-			sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+			END
+			cat > /etc/apt/sources.list.d/pritunl.list <<END
 			deb http://repo.pritunl.com/stable/apt trusty main
-			EOF
-
+			END
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 			sudo apt-get update
@@ -207,14 +202,12 @@ elif test $x -eq 2; then
 			# Ubuntu 16.04
 			if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
-			sudo tee -a /etc/apt/sources.list.d/mongodb-org-3.6.list << EOF
+			cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
 			deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
-			EOF
-
-			sudo tee -a /etc/apt/sources.list.d/pritunl.list << EOF
+			END
+			cat > /etc/apt/sources.list.d/pritunl.list <<END
 			deb http://repo.pritunl.com/stable/apt xenial main
-			EOF
-
+			END
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
 			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
 			sudo apt-get update
