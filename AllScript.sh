@@ -8,30 +8,33 @@ if [[ "$EUID" -ne 0 ]]; then
 	echo ""
 fi
 
-# Set OS Version
-OS="debian"
-VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
-IPTABLES='/etc/iptables/iptables.rules'
-SYSCTL='/etc/sysctl.conf'
-
 # Check OS can't run script
 if [[ -e /etc/centos-release || -e /etc/redhat-release || -e /etc/system-release && ! -e /etc/fedora-release ]]; then
 	OS=centos
 	echo ""
-	echo "ขณะนี้ OS $OS ยังไม่รอบรับกับสคริปท์นี้"
+	echo "สคริปท์นี้ยังไม่รอบรับ OS $OS"
+	exit
 elif [[ -e /etc/arch-release ]]; then
 	OS=arch
 	echo ""
-	echo "ขณะนี้ OS $OS ยังไม่รอบรับกับสคริปท์นี้"
+	echo "สคริปท์นี้ยังไม่รอบรับ OS $OS"
+	exit
 elif [[ -e /etc/fedora-release ]]; then
 	OS=fedora
 	echo ""
-	echo "ขณะนี้ OS $OS ยังไม่รอบรับกับสคริปท์นี้"
+	echo "สคริปท์นี้ยังไม่รอบรับ OS $OS"
+	exit
 fi
 
 # Set your IP
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
+
+# Set OS Version
+OS="debian"
+VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
+IPTABLES='/etc/iptables/iptables.rules'
+SYSCTL='/etc/sysctl.conf'
 
 # Set Localtime GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Thailand /etc/localtime
@@ -92,7 +95,7 @@ case $Menu in
 
 			if [[ "$Squid3" = "N" ]]; then
 
-			echo "ยังไม่ติดตั้ง 8"
+			echo "Install Pritunl Finish..."
 			exit
 
 			fi
