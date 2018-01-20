@@ -348,13 +348,14 @@ exit
 	;;
 
 	6)
-	
-	if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
-	echo "8 14"
-	exit
-	elif [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
-	echo "9 16"
-	exit
+	if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
+	echo "8"
+	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
+	echo "9"
+	elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+	echo "14.04"
+	elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+	echo "16.04"
 	
 	fi
 	
