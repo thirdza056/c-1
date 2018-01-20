@@ -1,17 +1,16 @@
 #!/bin/bash
 
-			while [[ $CONTINUE != "1" && $CONTINUE != "2" ]]; do
+while [[ $CONTINUE != "1" && $CONTINUE != "2" ]]; do
 
-				echo ""
-				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-				read -p "You Need Install Squid Proxy or Not ? :" -e -i 1 CONTINUE
+	echo ""
+	echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+	read -p "You Need Install Squid Proxy or Not ? :" -e -i 1 CONTINUE
 
-			done
+done
 
-				if [[ "$CONTINUE" = "2" ]]; then
-				echo "บายยย"
+if [[ "$CONTINUE" = "2" ]]; then
+	echo "บายยย"
         exit
-				fi
-       
-       echo "1 ไม่บาย"
-       exit
+fi
+
+echo "1 ไม่บาย"
