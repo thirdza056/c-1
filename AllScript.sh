@@ -95,7 +95,16 @@ case $Menu in
 
 			if [[ "$Squid3" = "N" ]]; then
 
-			echo "Install Pritunl Finish..."
+			echo "Ubuntu 16.04 Xenial version."
+echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
+echo ""
+echo "Proxy : $IP"
+echo "Port  : 8080"
+echo "==================================="
+echo "     http://$IP"
+echo ""
+pritunl setup-key
+echo "==================================="
 			exit
 
 			fi
