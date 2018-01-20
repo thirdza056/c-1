@@ -93,7 +93,7 @@ case $Menu in
 
 			if [[ "$CONTINUE" = "N" ]]; then
 
-			echo "ยังไม่ติดตั้ง"
+			echo "ยังไม่ติดตั้ง 8"
 			exit
 
 			fi
@@ -119,7 +119,7 @@ case $Menu in
 
 			if [[ "$CONTINUE" = "N" ]]; then
 
-			echo "ยังไม่ติดตั้ง"
+			echo "ยังไม่ติดตั้ง 9"
 			exit
 
 			fi
@@ -145,7 +145,7 @@ case $Menu in
 
 			if [[ "$CONTINUE" = "N" ]]; then
 
-			echo "ยังไม่ติดตั้ง"
+			echo "ยังไม่ติดตั้ง 14.04"
 			exit
 
 			fi
@@ -180,8 +180,6 @@ case $Menu in
 	fi
 
 		# Install Squid
-		cd
-
 		if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
 
 apt-get -y install squid3
