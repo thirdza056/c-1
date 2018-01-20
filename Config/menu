@@ -26,7 +26,7 @@ color3='\e[0m'
 	
 if test $x -eq 1; then
 	echo ""
-	echo "${color1}ตัวอย่างการสร้างชื่อผู้ใช้${color3} : openextra 1234 31"
+	echo -e "${color1}ตัวอย่างการสร้างชื่อผู้ใช้${color3} : openextra 1234 31"
 	read -p "Username Password Expired : " Login Passwd TimeActive
 #	echo ""
 #	read -p "Password : " Passwd
