@@ -31,10 +31,12 @@ MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 
 # Set OS Version
-OS="debian"
+OS=debian
 VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
 IPTABLES='/etc/iptables/iptables.rules'
 SYSCTL='/etc/sysctl.conf'
+GROUPNAME=nogroup
+RCLOCAL='/etc/rc.local'
 
 # Set Localtime GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Thailand /etc/localtime
@@ -308,7 +310,7 @@ username-as-common-name" >> /etc/openvpn/server.conf
 
 		# Needed to use rc.local with some systemd distros
 		if [[ "$OS" = 'debian' && ! -e $RCLOCAL ]]; then
-			echo "#!/bin/sh -e
+echo "#!/bin/sh -e
 exit 0" > $RCLOCAL
 		fi
 		chmod +x $RCLOCAL
