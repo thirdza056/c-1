@@ -42,23 +42,24 @@ ln -fs /usr/share/zoneinfo/Asia/Thailand /etc/localtime
 clear
 
 # Color
-color1='\e[031;1m'
-color3='\e[0m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
 
 # Menu
 echo ""
-echo -e "${color1}  (\_(\  ${color3}"
-echo -e "${color1} (=’ :’) :* ${color3} Script by Mnm Ami"
-echo -e "${color1}  (,(”)(”) °.¸¸.• ${color3}"
+echo -e "${RED}  (\_(\  ${NC}"
+echo -e "${RED} (=’ :’) :* $${NC} Script by Mnm Ami"
+echo -e "${RED}  (,(”)(”) °.¸¸.• ${NC}"
 echo ""
 echo -e "FUNCTION SCRIPT ${color1}✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:*${color3}"
 echo ""
-echo -e "|${color1}1${color3}|  OPENVPN (TERMINAL CONTROL)"
-echo -e "|${color1}2${color3}|  OPENVPN (PRITUNL CONTROL)"
-echo -e "|${color1}3${color3}|  SSH + DROPBEAR"
-echo -e "|${color1}4${color3}|  WEB PANEL"
-echo -e "|${color1}5${color3}|  VNSTAT (CHECK BANDWIDTH or DATA)"
-echo -e "|${color1}6${color3}|  SQUID PROXY"
+echo -e "|${RED}1${NC}|  OPENVPN (TERMINAL CONTROL) ${RED}✖${NC}"
+echo -e "|${RED}2${NC}|  OPENVPN (PRITUNL CONTROL) ${GREEN}✔${NC}"
+echo -e "|${RED}3${NC}|  SSH + DROPBEAR ${RED}✖${NC}"
+echo -e "|${RED}4${NC}|  WEB PANEL ${RED}✖${NC}"
+echo -e "|${RED}5${NC}|  VNSTAT (CHECK BANDWIDTH or DATA) ${RED}✖${NC}"
+echo -e "|${RED}6${NC}|  SQUID PROXY ${GREEN}✔${NC}"
 echo ""
 read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข) : " Menu
 
