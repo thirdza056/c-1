@@ -49,7 +49,7 @@ NC='\033[0m'
 # Menu
 echo ""
 echo -e "${RED}  (\_(\  ${NC}"
-echo -e "${RED} (=’ :’) :* $${NC} Script by Mnm Ami"
+echo -e "${RED} (=’ :’) :* ${NC} Script by Mnm Ami"
 echo -e "${RED}  (,(”)(”) °.¸¸.• ${NC}"
 echo ""
 echo -e "FUNCTION SCRIPT ${color1}✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:*${color3}"
