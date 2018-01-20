@@ -8,6 +8,7 @@ if [[ "$EUID" -ne 0 ]]; then
 	echo ""
 fi
 
+# Check OS can't run script
 if [[ -e /etc/centos-release || -e /etc/redhat-release || -e /etc/system-release && ! -e /etc/fedora-release ]]; then
 	OS=centos
 	echo ""
@@ -22,7 +23,14 @@ elif [[ -e /etc/fedora-release ]]; then
 	echo "ขณะนี้ OS $OS ยังไม่รอบรับกับสคริปท์นี้"
 fi
 
-# Set my IP
+# Set OS Version
+OS="debian"
+VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
+IPTABLES='/etc/iptables/iptables.rules'
+SYSCTL='/etc/sysctl.conf'
+OS=debian
+
+# Set your IP
 MYIP=$(wget -qO- ipv4.icanhazip.com);
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 
@@ -35,7 +43,7 @@ clear
 color1='\e[031;1m'
 color3='\e[0m'
 
-# Menu Function
+# Menu
 echo ""
 echo -e "${color1}  (\_(\  ${color3}"
 echo -e "${color1} (=’ :’) :* ${color3} Script by Mnm Ami"
@@ -57,15 +65,6 @@ if test $x -eq 1; then
 			cp /etc/apt/sources.list /root/backup
 
 elif test $x -eq 2; then
-
-	if [[ -e /etc/debian_version ]]; then
-
-	OS="debian"
-	VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
-	IPTABLES='/etc/iptables/iptables.rules'
-	SYSCTL='/etc/sysctl.conf'
-
-		if [[ "$OS" = 'debian' ]]; then
 
 			# Debian 8
 			if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
@@ -98,8 +97,6 @@ END
 
 					fi
 
-#			fi
-
 			# Debian 9
 			elif [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 
@@ -127,8 +124,6 @@ END
 					exit
 
 					fi
-
-#			fi
 
 			# Ubuntu 14.04
 			elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
@@ -160,8 +155,6 @@ END
 
 					fi
 
-#			fi
-
 			# Ubuntu 16.04
 			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
@@ -187,7 +180,7 @@ END
 				# Install Squid
 				cd
 
-				if [[ "$VERSION_ID" != 'VERSION_ID="8"' && "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
+				if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]
 
 apt-get -y install squid3
 cat > /etc/squid3/squid.conf <<END
@@ -222,8 +215,9 @@ visible_hostname openextra.net
 END
 sed -i $MYIP2 /etc/squid3/squid.conf;
 /etc/init.d/squid restart
+				fi
 
-				elif [[ "$VERSION_ID" != 'VERSION_ID="9"' && "$VERSION_ID" != 'VERSION_ID="16.04"' ]]; then
+				if [[ "$VERSION_ID" != 'VERSION_ID="7"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="8"' ]]
 
 apt-get -y install squid
 cat > /etc/squid/squid.conf <<END
@@ -260,9 +254,6 @@ sed -i $MYIP2 /etc/squid/squid.conf;
 /etc/init.d/squid restart
 
 				fi
-		fi
-
-	fi
 
 elif test $x -eq 3; then
 	echo "กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
