@@ -95,16 +95,17 @@ case $Menu in
 
 			if [[ "$Squid3" = "N" ]]; then
 
-			echo "Ubuntu 16.04 Xenial version."
-echo "Source by Mnm Ami (Donate via TrueMoney Wallet : 082-038-2600)"
-echo ""
-echo "Proxy : $IP"
-echo "Port  : 8080"
-echo "==================================="
-echo "     http://$IP"
-echo ""
-pritunl setup-key
-echo "==================================="
+			echo ""
+			echo "Source by Mnm Ami"
+			echo "Donate via TrueMoney Wallet : 082-038-2600"
+			echo ""
+			echo "Install Pritunl Finish"
+			echo "No Proxy"
+			echo ""
+			echo "Pritunl : http://$IP"
+			echo ""
+			pritunl setup-key
+			echo ""
 			exit
 
 			fi
@@ -130,7 +131,17 @@ echo "==================================="
 
 			if [[ "$Squid" = "N" ]]; then
 
-			echo "ยังไม่ติดตั้ง 9"
+			echo ""
+			echo "Source by Mnm Ami"
+			echo "Donate via TrueMoney Wallet : 082-038-2600"
+			echo ""
+			echo "Install Pritunl Finish"
+			echo "No Proxy"
+			echo ""
+			echo "Pritunl : http://$IP"
+			echo ""
+			pritunl setup-key
+			echo ""
 			exit
 
 			fi
@@ -156,7 +167,17 @@ echo "==================================="
 
 			if [[ "$Squid3" = "N" ]]; then
 
-			echo "ยังไม่ติดตั้ง 14.04"
+			echo ""
+			echo "Source by Mnm Ami"
+			echo "Donate via TrueMoney Wallet : 082-038-2600"
+			echo ""
+			echo "Install Pritunl Finish"
+			echo "No Proxy"
+			echo ""
+			echo "Pritunl : http://$IP"
+			echo ""
+			pritunl setup-key
+			echo ""
 			exit
 
 			fi
@@ -183,7 +204,17 @@ echo "==================================="
 
 			if [[ "$Squid" = "N" ]]; then
 
-			echo "ยังไม่ติดตั้ง 16.04"
+			echo ""
+			echo "Source by Mnm Ami"
+			echo "Donate via TrueMoney Wallet : 082-038-2600"
+			echo ""
+			echo "Install Pritunl Finish"
+			echo "No Proxy"
+			echo ""
+			echo "Pritunl : http://$IP"
+			echo ""
+			pritunl setup-key
+			echo ""
 			exit
 
 			fi
@@ -227,6 +258,20 @@ END
 sed -i $MYIP2 /etc/squid3/squid.conf;
 /etc/init.d/squid restart
 
+echo ""
+echo "Source by Mnm Ami"
+echo "Donate via TrueMoney Wallet : 082-038-2600"
+echo ""
+echo "Install Pritunl Finish"
+echo "Proxy : $MYIP"
+echo "Port  : 8080"
+echo ""
+echo "Pritunl : http://$MYIP"
+echo ""
+pritunl setup-key
+echo ""
+exit
+
 	elif [[ "$Squid" = "Y" ]]; then
 
 apt-get -y install squid
@@ -262,6 +307,20 @@ visible_hostname OPENEXTRA.NET
 END
 sed -i $MYIP2 /etc/squid/squid.conf;
 /etc/init.d/squid restart
+
+echo ""
+echo "Source by Mnm Ami"
+echo "Donate via TrueMoney Wallet : 082-038-2600"
+echo ""
+echo "Install Pritunl Finish"
+echo "Proxy : $MYIP"
+echo "Port  : 8080"
+echo ""
+echo "Pritunl : http://$MYIP"
+echo ""
+pritunl setup-key
+echo ""
+exit
 
 	fi
 
