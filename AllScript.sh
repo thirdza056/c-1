@@ -28,7 +28,6 @@ OS="debian"
 VERSION_ID=$(cat /etc/os-release | grep "VERSION_ID")
 IPTABLES='/etc/iptables/iptables.rules'
 SYSCTL='/etc/sysctl.conf'
-OS=debian
 
 # Set your IP
 MYIP=$(wget -qO- ipv4.icanhazip.com);
@@ -66,121 +65,119 @@ if test $x -eq 1; then
 
 elif test $x -eq 2; then
 
-			# Debian 8
-			if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
+	# Debian 8
+	if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
 
-cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
-deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main
-END
-cat > /etc/apt/sources.list.d/pritunl.list <<END
-deb http://repo.pritunl.com/stable/apt jessie main
-END
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-			sudo apt-get update
-			sudo apt-get --assume-yes install pritunl mongodb-org
-			sudo systemctl start mongod pritunl
-			sudo systemctl enable mongod pritunl
+	echo "deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main" > /etc/apt/sources.list.d/mongodb-org-3.6.list
+	echo "deb http://repo.pritunl.com/stable/apt jessie main" > /etc/apt/sources.list.d/pritunl.list
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+	sudo apt-get update
+	sudo apt-get --assume-yes install pritunl mongodb-org
+	sudo systemctl start mongod pritunl
+	sudo systemctl enable mongod pritunl
 
-				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
-					echo ""
-					echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-					read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+			echo ""
+			echo "OS "
+			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
-				done
+		done
 
-					if [[ "$CONTINUE" = "N" ]]; then
+			if [[ "$CONTINUE" = "N" ]]; then
 
-					echo "ยังไม่ติดตั้ง"
-					exit
-
-					fi
-
-			# Debian 9
-			elif [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
-
-cat > /etc/apt/sources.list.d/pritunl.list <<END
-deb http://repo.pritunl.com/stable/apt stretch main
-END
-			sudo apt-get -y install dirmngr
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-			sudo apt-get update
-			sudo apt-get --assume-yes install pritunl mongodb-server
-			sudo systemctl start mongodb pritunl
-			sudo systemctl enable mongodb pritunl
-
-				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
-
-					echo ""
-					echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-					read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
-
-				done
-
-					if [[ "$CONTINUE" = "N" ]]; then
-
-					echo "ยังไม่ติดตั้ง"
-					exit
-
-					fi
-
-			# Ubuntu 14.04
-			elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
-
-cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
-deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse
-END
-cat > /etc/apt/sources.list.d/pritunl.list <<END
-deb http://repo.pritunl.com/stable/apt trusty main
-END
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-			sudo apt-get update
-			sudo apt-get --assume-yes install pritunl mongodb-org
-			sudo service pritunl start
-
-				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
-
-					echo ""
-					echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-					read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
-
-				done
-
-					if [[ "$CONTINUE" = "N" ]]; then
-
-					echo "ยังไม่ติดตั้ง"
-					exit
-
-					fi
-
-			# Ubuntu 16.04
-			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
-
-
-
-				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
-
-					echo ""
-					echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-					read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
-
-				done
-
-					if [[ "$CONTINUE" = "N" ]]; then
-
-					echo "ยังไม่ติดตั้ง 16.04"
-					exit
-
-					fi
+			echo "ยังไม่ติดตั้ง"
+			exit
 
 			fi
 
-				# Install Squid
-				cd
+	# Debian 9
+	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 
-				if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]
+	echo "deb http://repo.pritunl.com/stable/apt stretch main" > /etc/apt/sources.list.d/pritunl.list
+	sudo apt-get -y install dirmngr
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+	sudo apt-get update
+	sudo apt-get --assume-yes install pritunl mongodb-server
+	sudo systemctl start mongodb pritunl
+	sudo systemctl enable mongodb pritunl
+
+		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+
+			echo ""
+			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+
+		done
+
+			if [[ "$CONTINUE" = "N" ]]; then
+
+			echo "ยังไม่ติดตั้ง"
+			exit
+
+			fi
+
+	# Ubuntu 14.04
+	elif [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+
+	echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.6.list
+	echo "deb http://repo.pritunl.com/stable/apt trusty main" > /etc/apt/sources.list.d/pritunl.list
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+	sudo apt-get update
+	sudo apt-get --assume-yes install pritunl mongodb-org
+	sudo service pritunl start
+
+		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+
+			echo ""
+			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+
+		done
+
+			if [[ "$CONTINUE" = "N" ]]; then
+
+			echo "ยังไม่ติดตั้ง"
+			exit
+
+			fi
+
+	# Ubuntu 16.04
+	elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+
+#	echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" > /etc/apt/sources.list.d/mongodb-org-3.6.list
+#	echo "deb http://repo.pritunl.com/stable/apt xenial main" > /etc/apt/sources.list.d/pritunl.list
+#	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+#	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+#	sudo apt-get update
+#	sudo apt-get --assume-yes install pritunl mongodb-org
+#	sudo systemctl start pritunl mongod
+#	sudo systemctl enable pritunl mongod
+
+		while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
+
+			echo ""
+			echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+			read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
+
+		done
+
+			if [[ "$CONTINUE" = "N" ]]; then
+
+			echo "ยังไม่ติดตั้ง 16.04"
+			exit
+
+			fi
+
+	fi
+
+		# Install Squid
+		cd
+
+		if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]
 
 apt-get -y install squid3
 cat > /etc/squid3/squid.conf <<END
@@ -215,9 +212,9 @@ visible_hostname openextra.net
 END
 sed -i $MYIP2 /etc/squid3/squid.conf;
 /etc/init.d/squid restart
-				fi
+		fi
 
-				if [[ "$VERSION_ID" != 'VERSION_ID="7"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="8"' ]]
+		if [[ "$VERSION_ID" != 'VERSION_ID="7"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="8"' ]]
 
 apt-get -y install squid
 cat > /etc/squid/squid.conf <<END
@@ -253,7 +250,7 @@ END
 sed -i $MYIP2 /etc/squid/squid.conf;
 /etc/init.d/squid restart
 
-				fi
+		fi
 
 elif test $x -eq 3; then
 	echo "กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
@@ -273,7 +270,31 @@ elif test $x -eq 5; then
 	cp /root/backup/sources.list /etc/apt/
 
 elif test $x -eq 6; then
-	echo "กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+#	echo "กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+
+		echo "   1 1"
+		echo "   2 2"
+		echo "   3 3"
+		echo "   4 4"
+		read -p "Select an option [1-4]: " option
+
+		case $option in
+			1)
+			echo "1 1"
+			;;
+			
+			2)
+			echo "2 2"
+			;;
+
+			3)
+			echo "3 3"
+			;;
+			
+			4)
+			echo "4 4"
+			;;
+		esac
 
 else
 	cd
