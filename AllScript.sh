@@ -56,59 +56,6 @@ elif test $x -eq 2; then
 			# Debian 8
 			if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
 
-			cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
-			deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.6 main
-			END
-			cat > /etc/apt/sources.list.d/pritunl.list <<END
-			deb http://repo.pritunl.com/stable/apt jessie main
-			END
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-			sudo apt-get update
-			sudo apt-get --assume-yes install pritunl mongodb-org
-			sudo systemctl start mongod pritunl
-			sudo systemctl enable mongod pritunl
-
-			cd
-			apt-get -y install squid3
-
-			echo ""
-			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
-			read -p "Enter Your Proxry Hostname : " Hostname
-
-			cat > /etc/squid3/squid.conf <<END
-			acl manager proto cache_object
-			acl localhost src 127.0.0.1/32 ::1
-			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-			acl SSL_ports port 443
- 			acl Safe_ports port 80
-			acl Safe_ports port 21
-			acl Safe_ports port 443
-			acl Safe_ports port 70
-			acl Safe_ports port 210
-			acl Safe_ports port 1025-65535
-			acl Safe_ports port 280
-			acl Safe_ports port 488
-			acl Safe_ports port 591
-			acl Safe_ports port 777
-			acl CONNECT method CONNECT
-			acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
-			http_access allow SSH
-			http_access allow manager localhost
-			http_access deny manager
-			http_access allow localhost
-			http_access deny all
-			http_port 8080
-			coredump_dir /var/spool/squid3
-			refresh_pattern ^ftp: 1440 20% 10080
-			refresh_pattern ^gopher: 1440 0% 1440
-			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
-			refresh_pattern . 0 20% 4320
-			visible_hostname $Hostname
-			END
-			sed -i $MYIP2 /etc/squid3/squid.conf;
-			/etc/init.d/squid3 restart
-
 			fi
 
 			# Debian 9
@@ -145,115 +92,10 @@ elif test $x -eq 2; then
 			# Ubuntu 14.04
 			if [[ "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
-			cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
-			deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.6 multiverse
-			END
-			cat > /etc/apt/sources.list.d/pritunl.list <<END
-			deb http://repo.pritunl.com/stable/apt trusty main
-			END
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-			sudo apt-get update
-			sudo apt-get --assume-yes install pritunl mongodb-org
-			sudo service pritunl start
-
-			cd
-			apt-get -y install squid3
-
-			echo ""
-			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
-			read -p "Enter Your Proxry Hostname : " Hostname
-
-			cat > /etc/squid3/squid.conf <<END
-			acl manager proto cache_object
-			acl localhost src 127.0.0.1/32 ::1
-			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-			acl SSL_ports port 443
-			acl Safe_ports port 80
-			acl Safe_ports port 21
-			acl Safe_ports port 443
-			acl Safe_ports port 70
-			acl Safe_ports port 210
-			acl Safe_ports port 1025-65535
-			acl Safe_ports port 280
-			acl Safe_ports port 488
-			acl Safe_ports port 591
-			acl Safe_ports port 777
-			acl CONNECT method CONNECT
-			acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
-			http_access allow SSH
-			http_access allow manager localhost
-			http_access deny manager
-			http_access allow localhost
-			http_access deny all
-			http_port 8080
-			coredump_dir /var/spool/squid3
-			refresh_pattern ^ftp: 1440 20% 10080
-			refresh_pattern ^gopher: 1440 0% 1440
-			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
-			refresh_pattern . 0 20% 4320
-			visible_hostname $Hostname
-			END
-			sed -i $MYIP2 /etc/squid3/squid.conf;
-			/etc/init.d/squid3 restart
-
 			fi
 
 			# Ubuntu 16.04
 			if [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
-
-			cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
-			deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
-			END
-			cat > /etc/apt/sources.list.d/pritunl.list <<END
-			deb http://repo.pritunl.com/stable/apt xenial main
-			END
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-			sudo apt-get update
-			sudo apt-get --assume-yes install pritunl mongodb-org
-			sudo systemctl start pritunl mongod
-			sudo systemctl enable pritunl mongod
-
-			cd
-			apt-get -y install squid
-
-			echo ""
-			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
-			read -p "Enter Your Proxry Hostname : " Hostname
-
-			cat > /etc/squid/squid.conf <<END
-			acl manager proto cache_object
-			acl localhost src 127.0.0.1/32 ::1
-			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-			acl SSL_ports port 443
-			acl Safe_ports port 80
-			acl Safe_ports port 21
-			acl Safe_ports port 443
-			acl Safe_ports port 70
-			acl Safe_ports port 210
-			acl Safe_ports port 1025-65535
-			acl Safe_ports port 280
-			acl Safe_ports port 488
-			acl Safe_ports port 591
-			acl Safe_ports port 777
-			acl CONNECT method CONNECT
-			acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
-			http_access allow SSH
-			http_access allow manager localhost
-			http_access deny manager
-			http_access allow localhost
-			http_access deny all
-			http_port 8080
-			coredump_dir /var/spool/squid
-			refresh_pattern ^ftp: 1440 20% 10080
-			refresh_pattern ^gopher: 1440 0% 1440
-			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
-			refresh_pattern . 0 20% 4320
-			visible_hostname $Hostname
-			END
-			sed -i $MYIP2 /etc/squid/squid.conf;
-			/etc/init.d/squid restart
 
 			fi
 
