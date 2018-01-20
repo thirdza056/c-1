@@ -102,8 +102,8 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 		echo "ระบบตรวจสอบพบว่าได้ทำการติดตั้งเซิฟเวอร์ OpenVPN ไปแล้ว"
 		echo ""
 		echo ""
-		echo "|${RED}1${NC}|  ถอดถอนเซิฟเวอร์  OpenVPN"
-		echo "|${RED}2${NC}|  ยกเลิก"
+		echo -e "|${RED}1${NC}|  ถอดถอนเซิฟเวอร์  OpenVPN"
+		echo -e "|${RED}2${NC}|  ยกเลิก"
 		echo ""
 		read -p "หรือหากคุณต้องการทำสิ่งใด โปรดเลือกหัวข้อด้านบนนี้ : " option
 
@@ -179,8 +179,8 @@ else
 	echo ""
 	read -p "IP ของคุณคือ : " -e -i $IP IP
 	echo ""
-	echo "|${RED}1${NC}|  TCP (แนะนำ)"
-	echo "|${RED}2${NC}|  UDP"
+	echo -e "|${RED}1${NC}|  TCP (แนะนำ)"
+	echo -e "|${RED}2${NC}|  UDP"
 	echo ""
 	read -p "กรุณาเลือก Protocal ที่ต้องการติดตั้ง : " -e -i 1 PROTOCOL
 
@@ -196,8 +196,8 @@ else
 	echo ""
 	read -p "กรุณาเลือกระบุ Port เซิฟเวอร์ที่ต้องการติดตั้ง : " -e -i 443 PORT
 	echo ""
-	echo "|${RED}1${NC}|  DNS จากระบบปัจจุบัน"
-	echo "|${RED}2${NC}|  DNS จาก Google"
+	echo -e "|${RED}1${NC}|  DNS จากระบบปัจจุบัน"
+	echo -e "|${RED}2${NC}|  DNS จาก Google"
 	read -p "กรุณาเลือกรูปแบบ DNS ที่ต้องการติดตั้ง : " -e -i 1 DNS
 	echo ""
 	read -p "กรุณาระบุชื่อเซิฟเวอร์ OpenVPN ของคุณ : " -e -i client CLIENT
