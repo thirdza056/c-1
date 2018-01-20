@@ -57,13 +57,18 @@ echo -e "|${color1}4${color3}|  WEB PANEL"
 echo -e "|${color1}5${color3}|  VNSTAT (CHECK BANDWIDTH or DATA)"
 echo -e "|${color1}6${color3}|  SETUP ALL FUNCTION"
 echo ""
-read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข)  : " x
+read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข) : " Menu
 
-if test $x -eq 1; then
-			mkdir /root/backup
-			cp /etc/apt/sources.list /root/backup
+case $Menu in
 
-elif test $x -eq 2; then
+	1)
+	echo "1 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+#	mkdir /root/backup
+#	cp /etc/apt/sources.list /root/backup
+
+	;;
+	
+	2)
 
 	# Debian 8
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' ]]; then
@@ -252,52 +257,32 @@ sed -i $MYIP2 /etc/squid/squid.conf;
 
 		fi
 
-elif test $x -eq 3; then
-	echo "กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+	;;
+	
+	
+	3)
+	echo "3 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+	;;
 
-elif test $x -eq 4; then
-	echo "กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
-
-elif test $x -eq 5; then
-
+	4)
+	echo "4 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+	;;
+	
+	5)
+	echo "4 กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
 	# Install Vnstat
-	apt-get -y install vnstat
-	vnstat -u -i eth0
+#	apt-get -y install vnstat
+#	vnstat -u -i eth0
 	
 	# Install Vnstat GUI
 	
-	rm /etc/apt/sources.list
-	cp /root/backup/sources.list /etc/apt/
+#	rm /etc/apt/sources.list
+#	cp /root/backup/sources.list /etc/apt/
 
-elif test $x -eq 6; then
-#	echo "กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+	;;
+	
+	6)
+	echo "6กรุณารอสักนิด ขณะนี้ยังไม่ได้ติดตั้งคำสั่งนี้"
+	;;
 
-		echo "   1 1"
-		echo "   2 2"
-		echo "   3 3"
-		echo "   4 4"
-		read -p "Select an option [1-4]: " option
-
-		case $option in
-			1)
-			echo "1 1"
-			;;
-			
-			2)
-			echo "2 2"
-			;;
-
-			3)
-			echo "3 3"
-			;;
-			
-			4)
-			echo "4 4"
-			;;
-		esac
-
-else
-	cd
-	clear
-	./AllScript.sh
-fi
+esac
