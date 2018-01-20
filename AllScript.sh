@@ -69,63 +69,48 @@ END
 			sudo systemctl start mongod pritunl
 			sudo systemctl enable mongod pritunl
 
-			cd
-			apt-get -y install squid3
+			while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
-			echo ""
-			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
-			read -p "Enter Your Proxry Hostname : " Hostname
+				echo ""
+				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+				read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
-cat > /etc/squid3/squid.conf <<END
-			acl manager proto cache_object
-			acl localhost src 127.0.0.1/32 ::1
-			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-			acl SSL_ports port 443
- 			acl Safe_ports port 80
-			acl Safe_ports port 21
-			acl Safe_ports port 443
-			acl Safe_ports port 70
-			acl Safe_ports port 210
-			acl Safe_ports port 1025-65535
-			acl Safe_ports port 280
-			acl Safe_ports port 488
-			acl Safe_ports port 591
-			acl Safe_ports port 777
-			acl CONNECT method CONNECT
-			acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
-			http_access allow SSH
-			http_access allow manager localhost
-			http_access deny manager
-			http_access allow localhost
-			http_access deny all
-			http_port 8080
-			coredump_dir /var/spool/squid3
-			refresh_pattern ^ftp: 1440 20% 10080
-			refresh_pattern ^gopher: 1440 0% 1440
-			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
-			refresh_pattern . 0 20% 4320
-			visible_hostname $Hostname
-END
-			sed -i $MYIP2 /etc/squid3/squid.conf;
-			/etc/init.d/squid3 restart
+			done
+
+				if [[ "$CONTINUE" = "N" ]]; then
+
+				echo "ยังไม่ติดตั้ง"
+				exit
+
+				fi
 
 			fi
 
 			# Debian 9
 			if [[ "$VERSION_ID" = 'VERSION_ID="9"' ]]; then
 
+cat > /etc/apt/sources.list.d/pritunl.list <<END
+			deb http://repo.pritunl.com/stable/apt stretch main
+END
+			sudo apt-get -y install dirmngr
+			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+			sudo apt-get update
+			sudo apt-get --assume-yes install pritunl mongodb-server
+			sudo systemctl start mongodb pritunl
+			sudo systemctl enable mongodb pritunl
 
-
-			while [[ $CONTINUE != "1" && $CONTINUE != "2" ]]; do
+			while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
 				echo ""
 				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-				read -p "You Need Install Squid Proxy or Not ? : " -e -i 1 CONTINUE
+				read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
 			done
 
-				if [[ "$CONTINUE" = "2" ]]; then
+				if [[ "$CONTINUE" = "N" ]]; then
+
 				echo "ยังไม่ติดตั้ง"
+				exit
 
 				fi
 
@@ -146,45 +131,20 @@ END
 			sudo apt-get --assume-yes install pritunl mongodb-org
 			sudo service pritunl start
 
-			cd
-			apt-get -y install squid3
+			while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
-			echo ""
-			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
-			read -p "Enter Your Proxry Hostname : " Hostname
+				echo ""
+				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+				read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
-cat > /etc/squid3/squid.conf <<END
-			acl manager proto cache_object
-			acl localhost src 127.0.0.1/32 ::1
-			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-			acl SSL_ports port 443
-			acl Safe_ports port 80
-			acl Safe_ports port 21
-			acl Safe_ports port 443
-			acl Safe_ports port 70
-			acl Safe_ports port 210
-			acl Safe_ports port 1025-65535
-			acl Safe_ports port 280
-			acl Safe_ports port 488
-			acl Safe_ports port 591
-			acl Safe_ports port 777
-			acl CONNECT method CONNECT
-			acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
-			http_access allow SSH
-			http_access allow manager localhost
-			http_access deny manager
-			http_access allow localhost
-			http_access deny all
-			http_port 8080
-			coredump_dir /var/spool/squid3
-			refresh_pattern ^ftp: 1440 20% 10080
-			refresh_pattern ^gopher: 1440 0% 1440
-			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
-			refresh_pattern . 0 20% 4320
-			visible_hostname $Hostname
-END
-			sed -i $MYIP2 /etc/squid3/squid.conf;
-			/etc/init.d/squid3 restart
+			done
+
+				if [[ "$CONTINUE" = "N" ]]; then
+
+				echo "ยังไม่ติดตั้ง"
+				exit
+
+				fi
 
 			fi
 
@@ -204,50 +164,113 @@ END
 			sudo systemctl start pritunl mongod
 			sudo systemctl enable pritunl mongod
 
-			cd
-			apt-get -y install squid
+			while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
-			echo ""
-			echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
-			read -p "Enter Your Proxry Hostname : " Hostname
+				echo ""
+				echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
+				read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
 
-cat > /etc/squid/squid.conf <<END
-			acl manager proto cache_object
-			acl localhost src 127.0.0.1/32 ::1
-			acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-			acl SSL_ports port 443
-			acl Safe_ports port 80
-			acl Safe_ports port 21
-			acl Safe_ports port 443
-			acl Safe_ports port 70
-			acl Safe_ports port 210
-			acl Safe_ports port 1025-65535
-			acl Safe_ports port 280
-			acl Safe_ports port 488
-			acl Safe_ports port 591
-			acl Safe_ports port 777
-			acl CONNECT method CONNECT
-			acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
-			http_access allow SSH
-			http_access allow manager localhost
-			http_access deny manager
-			http_access allow localhost
-			http_access deny all
-			http_port 8080
-			coredump_dir /var/spool/squid
-			refresh_pattern ^ftp: 1440 20% 10080
-			refresh_pattern ^gopher: 1440 0% 1440
-			refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
-			refresh_pattern . 0 20% 4320
-			visible_hostname $Hostname
-END
-			sed -i $MYIP2 /etc/squid/squid.conf;
-			/etc/init.d/squid restart
+			done
+
+				if [[ "$CONTINUE" = "N" ]]; then
+
+				echo "ยังไม่ติดตั้ง 16.04"
+				exit
+
+				fi
 
 			fi
 
 		fi
-			echo "ติดตั้งแล้ว..."
+
+				# Install Squid
+				cd
+
+				if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]]; then
+
+				apt-get -y install squid3
+
+				echo ""
+				echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
+				read -p "Enter Your Proxry Hostname : " Hostname
+
+cat > /etc/squid3/squid.conf <<END
+				acl manager proto cache_object
+				acl localhost src 127.0.0.1/32 ::1
+				acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+				acl SSL_ports port 443
+ 				acl Safe_ports port 80
+				acl Safe_ports port 21
+				acl Safe_ports port 443
+				acl Safe_ports port 70
+				acl Safe_ports port 210
+				acl Safe_ports port 1025-65535
+				acl Safe_ports port 280
+				acl Safe_ports port 488
+				acl Safe_ports port 591
+				acl Safe_ports port 777
+				acl CONNECT method CONNECT
+				acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+				http_access allow SSH
+				http_access allow manager localhost
+				http_access deny manager
+				http_access allow localhost
+				http_access deny all
+				http_port 8080
+				coredump_dir /var/spool/squid3
+				refresh_pattern ^ftp: 1440 20% 10080
+				refresh_pattern ^gopher: 1440 0% 1440
+				refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+				refresh_pattern . 0 20% 4320
+				visible_hostname $Hostname
+END
+				sed -i $MYIP2 /etc/squid3/squid.conf;
+				/etc/init.d/squid3 restart
+				exit
+
+				else
+
+				apt-get -y install squid
+
+				echo ""
+				echo "กรุณาตั้งชื่อโฮสเนมพร็อกซี่ของคุณ"
+				read -p "Enter Your Proxry Hostname : " Hostname
+
+cat > /etc/squid/squid.conf <<END
+				acl manager proto cache_object
+				acl localhost src 127.0.0.1/32 ::1
+				acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+				acl SSL_ports port 443
+				acl Safe_ports port 80
+				acl Safe_ports port 21
+				acl Safe_ports port 443
+				acl Safe_ports port 70
+				acl Safe_ports port 210
+				acl Safe_ports port 1025-65535
+				acl Safe_ports port 280
+				acl Safe_ports port 488
+				acl Safe_ports port 591
+				acl Safe_ports port 777
+				acl CONNECT method CONNECT
+				acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+				http_access allow SSH
+				http_access allow manager localhost
+				http_access deny manager
+				http_access allow localhost
+				http_access deny all
+				http_port 8080
+				coredump_dir /var/spool/squid
+				refresh_pattern ^ftp: 1440 20% 10080
+				refresh_pattern ^gopher: 1440 0% 1440
+				refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+				refresh_pattern . 0 20% 4320
+				visible_hostname $Hostname
+END
+				sed -i $MYIP2 /etc/squid/squid.conf;
+				/etc/init.d/squid restart
+				exit
+
+				fi
 	fi
 
 elif test $x -eq 3; then
