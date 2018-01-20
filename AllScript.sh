@@ -165,18 +165,7 @@ END
 			# Ubuntu 16.04
 			elif [[ "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
-cat > /etc/apt/sources.list.d/mongodb-org-3.6.list <<END
-			deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse
-END
-cat > /etc/apt/sources.list.d/pritunl.list <<END
-			deb http://repo.pritunl.com/stable/apt xenial main
-END
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
-			sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com --recv 7568D9BB55FF9E5287D586017AE645C0CF8E292A
-			sudo apt-get update
-			sudo apt-get --assume-yes install pritunl mongodb-org
-			sudo systemctl start pritunl mongod
-			sudo systemctl enable pritunl mongod
+
 
 				while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
 
@@ -194,8 +183,6 @@ END
 					fi
 
 			fi
-
-		fi
 
 				# Install Squid
 				cd
@@ -273,6 +260,7 @@ END
 				/etc/init.d/squid restart
 
 				fi
+		fi
 
 	fi
 
