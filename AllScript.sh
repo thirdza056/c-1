@@ -178,8 +178,8 @@ case $Menu in
 
 	fi
 
-		# Install Squid
-		if [[ "$Squid3" = "Y" ]]; then
+	# Install Squid
+	if [[ "$Squid3" = "Y" ]]; then
 
 apt-get -y install squid3
 cat > /etc/squid3/squid.conf <<END
@@ -215,7 +215,7 @@ END
 sed -i $MYIP2 /etc/squid3/squid.conf;
 /etc/init.d/squid restart
 
-		elif [[ "$Squid" = "Y" ]]; then
+	elif [[ "$Squid" = "Y" ]]; then
 
 apt-get -y install squid
 cat > /etc/squid/squid.conf <<END
@@ -251,7 +251,7 @@ END
 sed -i $MYIP2 /etc/squid/squid.conf;
 /etc/init.d/squid restart
 
-		fi
+	fi
 
 	;;
 	
