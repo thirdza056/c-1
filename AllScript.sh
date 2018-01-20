@@ -498,6 +498,7 @@ echo "Port  : 8080"
 	fi
 
 # newclient "$CLIENT"
+exit
 fi
 
 	;;
