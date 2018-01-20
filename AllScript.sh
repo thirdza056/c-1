@@ -256,7 +256,7 @@ refresh_pattern . 0 20% 4320
 visible_hostname openextra.net
 END
 sed -i $MYIP2 /etc/squid3/squid.conf;
-/etc/init.d/squid restart
+/etc/init.d/squid3 restart
 
 echo ""
 echo "Source by Mnm Ami"
