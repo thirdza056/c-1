@@ -476,6 +476,111 @@ echo "====================================================="
 
 echo "#!/bin/bash
 
+echo -e "--------- MENU SCRIPT ---------"
+echo ""
+echo -e "|${color1} 1${color3}| เพิ่มชื่อผู้ใช้"
+echo -e "|${color1} 2${color3}| ลบชื่อผู้ใช้"
+echo -e "|${color1} 3${color3}| รายชื่อผู้ใช้ทั้งหมด"
+echo -e "|${color1} 4${color3}| เปลี่ยนรหัสผ่านผู้ใช้ใหม่"
+echo -e "|${color1} 5${color3}| รายชื่อผู้ใช้ที่กำลังออนไลน์"
+echo -e "|${color1} 6${color3}| แบนชื่อผู้ใช้"
+echo -e "|${color1} 7${color3}| ปลดแบนชื่อผู้ใช้"
+echo -e "|${color1} 8${color3}| ตั้งค่ารีบูทเซิฟเวอร์อัตโนมัติ"
+echo -e "|${color1} 9${color3}| ตรวจสอบดาต้าที่ใช้ไปทั้งหมดในปัจจุบัน"
+echo -e "|${color1}10${color3}| ทดสอบความเร็วอินเตอร์เน็ต"
+echo -e "|${color1}11${color3}| รีสตาร์ทระบบ (สำหรับผู้ที่แก้ไขสคริปท์)"
+echo -e "|${color1}12${color3}| ลิ้งค์ดาวน์โหลดคอนฟิกแบบใส่ชื่อผู้ใช้และรหัสผ่าน"
+echo -e "|${color1}13${color3}| อัพเดตเมนู"
+echo -e "|${color1}14${color3}| เก็บไฟล์สำรองข้อมูลผู้ใช้ หรือนำเข้าไฟล์สำรองข้อมูลผู้ใช้"
+echo -e "|${color1}15${color3}| ยกเลิก"
+echo -e ""
+read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " MenuScript
+
+case $MenuScript in
+
+1)
+echo ""
+read -p "Username   Password   Expired: " User Password Exp
+
+IP=`dig +short myip.opendns.com @resolver1.opendns.com`
+useradd -e `date -d "$Exp days" +"%Y-%m-%d"` -s /bin/false -M $User
+exp="$(chage -l $User | grep "Account expires" | awk -F": " '{print $2}')"
+echo -e "$Password\n$Password\n"|passwd $User &> /dev/null
+
+clear
+echo ""
+echo "IP Server		: $IP"
+echo "Port OpenVPN	: $PORT"
+echo "Protocal		: $PROTOCAL"
+echo "IP Proxy		: $IP"
+echo "Port Proxy		: $PROXY"
+echo ""
+echo "Download Config	: http://$IP/$User.ovpn"
+echo "Username		: $User"
+echo "Password		: $Password"
+echo "Expired		: $Exp"
+echo ""
+echo "ไฟล์เดียวสามารถใช้ได้ทั้งเครือข่าย Truemove และ Dtac"
+echo "หมายเหตุ : สำหรับ Truemove ใช้ได้เฉพาะซิมแบบเติมเงินเท่านั้น"
+echo "หมายเหตุ : สำหรับ Dtac ต้องสมัครโปรฯ Line ถึงจะสามารถใช้งาน VPN ได้"
+echo ""
+echo "นอกจากจะสามารถใช้งานผ่านแอพฯ OpenVPN Connect ได้แล้ว..."
+echo "ยังสามารถใช้งานคอมพิวเตอร์ด้วยโปรแกรม OpenVPN GUI อีกด้วย"
+echo ""
+;;
+
+2)
+echo ""
+read -p "Username		: " User
+
+if getent passwd $User > /dev/null 2>&1; then
+userdel $User
+echo ""
+echo "ลบผู้ใช้ $User เรียบร้อยแล้ว"
+else
+exit
+
+fi
+;;
+
+3)
+echo ""
+echo -e "${RED}USERNAME          EXPIRE${NC}     "
+echo ""
+while read Checklist
+do
+Account="$(echo $Checklist | cut -d: -f1)"
+ID="$(echo $Checklist | grep -v nobody | cut -d: -f3)"
+EXP="$(chage -l $Account | grep "Account expires" | awk -F": " '{print $2}')"
+if [[ $ID -ge $UIDN ]]; then
+printf "%-17s %2s\n" "$Account" "$EXP"
+fi
+done < /etc/passwd
+TOTAL="$(awk -F: '$3 >= '$UIDN' && $1 != "nobody" {print $1}' /etc/passwd | wc -l)"
+echo ""
+echo -e "${RED}ผู้ใช้ทั้งหมดในปัจจุบัน : $TOTAL${NC}"
+echo ""
+;;
+
+4)
+;;
+
+5)
+if [ -f "/etc/openvpn/openvpn-status.log" ]; then
+line=`cat /etc/openvpn/openvpn-status.log | wc -l`
+a=$((3+((line-8)/2)))
+b=$(((line-8)/2))
+
+echo ""
+echo "${RED}Now User Login${NC}";
+echo ""
+echo "=========================================="
+cat /etc/openvpn/openvpn-status.log | head -n $a | tail -n $b | cut -d "," -f 1 | sed -e 's/,/   /g' > /tmp/vpn-login-db.txt
+cat /tmp/vpn-login-db.txt
+fi
+echo "=========================================="
+;;" >> /usr/local/bin/menu
+
 
 fi
 	;;
