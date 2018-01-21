@@ -174,9 +174,7 @@ else
 	echo ""
 	read -p "IP : " -e -i $IP IP
 	echo ""
-#	echo -e "|${RED}1${NC}| TCP (แนะนำ)"
-#	echo -e "|${RED}2${NC}| UDP"
-#	echo ""
+
 	read -p "Protocal : " -e -i tcp PROTOCOL
 #	case $PROTOCOL in
 #		1)
@@ -379,7 +377,11 @@ auth-user-pass" > /etc/openvpn/client-common.txt
 			IP=$USEREXTERNALIP
 		fi
 	fi
-	
+
+# newclient "$CLIENT"
+
+fi
+
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
 apt-get -y install squid3
@@ -484,9 +486,7 @@ echo "ติดตั้งสำเร็จ... กรุณาพิมพ์�
 echo "====================================================="
 exit
 	fi
-
-# newclient "$CLIENT"
-fi
+	
 	;;
 
 	2)
