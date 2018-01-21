@@ -476,7 +476,12 @@ echo "====================================================="
 
 echo "#!/bin/bash
 
-echo -e "--------- MENU SCRIPT ---------"
+# Color
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+echo "--------- MENU SCRIPT ---------"
 echo ""
 echo -e "|${color1} 1${color3}| เพิ่มชื่อผู้ใช้"
 echo -e "|${color1} 2${color3}| ลบชื่อผู้ใช้"
@@ -493,7 +498,7 @@ echo -e "|${color1}12${color3}| ลิ้งค์ดาวน์โหลดค
 echo -e "|${color1}13${color3}| อัพเดตเมนู"
 echo -e "|${color1}14${color3}| เก็บไฟล์สำรองข้อมูลผู้ใช้ หรือนำเข้าไฟล์สำรองข้อมูลผู้ใช้"
 echo -e "|${color1}15${color3}| ยกเลิก"
-echo -e ""
+echo ""
 read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " MenuScript
 
 case $MenuScript in
