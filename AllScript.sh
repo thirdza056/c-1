@@ -26,9 +26,13 @@ elif [[ -e /etc/fedora-release ]]; then
 	exit
 fi
 
-# Set your IP
-MYIP=$(wget -qO- ipv4.icanhazip.com);
-MYIP2="s/xxxxxxxxx/$MYIP/g";
+
+# Set IP
+IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
+if [[ "$IP" = "" ]]; then
+	IP=$(wget -4qO- "http://whatismyip.akamai.com/")
+fi
+IP2="s/xxxxxxxxx/$IP/g";
 
 # Set OS Version
 OS=debian
@@ -86,13 +90,6 @@ newclient () {
 	cat /etc/openvpn/ta.key >> ~/$1.ovpn
 	echo "</tls-auth>" >> ~/$1.ovpn
 }
-
-# Set IP
-IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
-if [[ "$IP" = "" ]]; then
-	IP=$(wget -4qO- "http://whatismyip.akamai.com/")
-fi
-IP2="s/xxxxxxxxx/$IP/g";
 
 if [[ -e /etc/openvpn/server.conf ]]; then
 	while :
@@ -174,7 +171,7 @@ else
 	echo ""
 	read -p "Port		: " -e -i 443 PORT
 	echo ""
-	read -p "Hostname Proxy	: " -e HOSTNAME
+	read -p "Hostname Proxy	: " -e Hostname.net HOSTNAME
 	echo ""
 	read -p "Port Proxy	: " -e -i 8080 PROXY
 	echo ""
@@ -194,7 +191,7 @@ else
 	echo -e "|${RED}2${NC}| DNS Google"
 	read -p "DNS		: " -e -i 1 DNS
 	echo ""
-	read -p "Client Name	: " -e Name CLIENT
+	read -p "Client Name	: " -e Client CLIENT
 	echo ""
 	read -n1 -r -p -e "${RED}กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง...${NC}"
 
@@ -250,13 +247,11 @@ tls-auth ta.key 0
 topology subnet
 server 10.8.0.0 255.255.255.0
 ifconfig-pool-persist ipp.txt" > /etc/openvpn/server.conf
-echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
-
+	echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
 	case $DNS in
-
 		1)
 		grep -v '#' /etc/resolv.conf | grep 'nameserver' | grep -E -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | while read line; do
-		echo "push \"dhcp-option DNS $line\"" >> /etc/openvpn/server.conf
+			echo "push \"dhcp-option DNS $line\"" >> /etc/openvpn/server.conf
 		done
 		;;
 
@@ -265,7 +260,6 @@ echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
 		echo 'push "dhcp-option DNS 8.8.4.4"' >> /etc/openvpn/server.conf
 		;;
 	esac
-
 	echo "keepalive 10 120
 cipher AES-256-CBC
 comp-lzo
@@ -361,8 +355,8 @@ dev tun
 proto $PROTOCOL
 sndbuf 0
 rcvbuf 0
-remote $IP:$PORT@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th/lvs.truehits.in.th/dl-obs.official.line.naver.jp 443
-http-proxy $IP $Proxy
+remote $IP:$PORT@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th/lvs.truehits.in.th/dl-obs.official.line.naver.jp $PORT
+http-proxy $IP $PROXY
 resolv-retry infinite
 nobind
 persist-key
@@ -668,7 +662,7 @@ refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
 visible_hostname OPENEXTRA.NET
 END
-sed -i $MYIP2 /etc/squid3/squid.conf;
+sed -i $IP2 /etc/squid3/squid.conf;
 service squid3 restart
 
 echo ""
@@ -676,7 +670,7 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install Pritunl Finish"
-echo "Proxy : $MYIP"
+echo "Proxy : $IP"
 echo "Port  : 8080"
 echo ""
 echo "Pritunl : http://$MYIP"
@@ -717,7 +711,7 @@ refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
 visible_hostname OPENEXTRA.NET
 END
-sed -i $MYIP2 /etc/squid/squid.conf;
+sed -i $IP2 /etc/squid/squid.conf;
 service squid restart
 
 echo ""
@@ -725,10 +719,10 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install Pritunl Finish"
-echo "Proxy : $MYIP"
+echo "Proxy : $IP"
 echo "Port  : 8080"
 echo ""
-echo "Pritunl : http://$MYIP"
+echo "Pritunl : http://$IP"
 echo ""
 pritunl setup-key
 echo ""
@@ -793,7 +787,7 @@ refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
 visible_hostname OPENEXTRA.NET
 END
-sed -i $MYIP2 /etc/squid3/squid.conf;
+sed -i $IP2 /etc/squid3/squid.conf;
 service squid3 restart
 
 echo ""
@@ -801,7 +795,7 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install Squid Proxy Finish"
-echo "Proxy : $MYIP"
+echo "Proxy : $IP"
 echo "Port  : 8080"
 echo ""
 
@@ -838,7 +832,7 @@ refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
 visible_hostname OPENEXTRA.NET
 END
-sed -i $MYIP2 /etc/squid/squid.conf;
+sed -i $IP2 /etc/squid/squid.conf;
 service squid restart
 
 echo ""
@@ -846,7 +840,7 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install Squid Proxy Finish"
-echo "Proxy : $MYIP"
+echo "Proxy : $IP"
 echo "Port  : 8080"
 echo ""
 
