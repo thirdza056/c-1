@@ -325,12 +325,7 @@ exit 0" > $RCLOCAL
 		fi
 	fi
 
-	# Little hack to check for systemd
-	if pgrep systemd-journal; then
-		systemctl restart openvpn@server.service
-	else
-		/etc/init.d/openvpn restart
-	fi
+	service openvpn restart
 
 	EXTERNALIP=$(wget -4qO- "http://whatismyip.akamai.com/")
 	if [[ "$IP" != "$EXTERNALIP" ]]; then
