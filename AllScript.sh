@@ -370,6 +370,8 @@ verb 3
 verb 3
 auth-user-pass" > /etc/openvpn/client-common.txt
 
+newclient "$CLIENT"
+
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
 apt-get -y install squid3
@@ -484,13 +486,13 @@ NC='\033[0m'
 
 echo "--------- MENU SCRIPT ---------"
 echo ""
-echo -e "|${color1} 1${color3}| เพิ่มชื่อผู้ใช้"
-echo -e "|${color1} 2${color3}| ลบชื่อผู้ใช้"
-echo -e "|${color1} 3${color3}| รายชื่อผู้ใช้ทั้งหมด"
-echo -e "|${color1} 4${color3}| เปลี่ยนรหัสผ่านผู้ใช้ใหม่"
-echo -e "|${color1} 5${color3}| รายชื่อผู้ใช้ที่กำลังออนไลน์"
-echo -e "|${color1} 6${color3}| แบนชื่อผู้ใช้"
-echo -e "|${color1} 7${color3}| ปลดแบนชื่อผู้ใช้"
+echo -e "|${RED}1${NC}| เพิ่มชื่อผู้ใช้"
+echo -e "|${RED}2${NC}| ลบชื่อผู้ใช้"
+echo -e "|${RED}3${NC}| รายชื่อผู้ใช้ทั้งหมด"
+echo -e "|${RED}4${NC}| เปลี่ยนรหัสผ่านผู้ใช้ใหม่"
+echo -e "|${RED}5${NC}| รายชื่อผู้ใช้ที่กำลังออนไลน์"
+echo -e "|${RED}1${NC}| แบนชื่อผู้ใช้"
+echo -e "|${RED}1${NC}| ปลดแบนชื่อผู้ใช้"
 echo -e "|${color1} 8${color3}| ตั้งค่ารีบูทเซิฟเวอร์อัตโนมัติ"
 echo -e "|${color1} 9${color3}| ตรวจสอบดาต้าที่ใช้ไปทั้งหมดในปัจจุบัน"
 echo -e "|${color1}10${color3}| ทดสอบความเร็วอินเตอร์เน็ต"
