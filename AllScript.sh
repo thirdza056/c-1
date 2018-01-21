@@ -502,7 +502,7 @@ echo -e "|${color1}15${color3}| ยกเลิก"
 echo ""
 read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " MenuScript
 
-case $MenuScript in
+case MenuScript in
 
 1)
 echo ""
