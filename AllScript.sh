@@ -172,15 +172,25 @@ else
 	echo ""
 	read -p "IP		: " -e -i $IP IP
 	echo ""
-	read -p "Protocal	: " -e -i tcp PROTOCOL
-	echo ""
 	read -p "Port		: " -e -i 443 PORT
 	echo ""
-	read -p "Port Proxy	: " -e -i 8080 Proxy
+	echo -e "|${RED}1${NC}| TCP (แนะนำ)"
+	echo -e "|${RED}2${NC}| UDP"
+	read -p "Protocal	: " -e -i 1 PROTOCOL
+	case $PROTOCOL in
+		1) 
+		PROTOCOL=tcp
+		;;
+		2) 
+		PROTOCOL=udp
+		;;
+	esac
 	echo ""
-	read -p "Hostname Proxy	: " -e Hostname
+	echo -e "|${RED}1${NC}| DNS Current system"
+	echo -e "|${RED}2${NC}| DNS Google"
+	read -p "DNS		: " -e -i 1 DNS
 	echo ""
-	read -p "Client Name	: " -e CLIENT
+	read -p "Client Name	: " -e Name CLIENT
 	echo ""
 	read -n1 -r -p "กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง..."
 
@@ -238,12 +248,21 @@ server 10.8.0.0 255.255.255.0
 ifconfig-pool-persist ipp.txt" > /etc/openvpn/server.conf
 echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
 
-grep -v '#' /etc/resolv.conf | grep 'nameserver' | grep -E -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | while read line; do
-echo "push \"dhcp-option DNS $line\"" >> /etc/openvpn/server.conf
-echo 'push "dhcp-option DNS 8.8.8.8"' >> /etc/openvpn/server.conf
-echo 'push "dhcp-option DNS 8.8.4.4"' >> /etc/openvpn/server.conf
+	case $DNS in
 
-echo "keepalive 10 120
+		1)
+		grep -v '#' /etc/resolv.conf | grep 'nameserver' | grep -E -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | while read line; do
+		echo "push \"dhcp-option DNS $line\"" >> /etc/openvpn/server.conf
+		done
+		;;
+
+		2)
+		echo 'push "dhcp-option DNS 8.8.8.8"' >> /etc/openvpn/server.conf
+		echo 'push "dhcp-option DNS 8.8.4.4"' >> /etc/openvpn/server.conf
+		;;
+	esac
+
+	echo "keepalive 10 120
 cipher AES-256-CBC
 comp-lzo
 user nobody
@@ -281,7 +300,7 @@ username-as-common-name" >> /etc/openvpn/server.conf
 
 		# Needed to use rc.local with some systemd distros
 		if [[ "$OS" = 'debian' && ! -e $RCLOCAL ]]; then
-echo "#!/bin/sh -e
+			echo "#!/bin/sh -e
 exit 0" > $RCLOCAL
 		fi
 		chmod +x $RCLOCAL
@@ -350,6 +369,7 @@ cipher AES-256-CBC
 comp-lzo
 setenv opt block-outside-dns
 key-direction 1
+verb 3
 verb 3
 auth-user-pass" > /etc/openvpn/client-common.txt
 
