@@ -174,6 +174,10 @@ else
 	echo ""
 	read -p "Port		: " -e -i 443 PORT
 	echo ""
+	read -p "Hostname Proxy	: " -e HOSTNAME
+	echo ""
+	read -p "Port Proxy	: " -e -i 8080 PROXY
+	echo ""
 	echo -e "|${RED}1${NC}| TCP (แนะนำ)"
 	echo -e "|${RED}2${NC}| UDP"
 	read -p "Protocal	: " -e -i 1 PROTOCOL
@@ -192,7 +196,7 @@ else
 	echo ""
 	read -p "Client Name	: " -e Name CLIENT
 	echo ""
-	read -n1 -r -p "กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง..."
+	read -n1 -r -p "${RED}กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง...${NC}"
 
 	# Install Essential Package
 	apt-get update
@@ -372,6 +376,110 @@ key-direction 1
 verb 3
 verb 3
 auth-user-pass" > /etc/openvpn/client-common.txt
+
+	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+
+apt-get -y install squid3
+cat > /etc/squid3/squid.conf <<END
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 21
+acl Safe_ports port 443
+acl Safe_ports port 70
+acl Safe_ports port 210
+acl Safe_ports port 1025-65535
+acl Safe_ports port 280
+acl Safe_ports port 488
+acl Safe_ports port 591
+acl Safe_ports port 777
+acl CONNECT method CONNECT
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+http_access allow SSH
+http_access allow manager localhost
+http_access deny manager
+http_access allow localhost
+http_access deny all
+http_port $PROXY
+coredump_dir /var/spool/squid3
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern . 0 20% 4320
+visible_hostname $HOSTNAME
+END
+sed -i $IP2 /etc/squid3/squid.conf;
+service squid3 restart
+
+echo ""
+echo "Source by Mnm Ami"
+echo "Donate via TrueMoney Wallet : 082-038-2600"
+echo ""
+echo "Install OpenVPN and Squid Proxy Finish"
+echo "IP Server		: $IP"
+echo "Protocal		: $PROTOCAL"
+echo "Port		: $PORT"
+echo "Hostname Proxy	: $HOSTNAME"
+echo "Proxy		: $IP"
+echo "Port 		: $PROXY"
+echo "====================================================="
+echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
+echo "====================================================="
+
+	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+
+apt-get -y install squid
+cat > /etc/squid/squid.conf <<END
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 21
+acl Safe_ports port 443
+acl Safe_ports port 70
+acl Safe_ports port 210
+acl Safe_ports port 1025-65535
+acl Safe_ports port 280
+acl Safe_ports port 488
+acl Safe_ports port 591
+acl Safe_ports port 777
+acl CONNECT method CONNECT
+acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
+http_access allow SSH
+http_access allow manager localhost
+http_access deny manager
+http_access allow localhost
+http_access deny all
+http_port $PROXY
+coredump_dir /var/spool/squid
+refresh_pattern ^ftp: 1440 20% 10080
+refresh_pattern ^gopher: 1440 0% 1440
+refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
+refresh_pattern . 0 20% 4320
+visible_hostname $HOSTNAME
+END
+sed -i $IP2 /etc/squid/squid.conf;
+service squid restart
+
+echo ""
+echo "Source by Mnm Ami"
+echo "Donate via TrueMoney Wallet : 082-038-2600"
+echo ""
+echo "Install OpenVPN and Squid Proxy Finish"
+echo "IP Server		: $IP"
+echo "Protocal		: $PROTOCAL"
+echo "Port		: $PORT"
+echo "Hostname Proxy	: $HOSTNAME"
+echo "Proxy		: $IP"
+echo "Port 		: $PROXY"
+echo "====================================================="
+echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
+echo "====================================================="
+
+	fi
 
 fi
 	;;
