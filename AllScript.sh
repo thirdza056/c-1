@@ -57,12 +57,12 @@ echo ""
 echo "Debian 8-9 Ubuntu 14.04-16.04 Support"
 echo -e "FUNCTION SCRIPT ${color1}✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:*${color3}"
 echo ""
-echo -e "|${RED}1${NC}|  OPENVPN (TERMINAL CONTROL) ${RED}✖ ${NC}"
-echo -e "|${RED}2${NC}|  OPENVPN (PRITUNL CONTROL) ${GREEN}✔ ${NC}"
-echo -e "|${RED}3${NC}|  SSH + DROPBEAR ${RED}✖ ${NC}"
-echo -e "|${RED}4${NC}|  WEB PANEL ${RED}✖ ${NC}"
-echo -e "|${RED}5${NC}|  VNSTAT (CHECK BANDWIDTH or DATA) ${RED}✖ ${NC}"
-echo -e "|${RED}6${NC}|  SQUID PROXY ${GREEN}✔ ${NC}"
+echo -e "|${RED}1${NC}| OPENVPN (TERMINAL CONTROL) ${RED}✖ ${NC}"
+echo -e "|${RED}2${NC}| OPENVPN (PRITUNL CONTROL) ${GREEN}✔ ${NC}"
+echo -e "|${RED}3${NC}| SSH + DROPBEAR ${RED}✖ ${NC}"
+echo -e "|${RED}4${NC}| WEB PANEL ${RED}✖ ${NC}"
+echo -e "|${RED}5${NC}| VNSTAT (CHECK BANDWIDTH or DATA) ${RED}✖ ${NC}"
+echo -e "|${RED}6${NC}| SQUID PROXY ${GREEN}✔ ${NC}"
 echo ""
 read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข) : " Menu
 
@@ -90,7 +90,7 @@ newclient () {
 # Set IP
 IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 if [[ "$IP" = "" ]]; then
-        IP=$(wget -4qO- "http://whatismyip.akamai.com/")
+	IP=$(wget -4qO- "http://whatismyip.akamai.com/")
 fi
 IP2="s/xxxxxxxxx/$IP/g";
 
@@ -101,17 +101,16 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 		echo ""
 		echo "ระบบตรวจสอบพบว่าได้ทำการติดตั้งเซิฟเวอร์ OpenVPN ไปแล้ว"
 		echo ""
+		echo -e "|${RED}1${NC}| ถอดถอนเซิฟเวอร์ OpenVPN"
+		echo -e "|${RED}2${NC}| ยกเลิก"
 		echo ""
-		echo -e "|${RED}1${NC}|  ถอดถอนเซิฟเวอร์  OpenVPN"
-		echo -e "|${RED}2${NC}|  ยกเลิก"
-		echo ""
-		read -p "หรือหากคุณต้องการทำสิ่งใด โปรดเลือกหัวข้อด้านบนนี้ : " option
+		read -p "หรือหากต้องการทำสิ่งใด โปรดเลือกหัวข้อด้านบนนี้ : " option
 
 		case $option in
 
 			1) 
 			echo ""
-			read -p "คุณแน่ใจใช่หรือไม่ว่าต้องการถอดถอนเซิฟเวอร์  OpenVPN " -e -i N REMOVE
+			read -p "แน่ใจใช่หรือไม่ว่าต้องการถอดถอนเซิฟเวอร์  OpenVPN : " -e -i N REMOVE
 
 			if [[ "$REMOVE" = 'Y' ]]; then
 				PORT=$(grep '^port ' /etc/openvpn/server.conf | cut -d " " -f 2)
@@ -157,9 +156,7 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 				echo "เซิฟเวอร์ OpenVPN ได้ถูกถอดถอนเรียบร้อยแล้ว"
 
 			else
-
 				exit
-
 			fi
 			exit
 			;;
@@ -175,35 +172,31 @@ else
 
 	clear
 	echo ""
-	echo "เริ่มทำการตั้งค่าเซิฟเวอร์ OpenVPN ของคุณ"
+	read -p "IP : " -e -i $IP IP
 	echo ""
-	read -p "IP ของคุณคือ : " -e -i $IP IP
-	echo ""
-	echo -e "|${RED}1${NC}|  TCP (แนะนำ)"
-	echo -e "|${RED}2${NC}|  UDP"
-	echo ""
-	read -p "กรุณาเลือก Protocal ที่ต้องการติดตั้ง : " -e -i 1 PROTOCOL
-
-	case $PROTOCOL in
-		1)
-		PROTOCOL=tcp
-		;;
-		2)
-		PROTOCOL=udp
-		;;
-	esac
+#	echo -e "|${RED}1${NC}| TCP (แนะนำ)"
+#	echo -e "|${RED}2${NC}| UDP"
+#	echo ""
+	read -p "Protocal : " -e -i tcp PROTOCOL
+#	case $PROTOCOL in
+#		1)
+#		PROTOCOL=tcp
+#		;;
+#		2)
+#		PROTOCOL=udp
+#		;;
+#	esac
 
 	echo ""
-	read -p "กรุณาเลือกระบุ Port เซิฟเวอร์ที่ต้องการติดตั้ง : " -e -i 443 PORT
+	read -p "Port : " -e -i 443 PORT
 	echo ""
-	echo -e "|${RED}1${NC}|  DNS จากระบบปัจจุบัน"
-	echo -e "|${RED}2${NC}|  DNS จาก Google"
-	read -p "กรุณาเลือกรูปแบบ DNS ที่ต้องการติดตั้ง : " -e -i 1 DNS
-	echo ""
-	read -p "กรุณาระบุชื่อเซิฟเวอร์ OpenVPN ของคุณ : " -e -i client CLIENT
-	echo ""
-	echo "ข้อมูลที่คุณตั้งค่าทั้งหมดถูกเซ็ตค่าไว้เรียบร้อยแล้ว"
-	read -n1 -r -p "กด Enter 1 ครั้งเพื่อเริ่มทำการติดตั้งเซิฟเวอร์ OpenVPN"
+#	echo -e "|${RED}1${NC}| DNS จากระบบปัจจุบัน (แนะนำ)"
+#	echo -e "|${RED}2${NC}| DNS จาก Google"
+#	read -p "DNS : " -e -i 1 DNS
+#	echo ""
+	read -p "Client Name : " -e CLIENT
+#	echo ""
+#	read -n1 -r -p "กดเอนเตอร์เพื่อเริ่มทำการติดตั้ง..."
 
 	# Install Essential Package
 	apt-get update
@@ -260,17 +253,17 @@ ifconfig-pool-persist ipp.txt" > /etc/openvpn/server.conf
 	echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
 
 	# DNS
-	case $DNS in
-		1)
+#	case $DNS in
+#		1)
 		grep -v '#' /etc/resolv.conf | grep 'nameserver' | grep -E -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | while read line; do
 			echo "push \"dhcp-option DNS $line\"" >> /etc/openvpn/server.conf
-		done
-		;;
-		2)
+#		done
+#		;;
+#		2)
 		echo 'push "dhcp-option DNS 8.8.8.8"' >> /etc/openvpn/server.conf
 		echo 'push "dhcp-option DNS 8.8.4.4"' >> /etc/openvpn/server.conf
-		;;
-	esac
+#		;;
+#	esac
 
 	echo "keepalive 10 120
 cipher AES-256-CBC
@@ -281,7 +274,10 @@ persist-key
 persist-tun
 status openvpn-status.log
 verb 3
-crl-verify crl.pem" >> /etc/openvpn/server.conf
+crl-verify crl.pem
+plugin /usr/lib/openvpn/openvpn-auth-pam.so login
+client-cert-not-required
+username-as-common-name" >> /etc/openvpn/server.conf
 
 	# Enable net.ipv4.ip_forward for the system
 	sed -i '/\<net.ipv4.ip_forward\>/c\net.ipv4.ip_forward=1' /etc/sysctl.conf
@@ -359,7 +355,8 @@ cipher AES-256-CBC
 comp-lzo
 setenv opt block-outside-dns
 key-direction 1
-verb 3" > /etc/openvpn/client-common.txt
+verb 3
+auth-user-pass" > /etc/openvpn/client-common.txt
 
 
 	EXTERNALIP=$(wget -4qO- "http://whatismyip.akamai.com/")
@@ -391,19 +388,25 @@ verb 3" > /etc/openvpn/client-common.txt
 		echo "Source by Mnm Ami"
 		echo "Donate via TrueMoney Wallet : 082-038-2600"
 		echo ""
-		echo "Install OpenVPN and Squid Proxy Finish"
-		echo "IP    : $IP"
-		echo "Port OpenVPN : $PORT"
-		echo "Proxy : $IP"
-		echo "Port  : 8080"
-		echo "No Proxy"
-		echo ""
+		echo "Install OpenVPN Finish"
+		echo "Hostname	: $Hostname"
+		echo "IP Server	: $IP"
+		echo "Protocal	: $PROTOCAL"
+		echo "Port	: $PORT"
+		echo -e "Proxy	: ${RED}✖ ${NC}"
+		echo -e "Port 	: ${RED}✖ ${NC}"
+		echo "====================================================="
+		echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
+		echo "====================================================="
 		exit
 	fi
 	
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
 apt-get -y install squid3
+echo ""
+read -p "Hostname : " -e Hostname
+read -p "Port Proxy : " -e -i 8080 Proxy
 cat > /etc/squid3/squid.conf <<END
 acl manager proto cache_object
 acl localhost src 127.0.0.1/32 ::1
@@ -426,13 +429,13 @@ http_access allow manager localhost
 http_access deny manager
 http_access allow localhost
 http_access deny all
-http_port 8080
+http_port $Proxy
 coredump_dir /var/spool/squid3
 refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
 refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
-visible_hostname OPENEXTRA.NET
+visible_hostname $Hostname
 END
 sed -i $IP2 /etc/squid3/squid.conf;
 service squid3 restart
@@ -442,14 +445,22 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install OpenVPN and Squid Proxy Finish"
-echo "IP    : $IP"
-echo "Port OpenVPN : $PORT"
-echo "Proxy : $IP"
-echo "Port  : 8080"
+echo "Hostname	: $Hostname"
+echo "IP Server	: $IP"
+echo "Protocal	: $PROTOCAL"
+echo "Port	: $PORT"
+echo "Proxy	: $IP"
+echo "Port 	: $Proxy"
+echo "====================================================="
+echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
+echo "====================================================="
 
 	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
 apt-get -y install squid
+echo ""
+read -p "Hostname : " -e Hostname
+read -p "Port Proxy : " -e -i 8080 Proxy
 cat > /etc/squid/squid.conf <<END
 acl manager proto cache_object
 acl localhost src 127.0.0.1/32 ::1
@@ -472,13 +483,13 @@ http_access allow manager localhost
 http_access deny manager
 http_access allow localhost
 http_access deny all
-http_port 8080
+http_port $Proxy
 coredump_dir /var/spool/squid
 refresh_pattern ^ftp: 1440 20% 10080
 refresh_pattern ^gopher: 1440 0% 1440
 refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
 refresh_pattern . 0 20% 4320
-visible_hostname OPENEXTRA.NET
+visible_hostname $Hostname
 END
 sed -i $IP2 /etc/squid/squid.conf;
 service squid restart
@@ -488,14 +499,20 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install OpenVPN and Squid Proxy Finish"
-echo "IP    : $IP"
-echo "Port OpenVPN : $PORT"
-echo "Proxy : $IP"
-echo "Port  : 8080"
+echo "Hostname	: $Hostname"
+echo "IP Server	: $IP"
+echo "Protocal	: $PROTOCAL"
+echo "Port	: $PORT"
+echo "Proxy	: $IP"
+echo "Port 	: $Proxy"
+echo "====================================================="
+echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
+echo "====================================================="
 
 	fi
 
 # newclient "$CLIENT"
+
 fi
 
 	;;
