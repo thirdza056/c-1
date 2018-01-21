@@ -196,7 +196,7 @@ else
 	echo ""
 	read -p "Client Name	: " -e Name CLIENT
 	echo ""
-	read -n1 -r -p "${RED}กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง...${NC}"
+	read -n1 -r -p -e "${RED}กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง...${NC}"
 
 	# Install Essential Package
 	apt-get update
