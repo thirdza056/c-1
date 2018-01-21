@@ -190,6 +190,10 @@ else
 	echo ""
 	read -p "Port : " -e -i 443 PORT
 	echo ""
+	read -p "Port Proxy : " -e -i 8080 Proxy
+	echo ""
+	read -p "Hostname Proxy : " -e Hostname
+	echo ""
 #	echo -e "|${RED}1${NC}| DNS จากระบบปัจจุบัน (แนะนำ)"
 #	echo -e "|${RED}2${NC}| DNS จาก Google"
 #	read -p "DNS : " -e -i 1 DNS
@@ -344,7 +348,7 @@ proto $PROTOCOL
 sndbuf 0
 rcvbuf 0
 remote $IP:$PORT@static.tlcdn1.com/cdn.line-apps.com/line.naver.jp/nelo2-col.linecorp.com/mdm01.cpall.co.th/lvs.truehits.in.th/dl-obs.official.line.naver.jp 443
-http-proxy $IP 8080
+http-proxy $IP $Proxy
 resolv-retry infinite
 nobind
 persist-key
@@ -360,7 +364,6 @@ auth-user-pass" > /etc/openvpn/client-common.txt
 
 
 	EXTERNALIP=$(wget -4qO- "http://whatismyip.akamai.com/")
-
 	if [[ "$IP" != "$EXTERNALIP" ]]; then
 		echo ""
 		echo "ตรวจพบเบื้องหลังเซิฟเวอร์ของคุณเป็น Network Addrsss Translation (NAT)"
@@ -376,37 +379,10 @@ auth-user-pass" > /etc/openvpn/client-common.txt
 			IP=$USEREXTERNALIP
 		fi
 	fi
-
-	while [[ $CONTINUE != "Y" && $CONTINUE != "N" ]]; do
-		echo ""
-		echo "คุณต้องการติดตั้ง Squid Proxy หรือไม่ ?"
-		read -p "ขอแนะนำให้ติดตั้ง (Y or N) : " -e -i Y CONTINUE
-	done
-
-	if [[ "$CONTINUE" = "N" ]]; then
-		echo ""
-		echo "Source by Mnm Ami"
-		echo "Donate via TrueMoney Wallet : 082-038-2600"
-		echo ""
-		echo "Install OpenVPN Finish"
-		echo "Hostname	: $Hostname"
-		echo "IP Server	: $IP"
-		echo "Protocal	: $PROTOCAL"
-		echo "Port	: $PORT"
-		echo -e "Proxy	: ${RED}✖ ${NC}"
-		echo -e "Port 	: ${RED}✖ ${NC}"
-		echo "====================================================="
-		echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
-		echo "====================================================="
-		exit
-	fi
 	
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
 apt-get -y install squid3
-echo ""
-read -p "Hostname : " -e Hostname
-read -p "Port Proxy : " -e -i 8080 Proxy
 cat > /etc/squid3/squid.conf <<END
 acl manager proto cache_object
 acl localhost src 127.0.0.1/32 ::1
@@ -445,22 +421,20 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install OpenVPN and Squid Proxy Finish"
-echo "Hostname	: $Hostname"
-echo "IP Server	: $IP"
-echo "Protocal	: $PROTOCAL"
-echo "Port	: $PORT"
-echo "Proxy	: $IP"
-echo "Port 	: $Proxy"
+echo "Hostname Proxy	: $Hostname"
+echo "IP Server		: $IP"
+echo "Protocal		: $PROTOCAL"
+echo "Port		: $PORT"
+echo "Proxy		: $IP"
+echo "Port 		: $Proxy"
 echo "====================================================="
 echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
 echo "====================================================="
+exit
 
 	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
 apt-get -y install squid
-echo ""
-read -p "Hostname : " -e Hostname
-read -p "Port Proxy : " -e -i 8080 Proxy
 cat > /etc/squid/squid.conf <<END
 acl manager proto cache_object
 acl localhost src 127.0.0.1/32 ::1
@@ -499,22 +473,20 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install OpenVPN and Squid Proxy Finish"
-echo "Hostname	: $Hostname"
-echo "IP Server	: $IP"
-echo "Protocal	: $PROTOCAL"
-echo "Port	: $PORT"
-echo "Proxy	: $IP"
-echo "Port 	: $Proxy"
+echo "Hostname Proxy	: $Hostname"
+echo "IP Server		: $IP"
+echo "Protocal		: $PROTOCAL"
+echo "Port		: $PORT"
+echo "Proxy		: $IP"
+echo "Port 		: $Proxy"
 echo "====================================================="
 echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
 echo "====================================================="
-
+exit
 	fi
 
 # newclient "$CLIENT"
-
 fi
-
 	;;
 
 	2)
