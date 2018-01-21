@@ -377,9 +377,6 @@ auth-user-pass" > /etc/openvpn/client-common.txt
 			IP=$USEREXTERNALIP
 		fi
 	fi
-
-# newclient "$CLIENT"
-
 fi
 
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
@@ -432,7 +429,6 @@ echo "Port 		: $Proxy"
 echo "====================================================="
 echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
 echo "====================================================="
-exit
 
 	elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
 
@@ -484,9 +480,9 @@ echo "Port 		: $Proxy"
 echo "====================================================="
 echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
 echo "====================================================="
-exit
+
 	fi
-	
+
 	;;
 
 	2)
