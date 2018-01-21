@@ -41,6 +41,10 @@ IPTABLES='/etc/iptables/iptables.rules'
 SYSCTL='/etc/sysctl.conf'
 GROUPNAME=nogroup
 RCLOCAL='/etc/rc.local'
+Port=$PORT
+http_port=$PROXY
+Proto=$PROTOCOL
+visible_hostname=$HOSTNAME
 
 # Set Localtime GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Thailand /etc/localtime
