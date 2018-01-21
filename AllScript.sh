@@ -171,7 +171,7 @@ else
 	echo ""
 	read -p "Port		: " -e -i 443 PORT
 	echo ""
-	read -p "Hostname Proxy	: " -e Hostname HOSTNAME
+	read -p "Hostname Proxy	: " -e -i Hostname.net HOSTNAME
 	echo ""
 	read -p "Port Proxy	: " -e -i 8080 PROXY
 	echo ""
@@ -191,9 +191,9 @@ else
 	echo -e "|${RED}2${NC}| DNS Google"
 	read -p "DNS		: " -e -i 1 DNS
 	echo ""
-	read -p "Client Name	: " -e Client CLIENT
+	read -p "Client Name	: " -e -i Client CLIENT
 	echo ""
-	read -n1 -r -p -e "${RED}กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง...${NC}"
+	read -n1 -r -p "กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง..."
 
 	# Install Essential Package
 	apt-get update
