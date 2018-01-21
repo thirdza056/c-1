@@ -473,8 +473,9 @@ echo "ติดตั้งสำเร็จ... กรุณาพิมพ์�
 echo "====================================================="
 
 	fi
-
-echo "#!/bin/bash
+	
+cat > /usr/local/bin/menu <<END
+#!/bin/bash
 
 # Color
 RED='\033[0;31m'
@@ -584,7 +585,8 @@ cat /etc/openvpn/openvpn-status.log | head -n $a | tail -n $b | cut -d "," -f 1 
 cat /tmp/vpn-login-db.txt
 fi
 echo "=========================================="
-;;" >> /usr/local/bin/menu
+;;
+END
 
 
 fi
