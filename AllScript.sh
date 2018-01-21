@@ -171,7 +171,7 @@ else
 	echo ""
 	read -p "Port		: " -e -i 443 PORT
 	echo ""
-	read -p "Hostname Proxy	: " -e Hostname.net HOSTNAME
+	read -p "Hostname Proxy	: " -e Hostname HOSTNAME
 	echo ""
 	read -p "Port Proxy	: " -e -i 8080 PROXY
 	echo ""
