@@ -519,7 +519,7 @@ echo "IP Server		: $IP"
 echo "Port OpenVPN	: $PORT"
 echo "Protocal		: $PROTOCAL"
 echo "IP Proxy		: $IP"
-echo "Port Proxy		: $PROXY"
+echo "Port Proxy	: $PROXY"
 echo ""
 echo "Download Config	: http://$IP/$User.ovpn"
 echo "Username		: $User"
@@ -586,6 +586,8 @@ cat /tmp/vpn-login-db.txt
 fi
 echo "=========================================="
 ;;
+
+esac
 END
 
 
