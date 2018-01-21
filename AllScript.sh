@@ -57,12 +57,12 @@ echo ""
 echo "Debian 8-9 Ubuntu 14.04-16.04 Support"
 echo -e "FUNCTION SCRIPT ${color1}✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:*${color3}"
 echo ""
-echo -e "|${RED}1${NC}| OPENVPN (TERMINAL CONTROL) ${RED}✖ ${NC}"
-echo -e "|${RED}2${NC}| OPENVPN (PRITUNL CONTROL) ${GREEN}✔ ${NC}"
-echo -e "|${RED}3${NC}| SSH + DROPBEAR ${RED}✖ ${NC}"
-echo -e "|${RED}4${NC}| WEB PANEL ${RED}✖ ${NC}"
-echo -e "|${RED}5${NC}| VNSTAT (CHECK BANDWIDTH or DATA) ${RED}✖ ${NC}"
-echo -e "|${RED}6${NC}| SQUID PROXY ${GREEN}✔ ${NC}"
+echo -e "|${RED}1${NC}| OPENVPN (TERMINAL CONTROL) ${RED}✖   ${NC}"
+echo -e "|${RED}2${NC}| OPENVPN (PRITUNL CONTROL) ${GREEN}✔   ${NC}"
+echo -e "|${RED}3${NC}| SSH + DROPBEAR ${RED}✖   ${NC}"
+echo -e "|${RED}4${NC}| WEB PANEL ${RED}✖   ${NC}"
+echo -e "|${RED}5${NC}| VNSTAT (CHECK BANDWIDTH or DATA) ${RED}✖   ${NC}"
+echo -e "|${RED}6${NC}| SQUID PROXY ${GREEN}✔   ${NC}"
 echo ""
 read -p "กรุณาเลือกฟังก์ชั่นที่ต้องการติดตั้ง (ตัวเลข) : " Menu
 
@@ -151,10 +151,8 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 
 				apt-get remove --purge -y openvpn
 				rm -rf /etc/openvpn
-
 				echo ""
 				echo "เซิฟเวอร์ OpenVPN ได้ถูกถอดถอนเรียบร้อยแล้ว"
-
 			else
 				exit
 			fi
@@ -172,33 +170,19 @@ else
 
 	clear
 	echo ""
-	read -p "IP : " -e -i $IP IP
+	read -p "IP		: " -e -i $IP IP
 	echo ""
-
-	read -p "Protocal : " -e -i tcp PROTOCOL
-#	case $PROTOCOL in
-#		1)
-#		PROTOCOL=tcp
-#		;;
-#		2)
-#		PROTOCOL=udp
-#		;;
-#	esac
-
+	read -p "Protocal	: " -e -i tcp PROTOCOL
 	echo ""
-	read -p "Port : " -e -i 443 PORT
+	read -p "Port		: " -e -i 443 PORT
 	echo ""
-	read -p "Port Proxy : " -e -i 8080 Proxy
+	read -p "Port Proxy	: " -e -i 8080 Proxy
 	echo ""
-	read -p "Hostname Proxy : " -e Hostname
+	read -p "Hostname Proxy	: " -e Hostname
 	echo ""
-#	echo -e "|${RED}1${NC}| DNS จากระบบปัจจุบัน (แนะนำ)"
-#	echo -e "|${RED}2${NC}| DNS จาก Google"
-#	read -p "DNS : " -e -i 1 DNS
-#	echo ""
-	read -p "Client Name : " -e CLIENT
-#	echo ""
-#	read -n1 -r -p "กดเอนเตอร์เพื่อเริ่มทำการติดตั้ง..."
+	read -p "Client Name	: " -e CLIENT
+	echo ""
+	read -n1 -r -p "กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง..."
 
 	# Install Essential Package
 	apt-get update
@@ -252,22 +236,14 @@ tls-auth ta.key 0
 topology subnet
 server 10.8.0.0 255.255.255.0
 ifconfig-pool-persist ipp.txt" > /etc/openvpn/server.conf
-	echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
+echo 'push "redirect-gateway def1 bypass-dhcp"' >> /etc/openvpn/server.conf
 
-	# DNS
-#	case $DNS in
-#		1)
-		grep -v '#' /etc/resolv.conf | grep 'nameserver' | grep -E -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | while read line; do
-			echo "push \"dhcp-option DNS $line\"" >> /etc/openvpn/server.conf
-#		done
-#		;;
-#		2)
-		echo 'push "dhcp-option DNS 8.8.8.8"' >> /etc/openvpn/server.conf
-		echo 'push "dhcp-option DNS 8.8.4.4"' >> /etc/openvpn/server.conf
-#		;;
-#	esac
+grep -v '#' /etc/resolv.conf | grep 'nameserver' | grep -E -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | while read line; do
+echo "push \"dhcp-option DNS $line\"" >> /etc/openvpn/server.conf
+echo 'push "dhcp-option DNS 8.8.8.8"' >> /etc/openvpn/server.conf
+echo 'push "dhcp-option DNS 8.8.4.4"' >> /etc/openvpn/server.conf
 
-	echo "keepalive 10 120
+echo "keepalive 10 120
 cipher AES-256-CBC
 comp-lzo
 user nobody
@@ -377,7 +353,6 @@ auth-user-pass" > /etc/openvpn/client-common.txt
 			IP=$USEREXTERNALIP
 		fi
 	fi
-fi
 
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
@@ -482,7 +457,7 @@ echo "ติดตั้งสำเร็จ... กรุณาพิมพ์�
 echo "====================================================="
 
 	fi
-
+fi
 	;;
 
 	2)
