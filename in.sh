@@ -417,6 +417,8 @@ verb 3" > /etc/openvpn/client-common.txt
 	echo "Your client configuration is available at" ~/"$CLIENT.ovpn"
 	echo "If you want to add more clients, you simply need to run this script again!"
 
+
+apt-get -y install squid3
 cat > /etc/squid3/squid.conf <<END
 acl manager proto cache_object
 acl localhost src 127.0.0.1/32 ::1
