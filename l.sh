@@ -38,8 +38,10 @@ newclient () {
 			newclient "$CLIENT"
 			DATE=$(date +"%d-%m-%Y")
 			echo ""
-			echo 'Cliet Name : $CLIENT        Register : $DATE        Expire : $DAY Day' >> /usr/local/bin/User-Expire
-			echo "Cliet Name : $CLIENT        Register : $DATE        Expire : $DAY Day"
+			echo "Cliet Name : $CLIENT			Register: $DATE			Expire : $DAY Day" >> /usr/local/bin/User-Expire
+			echo "Cliet Name : $CLIENT"
+			echo "Register: $DATE"
+			echo "Expire (Day): $DAY"
 			echo ""
 			exit
 			;;
