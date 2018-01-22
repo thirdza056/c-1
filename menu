@@ -29,6 +29,8 @@ newclient () {
 		case $option in
 
 			1) 
+
+			IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
 			echo ""
 			read -p "Client Name : " -e CLIENT
 			read -p "Expire : " -e DAY
@@ -42,6 +44,7 @@ newclient () {
 			echo "Cliet Name : $CLIENT"
 			echo "Register: $DATE"
 			echo "Expire (Day): $DAY"
+			echo "Download Config : $IP"
 			echo ""
 			cp /root/$CLIENT.ovpn /home/vps/public_html/
 			rm /root/$CLIENT.ovpn
