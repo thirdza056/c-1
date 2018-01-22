@@ -175,7 +175,7 @@ else
 	echo ""
 	echo -e "|${RED}1${NC}| TCP (แนะนำ)"
 	echo -e "|${RED}2${NC}| UDP"
-	read -p "Protocal	: " -e -i 1 PROTOCOL
+	read -p "Protocal : " -e -i 1 PROTOCOL
 	case $PROTOCOL in
 		1) 
 		PROTOCOL=tcp
@@ -187,9 +187,9 @@ else
 	echo ""
 	echo -e "|${RED}1${NC}| DNS Current system"
 	echo -e "|${RED}2${NC}| DNS Google"
-	read -p "DNS		: " -e -i 1 DNS
+	read -p "DNS : " -e -i 1 DNS
 	echo ""
-	read -p "Client Name	: " -e -i Client CLIENT
+	read -p "Client Name : " -e -i Client CLIENT
 	echo ""
 	read -n1 -r -p "กดเอนเตอร์ครั้งสุดท้ายเพื่อเริ่มการติดตั้ง..."
 
@@ -408,12 +408,12 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install OpenVPN and Squid Proxy Finish"
-echo "IP Server		: $IP"
-echo "Protocal		: $PROTOCAL"
-echo "Port		: $PORT"
-echo "Hostname Proxy	: $HOSTNAME"
-echo "Proxy		: $IP"
-echo "Port 		: $PROXY"
+echo "IP Server : $IP"
+echo "Protocal : $PROTOCAL"
+echo "Port : $PORT"
+echo "Hostname Proxy : $HOSTNAME"
+echo "Proxy : $IP"
+echo "Port : $PROXY"
 echo "====================================================="
 echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
 echo "====================================================="
@@ -459,12 +459,12 @@ echo "Source by Mnm Ami"
 echo "Donate via TrueMoney Wallet : 082-038-2600"
 echo ""
 echo "Install OpenVPN and Squid Proxy Finish"
-echo "IP Server		: $IP"
-echo "Protocal		: $PROTOCAL"
-echo "Port		: $PORT"
-echo "Hostname Proxy	: $HOSTNAME"
-echo "Proxy		: $IP"
-echo "Port 		: $PROXY"
+echo "IP Server : $IP"
+echo "Protocal : $PROTOCAL"
+echo "Port : $PORT"
+echo "Hostname Proxy : $HOSTNAME"
+echo "Proxy : $IP"
+echo "Port : $PROXY"
 echo "====================================================="
 echo "ติดตั้งสำเร็จ... กรุณาพิมพ์คำสั่ง menu เพื่อไปยังขั้นตอนถัดไป"
 echo "====================================================="
