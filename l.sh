@@ -43,6 +43,8 @@ newclient () {
 			echo "Register: $DATE"
 			echo "Expire (Day): $DAY"
 			echo ""
+			cp -r /root/$CLIENT /home/vps/public_html
+			rm /root/$CLIENT
 			exit
 			;;
 
