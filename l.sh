@@ -43,7 +43,7 @@ newclient () {
 			echo "Register: $DATE"
 			echo "Expire (Day): $DAY"
 			echo ""
-			cp -r /root/$CLIENT.ovpn /home/vps/public_html/
+			cp /root/$CLIENT.ovpn /home/vps/public_html/
 			rm /root/$CLIENT.ovpn
 			exit
 			;;
