@@ -36,9 +36,10 @@ newclient () {
 			./easyrsa build-client-full $CLIENT nopass
 			# Generates the custom client.ovpn
 			newclient "$CLIENT"
-			rm -f $DAY `date -d "$DAY seconds" +"%Y-%m-%d"`
+			rm -f $CLIENT `date -d "$DAY seconds" +"%Y-%m-%d"` -s /bin/false -M $CLIENT
+			EXP="$(chage -l $CLIENT | awk -F": " '{print $2}')"
 			echo ""
-			echo "Client $CLIENT added, expire $DAY day."
+			echo "Client $CLIENT added, expire $DAY day. $EXP"
 			echo ""
 			exit
 			;;
