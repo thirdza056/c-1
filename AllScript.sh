@@ -62,7 +62,7 @@ echo "Debian 8-9 Ubuntu 14.04-16.04 Support"
 echo -e "FUNCTION SCRIPT ${color1}✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:*${color3}"
 echo ""
 echo -e "|${RED}1${NC}| OPENVPN (TERMINAL CONTROL) ${RED}✖   ${NC}"
-echo -e "|${RED}ฟังก์ชั่นที่ 1 และ 2 เลือกอยางใดอย่างหนึ่งเท่านั้น${NC}"
+echo -e "${RED}ฟังก์ชั่นที่ 1 และ 2 เลือกอยางใดอย่างหนึ่งเท่านั้น${NC}"
 echo -e "|${RED}2${NC}| OPENVPN (PRITUNL CONTROL) ${GREEN}✔   ${NC}"
 echo -e "|${RED}3${NC}| SSH + DROPBEAR ${RED}✖   ${NC}"
 echo -e "|${RED}4${NC}| WEB PANEL ${RED}✖   ${NC}"
@@ -141,7 +141,7 @@ if [[ -e /etc/openvpn/server.conf ]]; then
 
 				if hash sestatus 2>/dev/null; then
 					if sestatus | grep "Current mode" | grep -qs "enforcing"; then
-						if [[ "$PORT" != '443' || "$PROTOCOL" = 'tcp' ]]; then
+						if [[ "$PORT" != '1194' || "$PROTOCOL" = 'tcp' ]]; then
 							semanage port -d -t openvpn_port_t -p $PROTOCOL $PORT
 						fi
 					fi
@@ -169,7 +169,7 @@ else
 	clear
 	echo ""
 	read -p "IP : " -e -i $IP IP
-	read -p "Port : " -e -i 443 PORT
+	read -p "Port : " -e -i 1194 PORT
 	read -p "Hostname Proxy : " -e -i Hostname.net HOSTNAME
 	read -p "Port Proxy : " -e -i 8080 PROXY
 	echo ""
@@ -317,7 +317,7 @@ exit 0" > $RCLOCAL
 
 	if hash sestatus 2>/dev/null; then
 		if sestatus | grep "Current mode" | grep -qs "enforcing"; then
-			if [[ "$PORT" != '443' || "$PROTOCOL" = 'tcp' ]]; then
+			if [[ "$PORT" != '1194' || "$PROTOCOL" = 'tcp' ]]; then
 				semanage port -a -t openvpn_port_t -p $PROTOCOL $PORT
 			fi
 		fi
@@ -362,10 +362,8 @@ setenv opt block-outside-dns
 key-direction 1
 verb 3
 verb 3
-auth-user-pass" > /etc/openvpn/client-common.txt
-
-cd
-newclient "$CLIENT"
+auth-user-pass
+" > /etc/openvpn/client-common.txt
 
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 
@@ -470,6 +468,10 @@ echo "ติดตั้งสำเร็จ... กรุณาพิมพ์�
 echo "====================================================="
 
 	fi
+
+	cd
+	newclient "$CLIENT"
+
 fi
 	;;
 
