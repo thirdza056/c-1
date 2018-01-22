@@ -36,7 +36,7 @@ newclient () {
 			./easyrsa build-client-full $CLIENT nopass
 			# Generates the custom client.ovpn
 			newclient "$CLIENT"
-			cat <<EOF | at now + 10s
+			cat <<EOF | at now + $DAY seconds
 			rm $CLIENT.ovpn
 			EOF
 			echo ""
