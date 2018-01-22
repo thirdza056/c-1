@@ -36,7 +36,7 @@ newclient () {
 			./easyrsa build-client-full $CLIENT nopass
 			# Generates the custom client.ovpn
 			newclient "$CLIENT"
-			find /root -type f mmin +$DAY -name "*.ovpn" -exec rm -f {} \;
+			rm -f $DAY `date -d "$DAY seconds" +"%Y-%m-%d"`
 			echo ""
 			echo "Client $CLIENT added, expire $DAY day."
 			echo ""
