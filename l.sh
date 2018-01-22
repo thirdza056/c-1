@@ -38,7 +38,7 @@ newclient () {
 			newclient "$CLIENT"
 			DATE=$(date +"%d-%m-%Y")
 			echo ""
-			echo "Cliet Name : $CLIENT			Register: $DATE			Expire : $DAY Day" >> /usr/local/bin/User-Expire
+			echo "Cliet Name : $CLIENT		Register: $DATE		Expire : $DAY Day" >> /usr/local/bin/User-Expire
 			echo "Cliet Name : $CLIENT"
 			echo "Register: $DATE"
 			echo "Expire (Day): $DAY"
@@ -72,6 +72,7 @@ newclient () {
 			rm -rf pki/private/$CLIENT.key
 			rm -rf pki/issued/$CLIENT.crt
 			rm -rf /etc/openvpn/crl.pem
+			rm -rf /home/vps/public_html/$CLIENT.ovpn
 			cp /etc/openvpn/easy-rsa/pki/crl.pem /etc/openvpn/crl.pem
 			# CRL is read with each client connection, when OpenVPN is dropped to nobody
 			chown nobody:$GROUPNAME /etc/openvpn/crl.pem
