@@ -1,7 +1,6 @@
 #!/bin/bash
 
 newclient () {
-	# Generates the custom client.ovpn
 	cp /etc/openvpn/client-common.txt ~/$1.ovpn
 	echo "<ca>" >> ~/$1.ovpn
 	cat /etc/openvpn/easy-rsa/pki/ca.crt >> ~/$1.ovpn
@@ -16,23 +15,31 @@ newclient () {
 	cat /etc/openvpn/ta.key >> ~/$1.ovpn
 	echo "</tls-auth>" >> ~/$1.ovpn
 }
+		clear
+		RED='\033[0;31m'
+		GREEN='\033[0;32m'
+		NC='\033[0m'
 
-		echo "   1) Add a new user"
-		echo "   2) Revoke an existing user"
-		read -p "Select an option [1-4]: " option
+		echo ""
+		echo -e "|${RED}1${NC}| Add a new user"
+		echo -e "|${RED}2${NC}| Remove an user"
+		echo "Don't choose a choice for exit"
+		echo ""
+		read -p "Select an Option 1-2 : " option
 		case $option in
 
 			1) 
 			echo ""
-			read -p "Client name: " -e CLIENT
-			read -p "Client name: " -e DAY
+			read -p "Client Name : " -e CLIENT
+			read -p "Expire : " -e DAY
 			cd /etc/openvpn/easy-rsa/
 			./easyrsa build-client-full $CLIENT nopass
 			# Generates the custom client.ovpn
 			newclient "$CLIENT"
-			find /root/$CLIENT.ovpn -type f -mtime +$DAY -exec rm {} \;
+			find /root/$CLIENT.ovpn -type f -mmin +$DAY -exec rm {} \;
 			echo ""
-			echo "Client $CLIENT added, Day $DAY"
+			echo "Client $CLIENT added, expire $DAY day."
+			echo ""
 			exit
 			;;
 
@@ -68,5 +75,4 @@ newclient () {
 			echo "Certificate for client $CLIENT revoked"
 			exit
 			;;
-
 		esac
