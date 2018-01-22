@@ -1,40 +1,72 @@
 #!/bin/bash
 
-IP=$(ip addr | grep 'inet' | grep -v inet6 | grep -vE '127\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -1)
-if [[ "$IP" = "" ]]; then
-	IP=$(wget -4qO- "http://whatismyip.akamai.com/")
-fi
-IP2="s/xxxxxxxxx/$IP/g";
+newclient () {
+	# Generates the custom client.ovpn
+	cp /etc/openvpn/client-common.txt ~/$1.ovpn
+	echo "<ca>" >> ~/$1.ovpn
+	cat /etc/openvpn/easy-rsa/pki/ca.crt >> ~/$1.ovpn
+	echo "</ca>" >> ~/$1.ovpn
+	echo "<cert>" >> ~/$1.ovpn
+	cat /etc/openvpn/easy-rsa/pki/issued/$1.crt >> ~/$1.ovpn
+	echo "</cert>" >> ~/$1.ovpn
+	echo "<key>" >> ~/$1.ovpn
+	cat /etc/openvpn/easy-rsa/pki/private/$1.key >> ~/$1.ovpn
+	echo "</key>" >> ~/$1.ovpn
+	echo "<tls-auth>" >> ~/$1.ovpn
+	cat /etc/openvpn/ta.key >> ~/$1.ovpn
+	echo "</tls-auth>" >> ~/$1.ovpn
+}
 
-cat > /etc/squid/squid.conf <<END
-acl manager proto cache_object
-acl localhost src 127.0.0.1/32 ::1
-acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-acl SSL_ports port 443
-acl Safe_ports port 80
-acl Safe_ports port 21
-acl Safe_ports port 443
-acl Safe_ports port 70
-acl Safe_ports port 210
-acl Safe_ports port 1025-65535
-acl Safe_ports port 280
-acl Safe_ports port 488
-acl Safe_ports port 591
-acl Safe_ports port 777
-acl CONNECT method CONNECT
-acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255
-http_access allow SSH
-http_access allow manager localhost
-http_access deny manager
-http_access allow localhost
-http_access deny all
-http_port 8080
-coredump_dir /var/spool/squid
-refresh_pattern ^ftp: 1440 20% 10080
-refresh_pattern ^gopher: 1440 0% 1440
-refresh_pattern -i (/cgi-bin/|\?) 0 0% 0
-refresh_pattern . 0 20% 4320
-visible_hostname openextra.net
-END
-sed -i $IP2 /etc/squid/squid.conf;
-service squid restart
+		echo "   1) Add a new user"
+		echo "   2) Revoke an existing user"
+		read -p "Select an option [1-4]: " option
+		case $option in
+
+			1) 
+			echo ""
+			read -p "Client name: " -e CLIENT
+			read -p "Client name: " -e DAY
+			cd /etc/openvpn/easy-rsa/
+			./easyrsa build-client-full $CLIENT nopass
+			# Generates the custom client.ovpn
+			newclient "$CLIENT"
+			find /root/$CLIENT.ovpn -type f -mtime +$DAY -exec rm {} \;
+			echo ""
+			echo "Client $CLIENT added, Day $DAY"
+			exit
+			;;
+
+			2)
+			# This option could be documented a bit better and maybe even be simplimplified
+			# ...but what can I say, I want some sleep too
+			NUMBEROFCLIENTS=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep -c "^V")
+			if [[ "$NUMBEROFCLIENTS" = '0' ]]; then
+				echo ""
+				echo "You have no existing clients!"
+				exit 6
+			fi
+			echo ""
+			echo "Select the existing client certificate you want to revoke"
+			tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | nl -s ') '
+			if [[ "$NUMBEROFCLIENTS" = '1' ]]; then
+				read -p "Select one client [1]: " CLIENTNUMBER
+			else
+				read -p "Select one client [1-$NUMBEROFCLIENTS]: " CLIENTNUMBER
+			fi
+			CLIENT=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | sed -n "$CLIENTNUMBER"p)
+			cd /etc/openvpn/easy-rsa/
+			./easyrsa --batch revoke $CLIENT
+			EASYRSA_CRL_DAYS=3650 ./easyrsa gen-crl
+			rm -rf pki/reqs/$CLIENT.req
+			rm -rf pki/private/$CLIENT.key
+			rm -rf pki/issued/$CLIENT.crt
+			rm -rf /etc/openvpn/crl.pem
+			cp /etc/openvpn/easy-rsa/pki/crl.pem /etc/openvpn/crl.pem
+			# CRL is read with each client connection, when OpenVPN is dropped to nobody
+			chown nobody:$GROUPNAME /etc/openvpn/crl.pem
+			echo ""
+			echo "Certificate for client $CLIENT revoked"
+			exit
+			;;
+
+		esac
