@@ -47,6 +47,7 @@ newclient () {
 			echo "Download Config : $IP"
 			echo ""
 			cp /root/$CLIENT.ovpn /home/vps/public_html/
+			rm /root/$CLIENT.ovpn
 			exit
 			;;
 
