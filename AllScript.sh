@@ -41,10 +41,6 @@ IPTABLES='/etc/iptables/iptables.rules'
 SYSCTL='/etc/sysctl.conf'
 GROUPNAME=nogroup
 RCLOCAL='/etc/rc.local'
-Port=$PORT
-http_port=$PROXY
-Proto=$PROTOCOL
-visible_hostname=$HOSTNAME
 
 # Set Localtime GMT +7
 ln -fs /usr/share/zoneinfo/Asia/Thailand /etc/localtime
@@ -66,7 +62,7 @@ echo "Debian 8-9 Ubuntu 14.04-16.04 Support"
 echo -e "FUNCTION SCRIPT ${color1}✿.｡.:* *.:｡✿*ﾟ’ﾟ･✿.｡.:*${color3}"
 echo ""
 echo -e "|${RED}1${NC}| OPENVPN (TERMINAL CONTROL) ${RED}✖   ${NC}"
-echo -e "|${RED}ฟังก์ชั่น 1 และ 2 เลือกอยางใดอย่างหนึ่งเท่านั้น${NC}"
+echo -e "|${RED}ฟังก์ชั่นที่ 1 และ 2 เลือกอยางใดอย่างหนึ่งเท่านั้น${NC}"
 echo -e "|${RED}2${NC}| OPENVPN (PRITUNL CONTROL) ${GREEN}✔   ${NC}"
 echo -e "|${RED}3${NC}| SSH + DROPBEAR ${RED}✖   ${NC}"
 echo -e "|${RED}4${NC}| WEB PANEL ${RED}✖   ${NC}"
@@ -180,13 +176,10 @@ else
 
 	clear
 	echo ""
-	read -p "IP		: " -e -i $IP IP
-	echo ""
-	read -p "Port		: " -e -i 443 PORT
-	echo ""
-	read -p "Hostname Proxy	: " -e -i Hostname.net HOSTNAME
-	echo ""
-	read -p "Port Proxy	: " -e -i 8080 PROXY
+	read -p "IP : " -e -i $IP IP
+	read -p "Port : " -e -i 443 PORT
+	read -p "Hostname Proxy : " -e -i Hostname.net HOSTNAME
+	read -p "Port Proxy : " -e -i 8080 PROXY
 	echo ""
 	echo -e "|${RED}1${NC}| TCP (แนะนำ)"
 	echo -e "|${RED}2${NC}| UDP"
@@ -379,6 +372,7 @@ verb 3
 verb 3
 auth-user-pass" > /etc/openvpn/client-common.txt
 
+cd
 newclient "$CLIENT"
 
 	if [[ "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
@@ -484,123 +478,6 @@ echo "ติดตั้งสำเร็จ... กรุณาพิมพ์�
 echo "====================================================="
 
 	fi
-	
-cat > /usr/local/bin/menu <<END
-#!/bin/bash
-
-# Color
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m'
-
-echo "--------- MENU SCRIPT ---------"
-echo ""
-echo -e "|${RED}1${NC}| เพิ่มชื่อผู้ใช้"
-echo -e "|${RED}2${NC}| ลบชื่อผู้ใช้"
-echo -e "|${RED}3${NC}| รายชื่อผู้ใช้ทั้งหมด"
-echo -e "|${RED}4${NC}| เปลี่ยนรหัสผ่านผู้ใช้ใหม่"
-echo -e "|${RED}5${NC}| รายชื่อผู้ใช้ที่กำลังออนไลน์"
-echo -e "|${RED}1${NC}| แบนชื่อผู้ใช้"
-echo -e "|${RED}1${NC}| ปลดแบนชื่อผู้ใช้"
-echo -e "|${color1} 8${color3}| ตั้งค่ารีบูทเซิฟเวอร์อัตโนมัติ"
-echo -e "|${color1} 9${color3}| ตรวจสอบดาต้าที่ใช้ไปทั้งหมดในปัจจุบัน"
-echo -e "|${color1}10${color3}| ทดสอบความเร็วอินเตอร์เน็ต"
-echo -e "|${color1}11${color3}| รีสตาร์ทระบบ (สำหรับผู้ที่แก้ไขสคริปท์)"
-echo -e "|${color1}12${color3}| ลิ้งค์ดาวน์โหลดคอนฟิกแบบใส่ชื่อผู้ใช้และรหัสผ่าน"
-echo -e "|${color1}13${color3}| อัพเดตเมนู"
-echo -e "|${color1}14${color3}| เก็บไฟล์สำรองข้อมูลผู้ใช้ หรือนำเข้าไฟล์สำรองข้อมูลผู้ใช้"
-echo -e "|${color1}15${color3}| ยกเลิก"
-echo ""
-read -p "กรุณาเลือกหัวข้อที่ต้องการใช้งาน (ตัวเลข)  : " MenuScript
-
-case MenuScript in
-
-1)
-echo ""
-read -p "Username   Password   Expired: " User Password Exp
-
-IP=`dig +short myip.opendns.com @resolver1.opendns.com`
-useradd -e `date -d "$Exp days" +"%Y-%m-%d"` -s /bin/false -M $User
-exp="$(chage -l $User | grep "Account expires" | awk -F": " '{print $2}')"
-echo -e "$Password\n$Password\n"|passwd $User &> /dev/null
-
-clear
-echo ""
-echo "IP Server		: $IP"
-echo "Port OpenVPN	: $PORT"
-echo "Protocal		: $PROTOCAL"
-echo "IP Proxy		: $IP"
-echo "Port Proxy	: $PROXY"
-echo ""
-echo "Download Config	: http://$IP/$User.ovpn"
-echo "Username		: $User"
-echo "Password		: $Password"
-echo "Expired		: $Exp"
-echo ""
-echo "ไฟล์เดียวสามารถใช้ได้ทั้งเครือข่าย Truemove และ Dtac"
-echo "หมายเหตุ : สำหรับ Truemove ใช้ได้เฉพาะซิมแบบเติมเงินเท่านั้น"
-echo "หมายเหตุ : สำหรับ Dtac ต้องสมัครโปรฯ Line ถึงจะสามารถใช้งาน VPN ได้"
-echo ""
-echo "นอกจากจะสามารถใช้งานผ่านแอพฯ OpenVPN Connect ได้แล้ว..."
-echo "ยังสามารถใช้งานคอมพิวเตอร์ด้วยโปรแกรม OpenVPN GUI อีกด้วย"
-echo ""
-;;
-
-2)
-echo ""
-read -p "Username		: " User
-
-if getent passwd $User > /dev/null 2>&1; then
-userdel $User
-echo ""
-echo "ลบผู้ใช้ $User เรียบร้อยแล้ว"
-else
-exit
-
-fi
-;;
-
-3)
-echo ""
-echo -e "${RED}USERNAME          EXPIRE${NC}     "
-echo ""
-while read Checklist
-do
-Account="$(echo $Checklist | cut -d: -f1)"
-ID="$(echo $Checklist | grep -v nobody | cut -d: -f3)"
-EXP="$(chage -l $Account | grep "Account expires" | awk -F": " '{print $2}')"
-if [[ $ID -ge $UIDN ]]; then
-printf "%-17s %2s\n" "$Account" "$EXP"
-fi
-done < /etc/passwd
-TOTAL="$(awk -F: '$3 >= '$UIDN' && $1 != "nobody" {print $1}' /etc/passwd | wc -l)"
-echo ""
-echo -e "${RED}ผู้ใช้ทั้งหมดในปัจจุบัน : $TOTAL${NC}"
-echo ""
-;;
-
-4)
-;;
-
-5)
-if [ -f "/etc/openvpn/openvpn-status.log" ]; then
-line=`cat /etc/openvpn/openvpn-status.log | wc -l`
-a=$((3+((line-8)/2)))
-b=$(((line-8)/2))
-
-echo ""
-echo "${RED}Now User Login${NC}";
-echo ""
-echo "=========================================="
-cat /etc/openvpn/openvpn-status.log | head -n $a | tail -n $b | cut -d "," -f 1 | sed -e 's/,/   /g' > /tmp/vpn-login-db.txt
-cat /tmp/vpn-login-db.txt
-fi
-echo "=========================================="
-;;
-
-esac
-END
-
 
 fi
 	;;
