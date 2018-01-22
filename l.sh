@@ -36,8 +36,10 @@ newclient () {
 			./easyrsa build-client-full $CLIENT nopass
 			# Generates the custom client.ovpn
 			newclient "$CLIENT"
+			DAY=$(date +"%d-%m-%Y")
+			DATE="s/xxxxxxxxx/$DAY/g";
 			echo ""
-			echo "Client $CLIENT added, expire $DAY day. $EXP"
+			echo "Client $CLIENT added, expire $DATE day. $EXP"
 			echo ""
 			exit
 			;;
