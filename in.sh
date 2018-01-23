@@ -6,7 +6,10 @@ if readlink /proc/$$/exe | grep -qs "dash"; then
 fi
 
 if [[ "$EUID" -ne 0 ]]; then
-	echo "Sorry, you need to run this as root"
+	echo ""
+	echo "กรุณาเข้าสู่ระบบผู้ใช้ root ก่อนทำการติดตั้งสคริปท์"
+	echo "คำสั่งเข้าสู่ระบบผู้ใช้ root คือ sudo -i"
+	echo ""
 	exit 2
 fi
 
@@ -17,9 +20,12 @@ You need to enable TUN before running this script"
 fi
 
 if grep -qs "CentOS release 5" "/etc/redhat-release"; then
-	echo "CentOS 5 is too old and not supported"
+	echo ""
+	echo "CentOS 5 เป็นเวอร์ชั่นเก่าที่ยังไม่รองรับ"
+	echo ""
 	exit 4
 fi
+
 if [[ -e /etc/debian_version ]]; then
 	OS=debian
 	GROUPNAME=nogroup
