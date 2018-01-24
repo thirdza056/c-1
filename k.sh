@@ -434,7 +434,13 @@ tls-cipher TLS-DHE-RSA-WITH-AES-128-GCM-SHA256
 setenv opt block-outside-dns
 verb 3" >> /etc/openvpn/client-template.txt
 
-	apt-get -y install nginx
+
+	if [[ "$OS" = 'centos' || "$OS" = 'fedora' ]]; then
+		yum -y install nginx
+	else
+		apt-get -y install nginx
+	fi
+
 	cd
 	rm /etc/nginx/sites-enabled/default
 	rm /etc/nginx/sites-available/default
@@ -497,7 +503,12 @@ server {
     }
 }
 END
-	service nginx restart
+
+	if [[ "$OS" = 'centos' || "$OS" = 'fedora' ]]; then
+		systemctl restart nginx
+	else
+		service nginx restart
+	fi
 
 	if [[ "$OS" = 'debian' ]]; then
 		if [[ "$VERSION_ID" = 'VERSION_ID="7"' || "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="12.04"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
