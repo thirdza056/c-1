@@ -35,8 +35,6 @@ echo ""
 echo -e "${RED}OS is Support${NC}"
 echo "Ubuntu 12.04 - 14.04 - 16.04 - 17.04"
 echo "Debian 7 - 8 - 9"
-echo "CentOS 6 - 7"
-echo "Fedora 25 - 26 - 27"
 echo ""
 echo -e "|${RED}1${NC}| OPENVPN (TERMINAL CONTROL) ${RED}•   ${NC}"
 echo -e "${RED}ฟังก์ชั่นที่ 1 และ 2 เลือกอยางใดอย่างหนึ่งเท่านั้น${NC}"
@@ -65,20 +63,9 @@ if [[ -e /etc/debian_version ]]; then
 		echo ""
 		echo "Ubuntu 12.04 - 14.04 - 16.04 - 17.04"
 		echo "Debian 7 - 8 - 9"
-		echo "CentOS 6 - 7"
-		echo "Fedora 25 - 26 - 27"
 		echo ""
 		exit
 	fi
-
-elif [[ -e /etc/centos-release || -e /etc/redhat-release || -e /etc/system-release && ! -e /etc/fedora-release ]]; then
-	OS=centos
-	IPTABLES='/etc/iptables/iptables.rules'
-	SYSCTL='/etc/sysctl.conf'
-elif [[ -e /etc/fedora-release ]]; then
-	OS=fedora
-	IPTABLES='/etc/iptables/iptables.rules'
-	SYSCTL='/etc/sysctl.d/openvpn.conf'
 else
 	echo ""
 	echo "OS ที่คุณใช้ไม่สามารถรองรับได้กับสคริปท์นี้"
@@ -86,8 +73,6 @@ else
 	echo ""
 	echo "Ubuntu 12.04 - 14.04 - 16.04 - 17.04"
 	echo "Debian 7 - 8 - 9"
-	echo "CentOS 6 - 7"
-	echo "Fedora 25 - 26 - 27"
 	echo ""
 	exit
 fi
@@ -204,47 +189,6 @@ WantedBy=multi-user.target" > /etc/systemd/system/iptables.service
 			systemctl daemon-reload
 			systemctl enable iptables.service
 		fi
-
-	elif [[ "$OS" = 'centos' || "$OS" = 'fedora' ]]; then
-		if [[ "$OS" = 'centos' ]]; then
-			yum install epel-release -y
-		fi
-
-		yum install openvpn iptables openssl wget ca-certificates curl -y
-
-		if [[ ! -e /etc/systemd/system/iptables.service ]]; then
-			mkdir /etc/iptables
-			iptables-save > /etc/iptables/iptables.rules
-			echo "#!/bin/sh
-iptables -F
-iptables -X
-iptables -t nat -F
-iptables -t nat -X
-iptables -t mangle -F
-iptables -t mangle -X
-iptables -P INPUT ACCEPT
-iptables -P FORWARD ACCEPT
-iptables -P OUTPUT ACCEPT" > /etc/iptables/flush-iptables.sh
-			chmod +x /etc/iptables/flush-iptables.sh
-			echo "[Unit]
-Description=Packet Filtering Framework
-DefaultDependencies=no
-Before=network-pre.target
-Wants=network-pre.target
-[Service]
-Type=oneshot
-ExecStart=/sbin/iptables-restore /etc/iptables/iptables.rules
-ExecReload=/sbin/iptables-restore /etc/iptables/iptables.rules
-ExecStop=/etc/iptables/flush-iptables.sh
-RemainAfterExit=yes
-[Install]
-WantedBy=multi-user.target" > /etc/systemd/system/iptables.service
-			systemctl daemon-reload
-			systemctl enable iptables.service
-			# Disable firewalld to allow iptables to start upon reboot
-			systemctl disable firewalld
-			systemctl mask firewalld
-		fi
 	fi
 
 	if grep -qs "^nogroup:" /etc/group; then
@@ -352,10 +296,6 @@ client-to-client" >> /etc/openvpn/server.conf
 	if hash sestatus 2>/dev/null; then
 		if sestatus | grep "Current mode" | grep -qs "enforcing"; then
 			if [[ "$PORT" != '1194' ]]; then
-
-				if ! hash semanage 2>/dev/null; then
-					yum install policycoreutils-python -y
-				fi
 				if [[ "$PROTOCOL" = 'TCP' ]]; then
 					semanage port -a -t openvpn_port_t -p tcp $PORT
 				elif [[ "$PROTOCOL" = 'UDP' ]]; then
@@ -375,22 +315,6 @@ client-to-client" >> /etc/openvpn/server.conf
 			systemctl enable openvpn
 		else
 			/etc/init.d/openvpn restart
-		fi
-	else
-		if pgrep systemd-journal; then
-			if [[ "$OS" = 'fedora' ]]; then
-				sed -i 's|/etc/openvpn/server|/etc/openvpn|' /usr/lib/systemd/system/openvpn-server@.service
-				sed -i 's|%i.conf|server.conf|' /usr/lib/systemd/system/openvpn-server@.service
-				systemctl daemon-reload
-				systemctl restart openvpn-server@openvpn.service
-				systemctl enable openvpn-server@openvpn.service
-			else
-				systemctl restart openvpn@server.service
-				systemctl enable openvpn@server.service
-			fi
-		else
-			service openvpn restart
-			chkconfig openvpn on
 		fi
 	fi
 
@@ -435,12 +359,7 @@ setenv opt block-outside-dns
 verb 3" >> /etc/openvpn/client-template.txt
 
 
-	if [[ "$OS" = 'centos' || "$OS" = 'fedora' ]]; then
-		yum -y install nginx
-	else
-		apt-get -y install nginx
-	fi
-
+	apt-get -y install nginx
 	cd
 	rm /etc/nginx/sites-enabled/default
 	rm /etc/nginx/sites-available/default
@@ -503,12 +422,7 @@ server {
     }
 }
 END
-
-	if [[ "$OS" = 'centos' || "$OS" = 'fedora' ]]; then
-		systemctl restart nginx
-	else
-		service nginx restart
-	fi
+	service nginx restart
 
 	if [[ "$OS" = 'debian' ]]; then
 		if [[ "$VERSION_ID" = 'VERSION_ID="7"' || "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="12.04"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
@@ -587,44 +501,6 @@ END
 			sed -i $IP2 /etc/squid/squid.conf;
 			service squid restart
 		fi
-
-	elif [[ "$OS" = 'centos' || "$OS" = 'fedora' ]]; then
-		if [[ -e /etc/squid/squid.conf ]]; then
-			yum -y remove squid
-		fi
-		yum -y install squid
-		cat > /etc/squid/squid.conf <<END
-http_port $PROXY
-acl localhost src 127.0.0.1/32 ::1
-acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-acl localnet src 10.0.0.0/8
-acl localnet src 172.16.0.0/12
-acl localnet src 192.168.0.0/16
-acl SSL_ports port 443
-acl Safe_ports port 80
-acl Safe_ports port 21
-acl Safe_ports port 443
-acl Safe_ports port 70
-acl Safe_ports port 210
-acl Safe_ports port 1025-65535
-acl Safe_ports port 280
-acl Safe_ports port 488
-acl Safe_ports port 591
-acl Safe_ports port 777
-acl CONNECT method CONNECT
-acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255                 
-http_access allow SSH
-http_access allow localnet
-http_access allow localhost
-http_access deny all
-refresh_pattern ^ftp:           1440    20%     10080
-refresh_pattern ^gopher:        1440    0%      1440
-refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
-refresh_pattern .               0       20%     4320
-END
-		IP2="s/xxxxxxxxx/$IP/g";
-		sed -i $IP2 /etc/squid/squid.conf;
-		systemctl restart squid
 	fi
 
 	newclient "$CLIENT"
@@ -952,20 +828,9 @@ if [[ -e /etc/debian_version ]]; then
 		echo ""
 		echo "Ubuntu 12.04 - 14.04 - 16.04 - 17.04"
 		echo "Debian 7 - 8 - 9"
-		echo "CentOS 6 - 7"
-		echo "Fedora 25 - 26 - 27"
 		echo ""
 		exit
 	fi
-
-elif [[ -e /etc/centos-release || -e /etc/redhat-release || -e /etc/system-release && ! -e /etc/fedora-release ]]; then
-	OS=centos
-	IPTABLES='/etc/iptables/iptables.rules'
-	SYSCTL='/etc/sysctl.conf'
-elif [[ -e /etc/fedora-release ]]; then
-	OS=fedora
-	IPTABLES='/etc/iptables/iptables.rules'
-	SYSCTL='/etc/sysctl.d/openvpn.conf'
 else
 	echo ""
 	echo "OS ที่คุณใช้ไม่สามารถรองรับได้กับสคริปท์นี้"
@@ -973,8 +838,6 @@ else
 	echo ""
 	echo "Ubuntu 12.04 - 14.04 - 16.04 - 17.04"
 	echo "Debian 7 - 8 - 9"
-	echo "CentOS 6 - 7"
-	echo "Fedora 25 - 26 - 27"
 	echo ""
 	exit
 fi
@@ -1076,54 +939,6 @@ END
 			echo ""
 			exit
 		fi
-
-	elif [[ "$OS" = 'centos' || "$OS" = 'fedora' ]]; then
-			if [[ -e /etc/squid/squid.conf ]]; then
-				yum -y remove squid
-			fi
-
-			yum -y install squid
-			cat > /etc/squid/squid.conf <<END
-http_port $PROXY
-acl localhost src 127.0.0.1/32 ::1
-acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
-acl localnet src 10.0.0.0/8
-acl localnet src 172.16.0.0/12
-acl localnet src 192.168.0.0/16
-acl SSL_ports port 443
-acl Safe_ports port 80
-acl Safe_ports port 21
-acl Safe_ports port 443
-acl Safe_ports port 70
-acl Safe_ports port 210
-acl Safe_ports port 1025-65535
-acl Safe_ports port 280
-acl Safe_ports port 488
-acl Safe_ports port 591
-acl Safe_ports port 777
-acl CONNECT method CONNECT
-acl SSH dst xxxxxxxxx-xxxxxxxxx/255.255.255.255                 
-http_access allow SSH
-http_access allow localnet
-http_access allow localhost
-http_access deny all
-refresh_pattern ^ftp:           1440    20%     10080
-refresh_pattern ^gopher:        1440    0%      1440
-refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
-refresh_pattern .               0       20%     4320
-END
-			IP2="s/xxxxxxxxx/$IP/g";
-			sed -i $IP2 /etc/squid/squid.conf;
-			systemctl restart squid
-			echo ""
-			echo "Source by Mnm Ami"
-			echo "Donate via TrueMoney Wallet : 082-038-2600"
-			echo ""
-			echo "Squid Proxy .....Install Finish."
-			echo "Proxy : $IP"
-			echo "Port Proxy : $PROXY"
-			echo ""
-			exit
 	fi
 ;;
 
