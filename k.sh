@@ -500,7 +500,7 @@ END
 	service nginx restart
 
 	if [[ "$OS" = 'debian' ]]; then
-		if [[ "$VERSION_ID" = 'VERSION_ID="7"' || "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="12.04"' || "$VERSION_ID" = 'VERSION_ID="14.04"']]; then
+		if [[ "$VERSION_ID" = 'VERSION_ID="7"' || "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="12.04"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
 			if [[ -e /etc/squid3/squid.conf ]]; then
 				apt-get -y remove --purge squid3
 			fi
@@ -538,7 +538,7 @@ END
 			sed -i $IP2 /etc/squid3/squid.conf;
 			service squid3 restart
 
-		elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' || "$VERSION_ID" = 'VERSION_ID="17.04"']]; then
+		elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' || "$VERSION_ID" = 'VERSION_ID="17.04"' ]]; then
 			if [[ -e /etc/squid/squid.conf ]]; then
 				apt-get -y remove --purge squid
 			fi
@@ -653,7 +653,7 @@ if [[ -e /etc/debian_version ]]; then
 	IPTABLES='/etc/iptables/iptables.rules'
 	SYSCTL='/etc/sysctl.conf'
 
-	if [[ "$VERSION_ID" != 'VERSION_ID="7"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="17.04"' ]]; then
+	if [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="17.04"' ]]; then
 		echo ""
 		echo "เวอร์ชั่น OS ของคุณเป็นเวอร์ชั่นเก่าที่ไม่รองรับแล้ว"
 		echo "สำหรับเวอร์ชั่นที่รองรับได้ จะมีดังนี้..."
@@ -934,7 +934,7 @@ if [[ -e /etc/debian_version ]]; then
 	IPTABLES='/etc/iptables/iptables.rules'
 	SYSCTL='/etc/sysctl.conf'
 
-	if [[ "$VERSION_ID" != 'VERSION_ID="7"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="12.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="17.04"' ]]; then
+	if [[ "$VERSION_ID" != 'VERSION_ID="7"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="8"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="9"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="14.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="16.04"' ]] && [[ "$VERSION_ID" != 'VERSION_ID="17.04"' ]]; then
 		echo ""
 		echo "เวอร์ชั่น OS ของคุณเป็นเวอร์ชั่นเก่าที่ไม่รองรับแล้ว"
 		echo "สำหรับเวอร์ชั่นที่รองรับได้ จะมีดังนี้..."
