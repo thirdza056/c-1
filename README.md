@@ -1,1 +1,1 @@
-# wget https://raw.githubusercontent.com/nwqionnwkn/OPENEXTRA/master/Install.sh && chmod +x Install.sh && ./Install.sh
+# wget https://raw.githubusercontent.com/lnwshop/c/master/Install.sh && chmod +x Install.sh && ./Install.sh
