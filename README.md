@@ -1,1 +1,8 @@
-# wget https://raw.githubusercontent.com/lnwshop/c/master/Install.sh && chmod +x Install.sh && ./Install.sh
+
+ยังแก้ไม่เสรจ
+
+เพิ่ม
+-Ocspanel
+
+
+เทสก่อน
